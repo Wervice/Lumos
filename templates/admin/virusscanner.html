@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/asset/adminscreen.css">
+    <script>
+        function upload_main_cvd() {
+            document.getElementById("main_upload_be").click()
+        }
+        function upload_daily_cvd() {
+            document.getElementById("daily_upload_be").click()
+        }
+        window.onload = function () {
+            document.getElementById("main_upload_be").onchange = function () {
+                document.getElementById("main_label").innerHTML = document.getElementById("main_upload_be").value.split("\\")[document.getElementById("main_upload_be").value.split("\\").length - 1]
+            }
+            document.getElementById("daily_upload_be").onchange = function () {
+                document.getElementById("daily_label").innerHTML = document.getElementById("daily_upload_be").value.split("\\")[document.getElementById("daily_upload_be").value.split("\\").length - 1]
+            }
+        }
+        window.onload = function () {
+            if ("{{ virus_scanner_enabled }}" == "true") {
+                document.getElementById("enable_virus_scanner_checkbox").checked = true
+                document.getElementById("update_area").hidden = false
+            }
+            document.getElementById("enable_virus_scanner_checkbox").onchange = function () {
+                document.getElementById("update_area").hidden = !document.getElementById("enable_virus_scanner_checkbox").checked
+            }
+            if (sessionStorage.getItem("last_screen_info") != undefined) {
+                if (sessionStorage.getItem("last_screen_info") == "update_settings_success") {
+                    alert("Yeah")
+                    sessionStorage.removeItem("last_screen_info")
+                }
+                else if (sessionStorage.getItem("last_screen_info") == "vrscnr_update_settings_fail_defsmissing") {
+                    alert("Yeah, defs?")
+                    sessionStorage.removeItem("last_screen_info")
+                }
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <nav>
+        <big>Virus Scanner</big><br>
+    </nav>
+    <h2 class="padding_container">General</h2>
+    <form action="/admin_virus_protection_settings" method="post">
+        <div class="padding_container">
+            <input type="checkbox" name="enable_virus_scanner" id="enable_virus_scanner_checkbox"
+                class="padding_container"> <label for="enable_virus_scanner_checkbox">Enable Virus
+                Protection</label><br>
+            <small>Virus Protection uses ClamAV Signatures to prevent users from uploading viruses. This may slow down
+                your
+                server and the upload process, but I offers a good protection method.<br><a
+                    href="https://www.github.com/Wervice/Lumos/notes/virusscanning.md">Learn more</a></small><br>
+            <br> <button type="submit" title="Apply changes to the system">Apply</button>
+        </div>
+    </form>
+
+    <form action="/admin_virus_definitions" method="post" id="upload_form" enctype="multipart/form-data">
+        <input type="file" name="main_upload" id="main_upload_be" hidden>
+        <input type="file" name="daily_upload" id="daily_upload_be" hidden>
+    </form>
+    <div id="update_area" hidden>
+        <h2 class="padding_container">Update</h2>
+        <div class="padding_container">
+            <button id="main_upload_button" onclick="upload_main_cvd()">Main Upload</button> <label id="main_label"
+                for="main_upload_button">Please upload main.cvd from your computer</label> <br>
+            <button id="daily_upload_button" onclick="upload_daily_cvd()">Daily Upload</button> <label id="daily_label"
+                for="daily_upload_button">Please upload daily.cvd from your computer</label>
+            <br>
+            <button onclick="document.getElementById('upload_form').submit()">Submit</button>
+        </div>
+    </div>
+</body>
+
+</html>

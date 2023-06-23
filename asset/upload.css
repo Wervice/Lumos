@@ -1,0 +1,174 @@
+:root {
+    --background-color: #02050f;
+    --foreground-color: #ffffff;
+    --accent-color: #1F75FE;
+    --accent-color-red: #FF0800;
+    --transparent-heavy: rgba(255, 255, 255, 0.15);
+    --transparent-low: rgba(255, 255, 255, 0.07);
+    --link-color: #599CE9;
+    --box-shadow-ten-ten: 0px 10px 10px black;
+    --background-color-2: #282a33;
+    --box-shadow-color: black;
+    --filter-gradient: #1d202999;
+}
+
+@font-face {
+    font-family: "Instrument Sans";
+    src: url("InstrumentSans-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Instrument Sans Bold";
+    src: url("InstrumentSans-Bold.ttf");
+}
+
+@font-face {
+    font-family: "Instrument Sans Italic";
+    src: url("InstrumentSans-Italic.ttf");
+}
+
+*:focus {
+    outline: none;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--foreground-color);
+    font-family: "Instrument Sans", sans-serif;
+}
+
+button {
+    background-color: var(--accent-color);
+    color: white;
+    border-width: 0px;
+    border-color: 0px;
+    border-style: solid;
+    border-radius: 5px;
+    font-family: "Instrument Sans";
+    padding: 10px;
+    padding-left: 10px;
+    font-size: 18px;
+    width: 125px;
+    margin-top: 7.5px;
+    margin-bottom: 7.5px;
+    transition: ease-in-out 0.25s;
+}
+
+input[type="text"], input[type="password"] {
+    background-color: var(--transparent-heavy);
+    color: var(--foreground-color);
+    border-width: 0px;
+    border-color: 0px;
+    border-style: solid;
+    border-radius: 5px;
+    font-family: "Instrument Sans";
+    padding: 7.5px;
+    font-size: 18px;
+    width: 250px;
+    margin-top: 7.5px;
+    margin-bottom: 7.5px;
+    transition: ease-in-out 0.25s;
+}
+
+button:hover, input[type="text"]:focus, input[type="password"]:focus {
+    filter: brightness(110%);
+}
+
+button:focus {
+    filter: brightness(120%);
+}
+
+button:active {
+    filter: brightness(130%);
+}
+
+b {
+    font-family: "Instrument Sans Bold";
+}
+
+i {
+    font-family: "Instrument Sans Italic";
+}
+
+a, a::after, a:hover, a:active {
+    color: #599CE9;
+}
+
+/*
+-- Login Box --
+Width: 33vw
+Padding: 40px;
+Height: 100vh - 80
+Margin-Top: 40px;
+*/
+
+div#login_box {
+    width: 33vw;
+    min-width: 450px;
+    padding: 40px;
+    height: calc(100vh - 160px);
+    margin-top: 40px;
+    background-color: var(--transparent-low);
+    border-radius: 25px;
+    box-shadow: 0px 10px 10px --box-shadow-color;
+}
+
+div#login_box h1, h2, h3, h4 {
+    margin: 0px;
+    padding: 0px;
+    letter-spacing: 0.75px;
+}
+
+div#login_box h1 {
+    font-size: 45px;
+    font-family: "Instrument Sans Bold", sans-serif;
+    margin-bottom: 5px;
+}
+
+div#login_box h2 {
+    font-size: 18px;
+}
+
+button.circle {
+    width: auto;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    padding-left: 7.5px;
+}
+
+big {
+    margin-left: 10px;
+    font-size: 20px;
+}
+
+label[for="select_button"] {
+    margin-left: 10px;
+}
+
+label#extension_info, label#character_info {
+    color: var(--link-color);
+}
+
+@keyframes flow_down {
+    0% {top: 0px;}
+    100% {
+        top: 20px;
+    }
+}
+
+#info {
+    position: absolute;
+    top: 20px;
+    left: calc(50vw - (300px + 20px));
+    width: 300px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: var(--background-color-2);
+    animation: flow_down 0.25s;    
+}
+
+*.margin-left-small {
+    margin-left: 10px;
+}

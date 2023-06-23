@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Lumos</title>
+    <link rel="stylesheet" href="asset/welcome.css">
+    <script>
+        function password_check() {
+            if (admin_password_input.value.length > 15 && (admin_password_input.value.includes("1") || admin_password_input.value.includes("2") || admin_password_input.value.includes("3") || admin_password_input.value.includes("4") || admin_password_input.value.includes("5") || admin_password_input.value.includes("6") || admin_password_input.value.includes("7") || admin_password_input.value.includes("8") || admin_password_input.value.includes("9") || admin_password_input.value.includes("0"))) {
+                document.getElementById("password_rater").style.backgroundColor = "#03C03C"
+                document.getElementById("password_rater").innerHTML = "Your password is secure"
+            }
+            else {
+                document.getElementById("password_rater").style.backgroundColor = "#ff0800"
+                document.getElementById("password_rater").innerHTML = "Your password is insecure"
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Lumos Setup (1/3)</h1>
+    <h2>Setup admin account</h2>
+    <form action="/admin_register" method="post">
+        <input type="text" name="admin_username" id="admin_username_input" placeholder="Username" required>
+        <br>
+        <input type="password" name="admin_password" id="admin_password_input" placeholder="Password"
+            onkeyup="password_check()" required><br>
+        <div id="password_rater" title="A good password should have min. 15 characters and
+contain numbers and special characters.">Your password is insecure</div>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+
+</html>

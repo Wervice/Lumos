@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/asset/adminscreen.css">
+</head>
+
+<body>
+    <nav>
+        <button onclick="location.replace = '/logoff'">Exit</button> | <big>Admin Screen</big><br>
+    </nav>
+    <table>
+        <tr>
+            <td>Version</td><td>{{ version }}</td><td><button onclick="location.href = '/admin/update'">Update</button></td>
+        </tr>
+        <tr>
+            <td>System</td><td>{{ platform }}</td><td><button onclick="location.href = '/admin/system'">More</button></td>
+        </tr>
+        <tr>
+            <td>Virus Scanner</td><td>{{ virscanner }}</td><td><button onclick="location.href = '/admin/vrscnr'">Manage</button></td>
+        </tr>
+    </table>
+    <br>
+</body>
+
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumos Chat</title>
+    <link rel="shortcut icon" href="/asset/chatlogon.png" type="image/x-icon">
+    <link rel="stylesheet" href="/asset/chat.css">
+    <script src="/asset/chat.js"></script>
+    <meta http-equiv="cache-control" content="no-cache">
+</head>
+
+<body oncontextmenu="return false;">
+    <form action="/chat/web/l" method="post" id="loader_form" hidden>
+        <input type="hidden" name="username" id="loader_form_username">
+    </form>
+    <table>
+        <tr>
+            <td id="userlist">
+                <img src="/asset/reload.svg" alt="Refresh" onclick="location.reload()" height="20" style="margin-left: 10px;" title="Refresh"><br><br>
+                [[ userlist ]] <br>
+            </td>
+            <td id="messages">
+                <div id="container">
+                    <b>{{ username }}</b>
+                    [[ messages ]]
+                </div>
+                <div id="input" hidden>
+                    <form action="/chat/web/s" method="post">
+                        <input type="text" name="message" placeholder="Message" autocomplete="off" required>
+                        <input type="hidden" name="username" id="username" value="{{ username }}">
+                        <button>Submit</button>
+                    </form>
+                </div>
+            </td>
+
+        </tr>
+    </table>
+</body>
+
+</html>

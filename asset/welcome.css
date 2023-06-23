@@ -1,0 +1,191 @@
+:root {
+    --background-color: #02050f;
+    --foreground-color: #ffffff;
+    --accent-color: #1F75FE;
+    --accent-color-red: #FF0800;
+    --transparent-heavy: rgba(255, 255, 255, 0.15);
+    --transparent-low: rgba(255, 255, 255, 0.07);
+    --link-color: #599CE9;
+    --box-shadow-ten-ten: 0px 10px 10px black;
+    --background-color-2: #282a33;
+    --box-shadow-color: black;
+    --filter-gradient: #1d202999;
+}
+
+@keyframes turn {
+    50% {
+        transform: rotate(1turn);
+    }
+    100% {
+        transform: rotate(2turn);
+    }
+}
+
+@keyframes screen-transition {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+::selection {
+    background-color: transparent;
+}
+
+* {
+    cursor: default;
+}
+
+@font-face {
+    font-family: "Instrument Sans";
+    src: url("InstrumentSans-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Instrument Sans Bold";
+    src: url("InstrumentSans-Bold.ttf");
+}
+
+@font-face {
+    font-family: "Instrument Sans Italic";
+    src: url("InstrumentSans-Italic.ttf");
+}
+
+*:focus {
+    outline: none;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--foreground-color);
+    font-family: "Instrument Sans", sans-serif;
+    opacity: 1;
+    animation-name: screen-transition;
+    animation-duration: 0.4s;
+}
+
+button {
+    background-color: var(--accent-color);
+    color: var(--foreground-color);
+    border-width: 0px;
+    border-color: 0px;
+    border-style: solid;
+    border-radius: 5px;
+    font-family: "Instrument Sans";
+    padding: 10px;
+    padding-left: 10px;
+    font-size: 20px;
+    width: 140px;
+    margin-top: 7.5px;
+    margin-bottom: 7.5px;
+    transition: ease-in-out 0.25s;
+}
+
+input[type="text"], input[type="password"] {
+    border-width: 0px;
+    background-color: #ffffff34;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 18pt;
+    width: 400px;
+    color: white;
+    transition: ease-in-out 0.25s;
+}
+
+input[type="text"]:focus, input[type="password"]:focus {
+    background-color: var(--background-color-2);
+}
+
+button:hover {
+    filter: brightness(120%);
+}
+
+button:focus {
+    filter: brightness(130%);
+}
+
+button:active {
+    filter: brightness(140%);
+}
+
+button:disabled {
+    filter: grayscale() brightness(1.3);
+}
+
+button img {
+    height: 15px;
+    margin-left: 35px;
+    animation-name: turn;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
+#register_link {
+    padding-left: 20px;
+    font-size: 20px;
+}
+
+b {
+    font-family: "Instrument Sans Bold";
+}
+
+i {
+    font-family: "Instrument Sans Italic";
+}
+
+a, a::after, a:hover, a:active {
+    color: var(--link-color);
+}
+
+div#login_box {
+    width: 435px;
+    height: 400px;
+    margin-top: calc(75vh - 400px);
+}
+
+div#login_box h1 {
+    font-size: 3vw;
+    font-family: "Instrument Sans Bold";
+    margin: 0px;
+    padding-bottom: 15px;
+}
+div#login_box h2 {
+    font-size: 12pt;
+    font-family: "Instrument Sans";
+    margin: 0px;
+    padding-bottom: 15px;
+}
+
+#password_fail_label {
+    color: #FF0800;
+}
+
+#user_exit_label {
+    color: #0BDA51;
+}
+
+@keyframes flow_down {
+    0% {top: 0px;}
+    100% {
+        top: 20px;
+    }
+}
+
+#info {
+    position: absolute;
+    top: 20px;
+    left: calc(50vw - 150px);
+    width: 300px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: var(--background-color-2);
+    animation: flow_down 0.25s;    
+}
+
+*.margin-left-small {
+    margin-left: 10px;
+}

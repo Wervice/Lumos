@@ -1,0 +1,6 @@
+﻿ErrorCode;Meaning
+WrongPasswd;The wrong password or username was entered at the login formular
+RegistrFail;A wrong AccId was entered at the registration formular
+UserDbl;The username used at the registration formular were already used
+AlreadyExists;The filename at the upload formular was already used for another file (same user)
+FileBlacklist;The file extension of an uploaded file was blacklisted. By default binary (.bin,…) files and windows executables are disabled.

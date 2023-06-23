@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Lumos</title>
+    <link rel="stylesheet" href="asset/welcome.css">
+</head>
+
+<body oncontextmenu="return false;">
+    <div align="center">
+        <div id="login_box" align="left">
+            <h1>Lumos Register</h1>
+            <h2>{{ login_subtitle }}</h2>
+            <br>
+            <form action="/register" method="post">
+                <input type="text" id="username_input" name="username" placeholder="Username" required><br>
+                <input type="password" id="password_input" name="password" placeholder="Password" required><br>
+                <input type="password" id="accid" name="accid" placeholder="AccID" required><br>
+                <button type="submit">Register</button>
+                <br>
+                <br>
+                <small>
+                    <a href="/login">Go to Login</a>
+                </small>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

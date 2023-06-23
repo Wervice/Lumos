@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Lumos</title>
+    <link rel="stylesheet" href="asset/welcome.css">
+    <script>
+        function password_check() {
+            if (admin_password_input.value.length > 15 && (admin_password_input.value.includes("1") || admin_password_input.value.includes("2") || admin_password_input.value.includes("3") || admin_password_input.value.includes("4") || admin_password_input.value.includes("5") || admin_password_input.value.includes("6") || admin_password_input.value.includes("7") || admin_password_input.value.includes("8") || admin_password_input.value.includes("9") || admin_password_input.value.includes("0"))) {
+                document.getElementById("password_rater").style.backgroundColor = "#03C03C"
+                document.getElementById("password_rater").innerHTML = "Your password is secure"
+            }
+            else {
+                document.getElementById("password_rater").style.backgroundColor = "#ff0800"
+                document.getElementById("password_rater").innerHTML = "Your password is insecure"
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Lumos Setup (2/3)</h1>
+    <h2>Configuration</h2>
+    <form action="/admin_settings" method="post">
+        <h3>Protection</h3>
+        <div class="checkarea">
+            <input type="checkbox" name="enable-antivirus" checked> <label for="enable-antivirus">Enable
+                Antivirus</label><br>
+            <br>
+            <small>Scans file before upload with ClamAV virus definitions for malicious files.<br>This can protect the
+                cloud
+                from viruses, but it slows down uploads.</small>
+        </div>
+        <div class="checkarea">
+            <input type="checkbox" name="block-binary" checked> <label for="block-binary">Block executable file
+                uploads</label><br>
+            <br>
+            <small>Doesn't allow uploads of binary executable files. This protects the server from malicious
+                programs.</small>
+        </div>
+        <div class="checkarea">
+            <label for="accid">Access ID</label> <input type="password" name="accid" placeholder="AccID"
+                class="no-margin-left"><br><br>
+            <small>The Access ID is used to register at your server.<br>Without the ID, members can't register at your
+                server. You should pick a strong and long ID.</small>
+        </div>
+        <h3>Customization</h3>
+        <div id="checkarea">
+            <div class="checkarea">
+                <label for="server-name">Server name</label>
+                <input type="text" name="server-name" placeholder="Server name">
+                <br><br>
+                <small>
+                    Give your server a name taht will be shown at the login and registration screen.
+                </small>
+            </div>
+        </div>
+        <div align="right"><button type="submit">Next</button></div>
+    </form>
+
+</html>

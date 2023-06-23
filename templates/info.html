@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Lumos</title>
+    <link rel="stylesheet" href="asset/welcome.css">
+    <style>
+        ::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: transparent;
+        }
+
+        .containerx250 {
+            height: 250px;
+            overflow-y: scroll;
+            text-align: justify;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body oncontextmenu="return false;">
+    <div align="center">
+        <div id="login_box" align="left">
+            <h1>Lumos Info</h1>
+            <h2>{{ login_subtitle }}</h2>
+            <br>
+            <div class="containerx250">
+                Lumos by Constantin Volke (<a href="mailto:wervice@proton.me">wervice@proton.me</a> & <a
+                    href="https://github.com/Wervice">github.com/Wervice</a>)<br>
+                Im using external and default python libraries/modules. <a
+                    href="https://github.com/Wervice/Lumos/legal.md">Learn more</a><br> Lumos also uses the ClamAV
+                signatures. You can access more legal information <a
+                    href="https://github.com/Wervice/Lumos/legal.md">here</a>. You also can accesss the COPYING file
+                when you log in and go to /leagl-cv.
+                <br><br>
+                Lumos can be self-hosted and I only provide the software. As a result of this, I'm not responsible for
+                anything done with and using Lumos. I have no access or control over whatever is done with Lumos.
+                <br>
+            </div>
+            <button onclick="history.back()">Got it</button>
+        </div>
+    </div>
+</body>
+
+</html>

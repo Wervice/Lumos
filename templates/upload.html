@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload</title>
+    <link rel="stylesheet" href="/asset/upload.css">
+    <script src="/asset/upload.js"></script>
+    <script>
+        window.onload = function () {
+            function hide_info() {
+                document.getElementById("info").hidden = true;
+            }
+            if (sessionStorage.getItem('last_screen_info') == "upload_success") {
+                document.getElementById("info").hidden = false;
+                document.getElementById("info_message").innerHTML = "Upload successfully <a href='/' class=margin-left-small>Go back</a>";
+                sessionStorage.removeItem("last_screen_info")
+                setTimeout(hide_info, 2000)
+            }
+            else if (sessionStorage.getItem('last_screen_info') == "upload_fail_blacklist") {
+                document.getElementById("info").hidden = false;
+                document.getElementById("info_message").innerHTML = "The file type is blocked<br> <a href='/' class=margin-left-small>Go back</a>";
+                sessionStorage.removeItem("last_screen_info")
+                setTimeout(hide_info, 2000)
+            }
+            else if (sessionStorage.getItem('last_screen_info') == "upload_fail_already") {
+                document.getElementById("info").hidden = false;
+                document.getElementById("info_message").innerHTML = "This file already exists<br> <a href='/' class=margin-left-small>Go back</a>";
+                sessionStorage.removeItem("last_screen_info")
+                setTimeout(hide_info, 6500)
+            }else if (sessionStorage.getItem('last_screen_info') == "upload_fail_virus") {
+                document.getElementById("info").hidden = false;
+                document.getElementById("info_message").innerHTML = "The file is a virus<br>"+sessionStorage.getItem("virus_name+")+"<br> <a href='/' class=margin-left-small>Go back</a>";
+                sessionStorage.removeItem("last_screen_info")
+                sessionStorage.removeItem("virus_name")
+                setTimeout(hide_info, 6500)
+            }
+        }
+    </script>
+</head>
+
+<body oncontextmenu="return false;">
+    <div id="info" hidden>
+        <big id="info_message">
+            None
+        </big>
+    </div>
+    <button class="circle" title="Go back" onclick="location.href = '/'"><-</button>
+            <big>Upload new file</big>
+            <br>
+            <br><button onclick="file_select()" id="select_button">Select file</button><label for="select_button"
+                id="file_name_label">Please select a file</label><br>
+            <form action="/upload/web" method="post" enctype="multipart/form-data" id="formular">
+                <input type="text" placeholder="Filename" name="filename" id="filename" onkeyup="check_for_extension()" required><label id="extension_info"></label><label id="character_info"></label><br>
+                <input type="file" name="file_upload" id="file_upload_button" onchange="changed_upload()" hidden>
+
+                    <button type="submit" id="submit_button" hidden>Upload</button>
+            </form>
+
+</body>
+
+</html>

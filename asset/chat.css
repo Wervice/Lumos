@@ -1,0 +1,158 @@
+:root {
+    --background-color: #02050f;
+    --foreground-color: white;
+    --accent-color: #1F75FE;
+    --highlight-middle: #ffffff1f;
+}
+
+::selection {
+    background-color: transparent;
+}
+
+::placeholder {
+    color: var(--foreground-color);
+    font-family: "Instrument Sans";
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+* {
+    cursor: default;
+}
+
+@font-face {
+    font-family: "Instrument Sans";
+    src: url("InstrumentSans-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Instrument Sans Bold";
+    src: url("InstrumentSans-Bold.ttf");
+}
+
+@font-face {
+    font-family: "Instrument Sans Italic";
+    src: url("InstrumentSans-Italic.ttf");
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--foreground-color);
+    font-family: "Instrument Sans";
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+    max-height: 100vh;
+}
+
+button {
+    border-width: 0px;
+    border-radius: 5px;
+    padding: 12.5px;
+    background-color: var(--accent-color);
+    color: var(--foreground-color);
+    font-family: "Instrument Sans";
+    font-size: 16px;
+    cursor: pointer;
+}
+
+table, table tr {
+    height: 100vh;
+}
+
+table tr #userlist {
+    width: 200px;
+    background-color: #171b29;
+    vertical-align: top;
+    padding: 20px;
+}
+
+table tr #userlist button {
+    width: 100%;
+    transition: all ease-in-out 200ms;
+}
+
+table tr #userlist button:hover {
+    width: 100%;
+    filter: brightness(1.1);
+}
+
+table tr #userlist button.user {
+    background-color: transparent;
+    color: var(--foreground-color);
+    text-align: left;
+    margin-bottom: 15px;
+    font-size: 16px;
+    transition: ease-in-out 100ms;
+}
+
+table tr #userlist button.user:hover {
+    background-color: var(--highlight-middle);
+}
+
+table tr #messages {
+    width: calc(100vw - 200px);
+    vertical-align: top;
+    padding: 20px;
+}
+
+table tr #messages #container {
+    overflow: scroll;
+    padding-top: 60px;
+    height: calc(100vh - 160px);    
+}
+
+table tr #messages #container b {
+    font-size: x-large;
+    color: #ffffff;
+    font-weight: 100;
+    position: absolute;
+    top: 20px;
+    background-color: var(--background-color);
+    width: 100vw;
+    padding: 10px;
+}
+
+table tr #messages #input {
+    padding: 10px;
+}
+
+table tr #messages #input input {
+    padding: 15px;
+    background-color: #495451;
+    border-radius: 5px;
+    border-width: 0px;
+    width: 250px;
+    max-width: 20vw;
+    margin-right: 10px;
+    color: var(--foreground-color);
+    font-size: 18px;
+    letter-spacing: 1px;
+}
+
+
+table tr #messages #input input:focus {
+    outline: none;
+}
+
+.msg_you {
+    margin-top: 20px;
+    padding: 10px;
+    width: 200px;
+    min-width: 200px;
+    background-color: #50786E;
+    border-radius: 5px;
+}
+
+.msg_oth {
+    margin-top: 20px;
+    padding: 10px;
+    width: 200px;
+    min-width: 200px;
+    background-color: #495451;
+    border-radius: 5px;
+    display: block;
+    margin-left: auto;
+}

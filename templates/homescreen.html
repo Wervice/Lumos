@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Lumos</title>
+    <link rel="stylesheet" href="asset/homescreen.css">
+    <script src="asset/homescreen.js"></script>
+    <meta http-equiv="cache-control" content="no-cache">
+</head>
+
+<body oncontextmenu="return false;">
+    <iframe src="/chat/web" id="chat_inframe" frameborder="0" hidden></iframe>
+    <div id="password_request" hidden>
+        <big id="p_info_message">
+            The file you want to download is encrypted. Please enter the password to download it.
+        </big><br><br>
+        <form action="/load-file-password" method="post">
+        <input type="password" name="password" placeholder="Password">
+        <input type="hidden" value="" id="filename" name="filename">
+    </form>
+    </div>
+    <div id="file_menu" hidden>
+        <button id="file_menu_delete_button" class="dangerous">Delete</button><br>
+        <button id="file_menu_encryption_button">Encryption</button><br>
+        <button id="file_menu_rename_button">Rename</button><br>
+        <button id="file_menu_download_button">Download</button><br>
+    </div>
+    <div id="menu" onmouseleave="hide_menu()" hidden>
+        <a href="/logoff">Exit</a><br>
+        <a href="javascript:document.getElementById('info').hidden = false">Help</a>
+    </div>
+    <!-- TODO @Me Help isn't done yet -->
+    <div id="info" hidden>
+        <div id="body">
+        <h1>Lumos Help</h1><br>
+        <h2 id="upload_file">Uploading a new file</h2>
+        <p>
+            Lumos offers an easy way to upload safely upload new files from your computer to the cloud. Follow the
+            step-by-step guide to uplaod a file.
+        </p>
+        <ol>
+            <li>Click the blue upload button on the homescreen.</li>
+            <li>On the next page click the blue "Select file" button and choose a file from your computer.</li>
+            <li>Click the new "Upload" button.</li>
+            <li>After the page reloaded click "Go back" or "<-".</li>
+        </ol>
+        <h3>Common errors and mistakes</h3>
+        <ul>
+            <li><b>This filetype is blocked</b> appears when you tried to upload a binary executable file from your computer or tried to upload a file with and illegal filename like <code>is_admin</code>. Lumos blocks the files by default to protect the server.</li>
+            <li><b>This file is a virus</b> means that Lumos indentified a file you tried to upload as malware. You may consider to remove this file from your computer.</li>
+        </ul><br>
+        <h2 id="file_options">File options</h2>
+        <p>
+            You can run simple task with your files like renaming or encrypting them.
+        </p>
+        <h3>See options</h3>
+        <p>
+            To see all options for a file, right-click it.
+        </p>
+        <h3>Delete a file</h3>
+        <ol>
+            <li>
+                Open the options.
+            </li>
+            <li>
+                Click delete.
+            </li>
+            <li>
+                Confirm the popup.
+            </li>
+        </ol>
+        <h3>Rename a file</h3>
+        <ol>
+            <li>Open the options.</li>
+            <li>Click rename.</li>
+            <li>Enter a new filename.</li>
+            <li>After the page reloaded, you'll see the renamed file.</li>
+        </ol>
+        <h3>
+            Encryption
+        </h3>
+        <p>
+            Lumos offers an easy way to protect your files using strong AES encryption.
+        </p>
+        <b>Follow this guide to encrypt a file</b>
+        <ol>
+            <li>Open the menu for the file to encrypt.</li>
+            <li>Click Encryption.</li>
+            <li>Enter the password to encrypt it.</li>
+            <li>Press enter.</li>
+            <li>Leave the page.</li>
+            <li>If it worked, the file is encrypted now</li>
+        </ol>
+    </div>
+    <div id="nav" align="right">
+        <button onclick="open_info()">Exit</button><button id="bf" onclick="last_topic()"><-</button><button id="bf" onclick="next_topic()">-></button>
+    </div>
+        </div>
+    <nav id="menu_bar">
+        <img src="asset/menu.svg" alt="Menu" title="Menu" width="17" onclick="open_menu()" tabindex="1">
+        <img onclick="location.href = '/upload/web'" src="asset/upload.svg" width="17" class="l1">
+        <img onclick="document.getElementById('chat_inframe').hidden = !document.getElementById('chat_inframe').hidden;setTimeout(function () {window.onclick = function () {document.getElementById('chat_inframe').hidden = true;setTimeout(function () { window.onclick = {}}, 100)}, 100})" src="asset/chat.svg" width="17" class="l2">
+    </nav>
+    <div id="main_box">
+        <div id="file_box">
+            [[ files ]]
+        </div>
+    </div>
+</body>
+
+</html>

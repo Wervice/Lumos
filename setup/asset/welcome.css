@@ -1,0 +1,128 @@
+:root {
+    --background-color: #02050f;
+    --foreground-color: #ffffff;
+    --accent-color: #1F75FE;
+    --accent-color-red: #FF0800;
+    --transparent-heavy: rgba(255, 255, 255, 0.15);
+    --transparent-low: rgba(255, 255, 255, 0.07);
+    --link-color: #599CE9;
+    --box-shadow-ten-ten: 0px 10px 10px black;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+@font-face {
+    font-family: "Instrument Sans";
+    src: url("InstrumentSans-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Instrument Sans Bold";
+    src: url("InstrumentSans-Bold.ttf");
+}
+
+@font-face {
+    font-family: "Instrument Sans Italic";
+    src: url("InstrumentSans-Italic.ttf");
+}
+
+*:focus {
+    outline: none;
+}
+
+::placeholder {
+    color: #ffffff98;
+    letter-spacing: 1px;
+}
+
+::selection {
+    background-color: #00000044;
+}
+
+body {
+    font-family: "Instrument Sans";
+    background-color: var(--background-color);
+    color: var(--foreground-color);
+    padding: 0px;
+    margin: 0px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    padding: 10px;
+    margin: 0px;
+}
+
+h1 {
+    font-size: medium;
+    font-weight: 100;
+    letter-spacing: 1px;
+}
+
+button {
+    background-color: var(--accent-color);
+    color: var(--foreground-color);
+    border-width: 0px;
+    border-color: 0px;
+    border-style: solid;
+    border-radius: 5px;
+    font-family: "Instrument Sans";
+    padding: 7.5px;
+    padding-left: 10px;
+    font-size: 18px;
+    width: 125px;
+    margin-top: 7.5px;
+    margin-bottom: 7.5px;
+    transition: ease-in-out 0.25s;
+    text-align: left;
+    margin: 10px;
+}
+
+input[type="text"], input[type="password"] {
+    background-color: var(--transparent-heavy);
+    color: var(--foreground-color);
+    border-width: 0px;
+    border-color: 0px;
+    border-style: solid;
+    border-radius: 5px;
+    font-family: "Instrument Sans";
+    padding: 7.5px;
+    font-size: 18px;
+    width: 250px;
+    margin-top: 7.5px;
+    margin-bottom: 7.5px;
+    transition: ease-in-out 0.25s;
+    margin: 10px;
+}
+
+div#password_rater {
+    padding: 10px;
+    width: 200px;
+    background-color: #ff0800;
+    margin: 10px;
+    border-radius: 5px;
+    transition: all ease-in-out 0.25s;
+    cursor: default;
+}
+
+div.checkarea {
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;
+    background-color: var(--transparent-heavy);
+    max-width: 450px;
+}
+
+div.checkarea input {
+    accent-color: var(--accent-color);
+    border-width: 0px;
+}
+
+*.no-margin-left {
+    margin-left: 0px;
+}
+
+div[align="right"] {
+    margin-right: 10px;
+}
