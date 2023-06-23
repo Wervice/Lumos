@@ -77,14 +77,16 @@ if (open("admin_set.cfg").read() == "0"):
     def admin_settings():
         open("accid.cfg", "w").write(request.form["accid"])
         open("login_subtitle.cfg", "w").write(request.form["server-name"])
-        if request.form["enable-antivirus"] == "on":
-            open("virus_scanner.cfg", "w").write("1")
+        if "enable-antivirus" in request.form:
+            if request.form["enable-antivirus"] == "on":
+                open("virus_scanner.cfg", "w").write("1")
         else:
             open("virus_scanner.cfg", "w").write("0")
 
-        if request.form["block-binary"] == "on":
-            open("no_binary.cfg", "w").write("1")
-        elif request.form["block-binary"] == "0":
+        if "block-binary" in request.form:
+            if request.form["block-binary"] == "on":
+                open("no_binary.cfg", "w").write("1")
+        else:
             open("no_binary.cfg", "w").write("0")
         return render_template("done.html")
 
@@ -214,7 +216,7 @@ def startscreen():
                 else:
                     virscanner = "Disabled"
                 return render_template("admin/admin_dashboard.html", version=version,
-                                       platform=platform.system(), virscanner=virscanner)
+                                       platform=platform.system(), virscanner=virscanner, last_vir_update=open("last_virus_update.txt", "r").read())
             else:
                 return render_template("homescreen.html", version=version).replace("[[ files ]]", file_html)
 

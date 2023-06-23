@@ -10,7 +10,7 @@
 
 <body>
     <nav>
-        <button onclick="location.replace = '/logoff'">Exit</button> | <big>Admin Screen</big><br>
+      <a href="/logoff">Exit</a> | <big>Admin Screen</big><br>
     </nav>
     <table>
         <tr>
@@ -21,6 +21,9 @@
         </tr>
         <tr>
             <td>Virus Scanner</td><td>{{ virscanner }}</td><td><button onclick="location.href = '/admin/vrscnr'">Manage</button></td>
+        </tr>
+        <tr>
+            <td>Last virus update</td><td>{{ last_vir_update }}</td>
         </tr>
     </table>
     <br>
