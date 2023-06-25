@@ -96,18 +96,9 @@ if (open("admin_set.cfg").read() == "0"):
         print("Setup done. Please close the app by pressing CTRL+C util the app closed.")
         open("admin_set.cfg", "w").write("1")
         exit()
-    setup_app.run(host="0.0.0.0", port=4999, debug=False, ssl_context="adhoc")
+    setup_app.run(host="0.0.0.0", port=4999, debug=True, ssl_context="adhoc")
 else:
     pass
-
-if open("virus_scanner.cfg").read() == "1" and os.path.exists("main.cvd") and os.path.exists("daily.cvd"):
-    print("Updating virus definitions from local files\nPlease wait...")
-    t1 = threading.Thread(gethashes.get_hashes_names("main"))
-    t2 = threading.Thread(gethashes.get_hashes_names("daily"))
-    t1.start()
-    t2.start()
-    print("Virus Update Done")
-
 
 def compress_image(image_bytes, username, filename):
     try:
@@ -683,6 +674,13 @@ def upload_virus_definitions():
         daily_file = request.files["daily_upload"]
         main_file.save("main.cvd")
         daily_file.save("daily.cvd")
+        if open("virus_scanner.cfg").read() == "1" and os.path.exists("main.cvd") and os.path.exists("daily.cvd"):
+            print("Updating virus definitions from local files\nPlease wait...")
+            t1 = threading.Thread(gethashes.get_hashes_names("main"))
+            t2 = threading.Thread(gethashes.get_hashes_names("daily"))
+            t1.start()
+            t2.start()
+            print("Virus Update Done")
         return render_template("admin/upload_done.html")
     else:
         return "You are not allowed to access this site", 403
@@ -741,4 +739,4 @@ def info():
     return render_template("info.html", version=version, login_subtitle=login_subtitle)
 
 
-app.run(host="0.0.0.0", port=5000, debug=False, ssl_context="adhoc")
+app.run(host="0.0.0.0", port=5000, debug=True, ssl_context="adhoc")
