@@ -6,27 +6,83 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="/asset/adminscreen.css">
+    <meta http-equiv="cache-control" content="no-cache">
+    <script>
+        window.onload = function () {
+            if ("{{ blockbinary }}" == "yes") {
+                document.getElementById("binary-block").checked = "true"
+            }
+        }
+
+        function rmuser(username) {
+            if (confirm('Do you want to remove the user \"'+username+"\"?")) {
+                location.href = "/admin/rmuser/"+username
+            }
+        }
+    </script>
 </head>
 
 <body>
     <nav>
-      <a href="/logoff">Exit</a> | <big>Admin Screen</big><br>
+        <a href="/logoff" id="exit">Exit</a> <b>Lumos</b> Admin
     </nav>
-    <table>
-        <tr>
-            <td>Version</td><td>{{ version }}</td><td><button onclick="location.href = '/admin/update'">Update</button></td>
-        </tr>
-        <tr>
-            <td>System</td><td>{{ platform }}</td><td><button onclick="location.href = '/admin/system'">More</button></td>
-        </tr>
-        <tr>
-            <td>Virus Scanner</td><td>{{ virscanner }}</td><td><button onclick="location.href = '/admin/vrscnr'">Manage</button></td>
-        </tr>
-        <tr>
-            <td>Last virus update</td><td>{{ last_vir_update }}</td>
-        </tr>
-    </table>
     <br>
+    <div align="center">
+        <div class="infocard">
+            <h3>System Information</h3>
+            <table>
+                <tr>
+                    <td>RAM</td>
+                    <td>{{ ram }}%</td>
+                </tr>
+                <tr>
+                    <td>CPU</td>
+                    <td>{{ cpu }}%</td>
+                </tr>
+                <tr>
+                    <td>Version</td>
+                    <td>{{ version }}</td>
+                </tr>
+                <tr>
+                    <td>OS</td>
+                    <td>
+                        {{ platform }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Server Name</td>
+                    <td>{{ servername }}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="infocard">
+            <h3>Security</h3>
+            <table>
+                <tr>
+                    <td>Last Virus Update</td>
+                    <td>
+                        {{ last_vir_update }}
+                    </td>
+                    <td>
+                        <a href="/admin/vrscnr">Update</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Block executables</td>
+                    <td>
+                        <form action="/admin/binary-block" method="post"><input type="checkbox" name="binary-block"
+                                id="binary-block">
+                    </td>
+                    <td><button style="background-color: transparent; border-width: 0px; padding: 0px; margin: 0px; color: #599CE9; text-decoration: underline;">Apply</button></form>
+                    </td>
+                </tr>
+            </table>
+        </div><br>
+        <div class="infocard wide">
+            <h3>Users</h3><br>
+            [[ userlist ]]
+        </div>
+    </div>
 </body>
 
 </html>

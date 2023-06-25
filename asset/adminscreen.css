@@ -12,6 +12,27 @@
     --filter-gradient: #1d202999;
 }
 
+::-webkit-scrollbar {
+    background-color: #1C1C1C;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-button {
+    background-color: #1C1C1C;
+    height: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--accent-color);
+    margin: 5px;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #1C1C1C;
+    padding: 10px;
+}
+
 @keyframes turn {
     100% {
         transform: rotate(2turn);
@@ -98,6 +119,10 @@ button:active {
     filter: brightness(130%);
 }
 
+input[type="checkbox"] {
+    accent-color: var(--accent-color);
+}
+
 b {
     font-family: "Instrument Sans Bold";
 }
@@ -110,85 +135,74 @@ a, a::after, a:hover, a:active {
     color: var(--link-color);
 }
 
-/*
--- Login Box --
-Width: 33vw
-Padding: 40px;
-Height: 100vh - 80
-Margin-Top: 40px;
-*/
-
-div#login_box {
-    width: 33vw;
-    min-width: 450px;
-    padding: 40px;
-    height: calc(100vh - 160px);
-    margin-top: 40px;
-    background-color: rgba(255, 255, 255, 0.07);
-    border-radius: 25px;
-    box-shadow: 0px 10px 10px --box-shadow-color;
+nav {
+    padding: 15px;
+    color: white;
+    font-size: 18px;
+    background-color: var(--accent-color);
 }
 
-div#login_box h1, h2, h3, h4 {
+nav a#exit {
+    color: #ffffffbe;
+    text-decoration: none;
+    padding-right: 10px;
+    cursor: pointer;
+}
+
+nav b {
+    padding-right: 10px;
+}
+
+div.infocard {
+    padding: 10px;
+    display: inline-table;
+    border-radius: 10px;
+    background-color: #1C1C1C;
+    width: 30vw;
+    height: 270px;
+    text-align: left;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+div.infocard h3 {
+    color: #8e8e8e;
+    padding: 10px;
     margin: 0px;
-    padding: 0px;
-    letter-spacing: 0.75px;
 }
 
-div#login_box h1 {
-    font-size: 45px;
-    font-family: "Instrument Sans Bold", sans-serif;
-    margin-bottom: 5px;
-}
-
-div#login_box h2 {
+div.infocard table {
+    padding: 10px;
     font-size: 18px;
 }
 
-div#loading_screen {
-    width: 200px;
-    height: 130px;
-    padding: 20px;
-    border-radius: 10px;
-    background-color: var(--background-color-2);
-    box-shadow: var(--box-shadow-ten-ten);
-    position: absolute;
-    top: calc(50vh - 220px);
-    left: calc(50vw - 110px);
-    z-index: 100;
-    padding-top: 80px;
+div.infocard table td {
+    padding-bottom: 7px;
+    width: 160px;
 }
 
-div#loading_screen img {
-    animation-name: turn;
-    animation-duration: 3s;
-    animation-iteration-count: infinite;
-}
-
-nav {
-    background-color: var(--background-color-2);
+div.wide {
     padding: 10px;
+    width: calc(60vw + 40px);
+    height: 50vh !important;
+    max-height: 50vh !important;
+    overflow-y: scroll;
+    display: block;
 }
 
-table td {
-    border-color: #ffffff00;
-    border-style: solid;
-    border-width: 1px;
-    padding: 5px;
-}
-
-table {
-    margin: 10px;
-}
-
-button.long {
-    width: 200px;
-}
-
-*.padding_container {
+div.userdiv {
     padding: 10px;
+    background-color: #ffffff16;
+    margin-bottom: 10px;
+    border-radius: 5px;
 }
 
-label {
-    margin-left: 10px;
+div.userdiv button {
+    background-color: transparent;
+    color: red;
+    border-width: 0px;
+}
+
+div.userdiv button {
+    filter: brightness(1);
 }

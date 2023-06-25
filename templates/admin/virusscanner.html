@@ -31,11 +31,11 @@
             }
             if (sessionStorage.getItem("last_screen_info") != undefined) {
                 if (sessionStorage.getItem("last_screen_info") == "update_settings_success") {
-                    alert("Yeah")
+                    alert("Update done")
                     sessionStorage.removeItem("last_screen_info")
                 }
                 else if (sessionStorage.getItem("last_screen_info") == "vrscnr_update_settings_fail_defsmissing") {
-                    alert("Yeah, defs?")
+                    alert("Definitions missing")
                     sessionStorage.removeItem("last_screen_info")
                 }
             }

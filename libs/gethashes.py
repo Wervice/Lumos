@@ -2,6 +2,7 @@ import gzip
 import tarfile
 import os
 import platform
+import time
 
 def init_processbar(name):
 #    print(name+" 0%                ")
@@ -92,5 +93,9 @@ def get_hashes_names(file):
         names_main_writer.write(name+"\n")
     names_main_writer.close()
     os.remove(os.getcwd()+"/clamav.tar.tmp")
-    os.system("rmdir /s "+os.getcwd()+"\clamavdb /q")
+    if platform.system == "Windows":
+        os.system("rmdir /s "+os.getcwd()+"\clamavdb /q")
+    elif platform.system == "Linux":
+        os.system("rm -r -f -d "+os.getcwd()+"\clamavdb")
+    open("last_virus_update.txt", "w").write(time.strftime("%Y-%m-%d @ %H:%M"))
     set_proccessbar(bar, 10)

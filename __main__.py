@@ -24,6 +24,7 @@ import pyAesCrypt  # ? Under Apache License 2.0 by Marco Bellaccini
 import threading
 mime = MimeTypes()
 import re
+import psutil
 
 def encode_as_base64(str):
     if str != "":
@@ -95,7 +96,7 @@ if (open("admin_set.cfg").read() == "0"):
         print("Setup done. Please close the app by pressing CTRL+C util the app closed.")
         open("admin_set.cfg", "w").write("1")
         exit()
-    setup_app.run(host="0.0.0.0", port=4999, debug=False, ssl_context="adhoc")
+    setup_app.run(host="0.0.0.0", port=4999, debug=True, ssl_context="adhoc")
 else:
     pass
 
@@ -215,8 +216,20 @@ def startscreen():
                     virscanner = "Enabled"
                 else:
                     virscanner = "Disabled"
+                if open("no_binary.cfg", "r").read() == "1":
+                    enbin = "yes"
+                else:
+                    enbin = "no"
+                userdirlisthtml = ""
+                userdirlist = os.listdir("users/")
+                for username_encoded in userdirlist:
+                    if username_encoded != json_array[request.remote_addr]:
+                        userdirlisthtml += "<div class='userdiv'>"+decode_from_base64(username_encoded)+"<button onclick=\"rmuser('"+decode_from_base64(username_encoded)+"')\">Remove</button></div>"
+                ram_value = psutil.virtual_memory()[2]
+                cpu_value = psutil.cpu_percent(4)
+                
                 return render_template("admin/admin_dashboard.html", version=version,
-                                       platform=platform.system(), virscanner=virscanner, last_vir_update=open("last_virus_update.txt", "r").read())
+                                       platform=platform.system(), virscanner=virscanner, last_vir_update=open("last_virus_update.txt", "r").read(), blockbinary=enbin, ram=ram_value, cpu=cpu_value, servername = login_subtitle).replace("[[ userlist ]]", userdirlisthtml)
             else:
                 return render_template("homescreen.html", version=version).replace("[[ files ]]", file_html)
 
@@ -691,6 +704,34 @@ def apply_settings_av():
     else:
         return "You are not allowed to access this site", 403
 
+@app.route("/admin/binary-block", methods=["POST"])
+def binaryblock():
+    input_file = open('loggedin_users')
+    json_array = json.load(input_file)
+    if os.path.exists("users/"+json_array[request.remote_addr]+"/is_admin"):
+        if "binary-block" in request.form:
+            if request.form["binary-block"] == "on":
+                open("no_binary.cfg", "w").write("1")
+        else:
+            open("no_binary.cfg", "w").write("0")
+        return "<script>history.back()</script>"
+    else:
+        return "You are not allowed to access this site", 403
+
+@app.route("/admin/rmuser/<string:username>")
+def remover_user(username):
+    input_file = open('loggedin_users')
+    json_array = json.load(input_file)
+    if os.path.exists("users/"+json_array[request.remote_addr]+"/is_admin"):
+        if platform.system() == "Windows":
+            os.system("rmdir /q /s \"users/"+encode_as_base64(secure_filename(username))+"\"")
+            print("rmdir /q /s users/"+encode_as_base64(secure_filename(username)))
+        elif platform.system() == "Linux":
+            os.system("rm -r -f -d users/"+encode_as_base64(secure_filename(username)))
+        return "<script>history.back()</script>"
+    else:
+        return "You are not allowed to access this site", 403
+
 @app.route("/favicon.ico")
 def favicon():
     return send_file("asset/logo.png")
@@ -700,4 +741,4 @@ def info():
     return render_template("info.html", version=version, login_subtitle=login_subtitle)
 
 
-app.run(host="0.0.0.0", port=5000, debug=False, ssl_context="adhoc")
+app.run(host="0.0.0.0", port=5000, debug=True, ssl_context="adhoc")
