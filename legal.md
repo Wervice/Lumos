@@ -302,6 +302,18 @@ PERFORMANCE OF THIS SOFTWARE.
    See the License for the specific language governing permissions and
    limitations under the License.
 
+### ClamAV
+
+To protect the Lumos server from viruses, you can use the ClamAV Virus Database.
+
+Every `main.cvd` and `daily.cvd` contains a file called `COPYING`.
+
+If you want to access the license text, open the `COPYING` file.
+
+You can unpack `main.cvd` and `daily.cvd` with most unpacking/unzip tools.
+
+If you don't want to do this, you can access the `COPYING` file while Lumos is parsing the `main.cvd` or `daily.cvd` file, too.
+
 ### Me
 
 Lumos is licensed under Apache 2.0.
