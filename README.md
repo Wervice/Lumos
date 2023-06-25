@@ -2,7 +2,6 @@
 # Self host your own cloud
 
 ## How does it work
-
 Lumos is a self hostable python & flask application you can run on Windows or Linux Servers.
 
 It has an easy webshell & filemanager for the admin and for your team mates or family members.
@@ -14,6 +13,14 @@ Its lightweigh web interface and small kept design makes it simple to manage fil
 It also gives you the opportunity to protect your files using robutst symetric encryption out of the box.
 
 You can connect to it on port 5000 or 4999 for setup.
+
+### Screenshots
+
+<div align=center>
+<img src="asset/login_screen.png" height="200" style="border-radius: 10px;"> <br> <br>
+<img src="asset/admin_screen.png" height="200" style="border-radius: 10px;">
+</div>
+
 
 ### Prequisites
 
