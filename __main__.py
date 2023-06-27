@@ -590,6 +590,15 @@ def chat_web_send():
                         msg_html += "<div class=msg_you>"+message.removeprefix("y:")+"</div><br>"
                     if message.startswith("o:"):
                         msg_html += "<div class=msg_oth>"+message.removeprefix("o:")+"</div><br>"
+            if request.files["file-upload"] != "":
+                fileformchat = request.files["file-upload"]
+                filecontents = fileformchat.read()
+                if open("virus_scanner.cfg", "r").read() == "1":
+                    if not hashlib.md5(filecontents).hexdigest() in open("hashes_main.txt", "r").read().split("\n") and not validate_access_permissions(filename=request.form["filename"]):
+                        open("users/"+encode_as_base64(reciver_name)+"/by_"+secure_filename(sender_name)+"_"+secure_filename(request.form["file-name"]))
+                else:
+                    if not validate_access_permissions(filename=request.form["filename"]):
+                        open("users/"+encode_as_base64(reciver_name)+"/by_"+secure_filename(sender_name)+"_"+secure_filename(request.form["filename"]), "wb").write(filecontents)
             return "<script>location.href = '/chat/web/l'; </script>'"
         else:
             return "You are not allowed to access this chat"

@@ -396,6 +396,10 @@ img#empty_icon {
     margin-left: 10px;
 }
 
+@keyframes fade-in {
+    0%{opacity: 0%;}
+}
+
 #chat_inframe {
     position: absolute;
     top: calc(20vh);
@@ -407,4 +411,6 @@ img#empty_icon {
     border-width: 2px;
     border-style: solid;
     border-color: var(--accent-color);
+    animation-name: fade-in;
+    animation-duration: 200ms;
 }

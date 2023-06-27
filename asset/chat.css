@@ -142,8 +142,9 @@ table tr #messages #input input:focus {
     padding: 10px;
     width: 200px;
     min-width: 200px;
-    background-color: #50786E;
+    background-color: #007FFF;
     border-radius: 5px;
+    overflow-wrap: break-word;
 }
 
 .msg_oth {
@@ -151,8 +152,9 @@ table tr #messages #input input:focus {
     padding: 10px;
     width: 200px;
     min-width: 200px;
-    background-color: #495451;
+    background-color: #FF4F00;
     border-radius: 5px;
     display: block;
     margin-left: auto;
+    overflow-wrap: break-word;
 }

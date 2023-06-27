@@ -18,7 +18,8 @@
     <table>
         <tr>
             <td id="userlist">
-                <img src="/asset/reload.svg" alt="Refresh" onclick="location.reload()" height="20" style="margin-left: 10px;" title="Refresh"><br><br>
+                <img src="/asset/reload.svg" alt="Refresh" onclick="location.reload()" height="20"
+                    style="margin-left: 10px;" title="Refresh"><br><br>
                 [[ userlist ]] <br>
             </td>
             <td id="messages">
@@ -27,10 +28,13 @@
                     [[ messages ]]
                 </div>
                 <div id="input" hidden>
-                    <form action="/chat/web/s" method="post">
-                        <input type="text" name="message" placeholder="Message" autocomplete="off" required>
+                    <form action="/chat/web/s" method="post" enctype="multipart/form-data">
+                        <input type="text" name="message" id="message" placeholder="Message" autocomplete="off" required>
                         <input type="hidden" name="username" id="username" value="{{ username }}">
-                        <button>Submit</button>
+                        <input type="file" id="file-upload" name="file-upload" hidden>
+                        <input type="hidden" id="filename" name="filename">
+                        <button type="submit">Submit</button>
+                        <button style="background-color: transparent;" type="button" onclick="file_upload()"><img src="/asset/upload.svg" alt="Uplaod" title="Upload a file"></button>
                     </form>
                 </div>
             </td>
