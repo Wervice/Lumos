@@ -96,7 +96,7 @@ if (open("admin_set.cfg").read() == "0"):
         print("Setup done. Please close the app by pressing CTRL+C util the app closed.")
         open("admin_set.cfg", "w").write("1")
         exit()
-    setup_app.run(host="0.0.0.0", port=4999, debug=False, ssl_context="adhoc")
+    setup_app.run(host="0.0.0.0", port=4999, debug=True, ssl_context="adhoc")
 else:
     pass
 
@@ -182,7 +182,7 @@ if open("no_binary.cfg").read() == "1":
     print("Block binaries")
 else:
     blacklist_extensions = []
-blacklist_filenames = ["is_admin", "userconfig.cfg", "enced_files", "Thumbs.db", "decryption_tempfile.tmp", ""]
+blacklist_filenames = ["is_admin", "userconfig.cfg", "enced_files", "Thumbs.db", "decryption_tempfile.tmp", "", "chat_inbox"]
 
 def validate_access_permissions(filename):
     if secure_filename(filename) in blacklist_filenames or filename.startswith('chat_log_file_'):
@@ -533,14 +533,17 @@ def mng_encryption_file_formular_handler():
 
 
 def remove_emojis(data):
+    emoji_smile_k_l = ["😀", "😁", "😃", "🙂", "☺", ":smile:"]
+    for emoji_smile_k in emoji_smile_k_l:
+        data = data.replace(emoji_smile_k, ":smile:")
     emoj = re.compile("["
-        u"\U00002700-\U000027BF"  # Dingbats
-        u"\U0001F600-\U0001F64F"  # Emoticons
-        u"\U00002600-\U000026FF"  # Miscellaneous Symbols
-        u"\U0001F300-\U0001F5FF"  # Miscellaneous Symbols And Pictographs
-        u"\U0001F900-\U0001F9FF"  # Supplemental Symbols and Pictographs
-        u"\U0001FA70-\U0001FAFF"  # Symbols and Pictographs Extended-A
-        u"\U0001F680-\U0001F6FF"  # Transport and Map Symbols
+        u"\U00002700-\U000027BF" 
+        u"\U0001F600-\U0001F64F" 
+        u"\U00002600-\U000026FF" 
+        u"\U0001F300-\U0001F5FF" 
+        u"\U0001F900-\U0001F9FF" 
+        u"\U0001FA70-\U0001FAFF" 
+        u"\U0001F680-\U0001F6FF" 
                       "]+", re.UNICODE)
     return re.sub(emoj, '', data)
 
@@ -593,12 +596,14 @@ def chat_web_send():
             if request.files["file-upload"] != "":
                 fileformchat = request.files["file-upload"]
                 filecontents = fileformchat.read()
+                if not os.path.exists("users/"+encode_as_base64(secure_filename(reciver_name))+"/chat_inbox"):
+                    os.mkdir("users/"+encode_as_base64(secure_filename(reciver_name))+"/chat_inbox")
                 if open("virus_scanner.cfg", "r").read() == "1":
                     if not hashlib.md5(filecontents).hexdigest() in open("hashes_main.txt", "r").read().split("\n") and not validate_access_permissions(filename=request.form["filename"]):
-                        open("users/"+encode_as_base64(reciver_name)+"/by_"+secure_filename(sender_name)+"_"+secure_filename(request.form["file-name"]))
+                        open("users/"+encode_as_base64(reciver_name)+"/chat_inbox/by_"+secure_filename(sender_name)+"_"+secure_filename(request.form["file-name"]))
                 else:
                     if not validate_access_permissions(filename=request.form["filename"]):
-                        open("users/"+encode_as_base64(reciver_name)+"/by_"+secure_filename(sender_name)+"_"+secure_filename(request.form["filename"]), "wb").write(filecontents)
+                        open("users/"+encode_as_base64(reciver_name)+"/chat_inbox/by_"+secure_filename(sender_name)+"_"+secure_filename(request.form["filename"]), "wb").write(filecontents)
             return "<script>location.href = '/chat/web/l'; </script>'"
         else:
             return "You are not allowed to access this chat"
@@ -640,6 +645,28 @@ def chat_web_load():
             if found_user != json_array[request.remote_addr]:
                 userlist_parsed_to_html += "<button onclick=chat(\'"+decode_from_base64(found_user)+"\') class=user>"+decode_from_base64(found_user).replace("_", " ")+"</button>"
         return render_template("chat_main.html", username = "").replace("[[ userlist ]]", userlist_parsed_to_html).replace("[[ messages ]]", "")
+
+@app.route("/chat/web/fb")
+def filebox():
+    input_file = open('loggedin_users')
+    json_array = json.load(input_file)
+    filelist_html = ""
+    if os.path.exists("users/"+json_array[request.remote_addr]+"/chat_inbox"):
+        if request.remote_addr in json_array:
+            for file in os.listdir("users/"+json_array[request.remote_addr]+"/chat_inbox"):
+                filelist_html += "<div class=filelist onclick=window.open('/chat/web/fb/l/"+file+"')>"+file+"</div><br>"
+    else:
+        filelist_html = "Your filebox is empty"
+    return render_template("filebox.html").replace("[[ filelist ]]", filelist_html)
+
+@app.route("/chat/web/fb/<string:filename>")
+def filebox_load(filename):
+    input_file = open('loggedin_users')
+    json_array = json.load(input_file)
+    return send_file(
+        "users/"+json_array[request.remote_addr]+"/chat_inbox"+secure_filename(filename),
+        mimetype=mime.guess_type("users/"+json_array[request.remote_addr]+"/chat_inbox"+secure_filename(filename))
+    )
 
 # * Lumos Admin
 
@@ -748,4 +775,4 @@ def info():
     return render_template("info.html", version=version, login_subtitle=login_subtitle)
 
 
-app.run(host="0.0.0.0", port=5000, debug=False, ssl_context="adhoc")
+app.run(host="0.0.0.0", port=5000, debug=True, ssl_context="adhoc")

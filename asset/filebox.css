@@ -4,12 +4,17 @@
     --accent-color: #1F75FE;
     --accent-color-red: #FF0800;
     --transparent-heavy: rgba(255, 255, 255, 0.15);
-    --transparent-low: rgba(255, 255, 255, 0.07);
+    --transparent-low: transparent;
     --link-color: #599CE9;
     --box-shadow-ten-ten: 0px 10px 10px black;
-    --background-color-2: #282a33;
+    --background-color-2: #171b29;
     --box-shadow-color: black;
     --filter-gradient: #1d202999;
+    --box-shadow-color-light: #00000042;
+}
+
+::-webkit-scrollbar {
+    display: none;
 }
 
 @font-face {
@@ -27,14 +32,39 @@
     src: url("InstrumentSans-Italic.ttf");
 }
 
+@keyframes fall-down {
+    0% {
+        opacity: 0%;
+        height: 0px;
+    }
+}
+
+::selection {
+    background-color: #ffffff00;
+}
+
 *:focus {
     outline: none;
+}
+
+* {
+    cursor: default;
+}
+
+a,
+button,
+label,
+button img {
+    cursor: pointer;
 }
 
 body {
     background-color: var(--background-color);
     color: var(--foreground-color);
     font-family: "Instrument Sans", sans-serif;
+    margin: 0px;
+    padding: 10px;
+    max-height: 100vh;
 }
 
 button {
@@ -54,7 +84,16 @@ button {
     transition: ease-in-out 0.25s;
 }
 
-input[type="text"], input[type="password"] {
+button.second {
+    background-color: #848484;
+}
+
+button.chat_button {
+    background-color: #15bb68;
+}
+
+input[type="text"],
+input[type="password"] {
     background-color: var(--transparent-heavy);
     color: var(--foreground-color);
     border-width: 0px;
@@ -70,7 +109,9 @@ input[type="text"], input[type="password"] {
     transition: ease-in-out 0.25s;
 }
 
-button:hover, input[type="text"]:focus, input[type="password"]:focus {
+button:hover,
+input[type="text"]:focus,
+input[type="password"]:focus {
     filter: brightness(110%);
 }
 
@@ -90,7 +131,10 @@ i {
     font-family: "Instrument Sans Italic";
 }
 
-a, a::after, a:hover, a:active {
+a,
+a::after,
+a:hover,
+a:active {
     color: var(--link-color);
 }
 
@@ -110,23 +154,59 @@ div#login_box {
     margin-top: 40px;
     background-color: var(--transparent-low);
     border-radius: 25px;
-    box-shadow: --box-shadow-ten-ten;
+    box-shadow: var(--box-shadow-ten-ten);
 }
 
-div#login_box h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
     margin: 0px;
     padding: 0px;
-    letter-spacing: 0.75px;
+    letter-spacing: 1px;
+    font-weight: 100;
 }
 
-div#login_box h1 {
-    font-size: 45px;
-    font-family: "Instrument Sans Bold", sans-serif;
+h1 {
+    font-size: 15px;
+    font-family: "Instrument Sans", sans-serif;
     margin-bottom: 5px;
+    opacity: 80%;
 }
 
-div#login_box h2 {
+h2 {
     font-size: 18px;
+}
+
+nav#menu_bar {
+    padding: 10px;
+    width: calc(100% - 20px);
+    background-color: var(--accent-color);
+    height: 27px;
+}
+
+nav#menu_bar img {
+    top: 14px;
+    left: 15px;
+    position: absolute;
+    transition: ease-in-out 0.25s;
+}
+
+nav#menu_bar img.l1 {
+    left: 42px;
+}
+
+nav#menu_bar img.l2 {
+    left: 69px;
+}
+
+nav#menu_bar img:hover {
+    filter: brightness(125%);
+}
+
+nav#menu_bar h1 {
+    font-size: 20px;
+    margin-left: 30px;
 }
 
 button.circle {
@@ -136,52 +216,4 @@ button.circle {
     height: 50px;
     text-align: center;
     padding-left: 7.5px;
-    margin-right: 10px;
-}
-
-big {
-    margin-left: 10px;
-    font-size: 20px;
-}
-
-label[for="select_button"] {
-    margin-left: 10px;
-}
-
-label#extension_info, label#character_info {
-    color: var(--link-color);
-}
-
-span#encryption_icon {
-    width: 15px;
-    height: 15px;
-    background-color: var(--accent-color-red);
-    display: inline-block;
-    border-radius: 7.5px;
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-bottom: -2px;
-}
-
-
-@keyframes flow_down {
-    0% {top: 0px;}
-    100% {
-        top: 20px;
-    }
-}
-
-#info {
-    position: absolute;
-    top: 20px;
-    left: calc(50vw - (300px + 20px));
-    width: 300px;
-    padding: 20px;
-    border-radius: 10px;
-    background-color: var(--background-color-2);
-    animation: flow_down 0.25s;    
-}
-
-*.margin-left-small {
-    margin-left: 10px;
 }

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="16"
+   height="16"
+   viewBox="0 0 4.2333334 4.2333334"
+   version="1.1"
+   id="svg26107"
+   inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview26109"
+     pagecolor="#ffffff"
+     bordercolor="#828282"
+     borderopacity="1"
+     inkscape:showpageshadow="false"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="false"
+     inkscape:deskcolor="#ffffff"
+     inkscape:document-units="mm"
+     showgrid="false"
+     shape-rendering="auto" />
+  <defs
+     id="defs26104" />
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <circle
+       style="fill:#f6d32d;stroke-width:1.14755;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0"
+       id="path233"
+       cx="2.1166666"
+       cy="2.1166666"
+       r="2.1166666" />
+    <path
+       style="fill:none;stroke:#3c3b37;stroke-width:0.55;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:0;stroke-dasharray:none;stroke-opacity:1"
+       id="path948"
+       sodipodi:type="arc"
+       sodipodi:cx="2.1166666"
+       sodipodi:cy="2.2274196"
+       sodipodi:rx="1.23997"
+       sodipodi:ry="1.23997"
+       sodipodi:start="0"
+       sodipodi:end="3.1415927"
+       sodipodi:arc-type="arc"
+       d="m 3.3566365,2.2274196 a 1.23997,1.23997 0 0 1 -0.619985,1.0738455 1.23997,1.23997 0 0 1 -1.23997,0 1.23997,1.23997 0 0 1 -0.61998491,-1.0738455"
+       sodipodi:open="true" />
+    <g
+       id="g2311"
+       transform="translate(-0.08538437,-0.32987013)">
+      <circle
+         style="fill:#3c3b37;fill-opacity:1;stroke:none;stroke-width:0.70942;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:0;stroke-dasharray:none;stroke-opacity:1"
+         id="circle2285"
+         cx="1.4111123"
+         cy="1.6718417"
+         r="0.44482487" />
+      <circle
+         style="fill:#3c3b37;fill-opacity:1;stroke:none;stroke-width:0.70942;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:0;stroke-dasharray:none;stroke-opacity:1"
+         id="circle2285-8"
+         cx="2.9929895"
+         cy="1.6718417"
+         r="0.44482487" />
+    </g>
+  </g>
+</svg>

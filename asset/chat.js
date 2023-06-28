@@ -4,6 +4,7 @@ function chat(username) {
 }
 
 window.onload = function () {
+    document.body.innerHTML = document.body.innerHTML.replaceAll(":smile:", "😀")
     elem = document.getElementById("container")
     elem.scrollTop = elem.scrollHeight;
     if (document.getElementById('username').value != '') { document.getElementById('input').hidden = false }
