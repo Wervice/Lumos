@@ -663,10 +663,11 @@ def filebox():
 def filebox_load(filename):
     input_file = open('loggedin_users')
     json_array = json.load(input_file)
-    return send_file(
-        "users/"+json_array[request.remote_addr]+"/chat_inbox"+secure_filename(filename),
-        mimetype=mime.guess_type("users/"+json_array[request.remote_addr]+"/chat_inbox"+secure_filename(filename))
-    )
+    if request.remote_addr in json_array:
+        return send_file(
+            "users/"+json_array[request.remote_addr]+"/chat_inbox"+secure_filename(filename),
+            mimetype=mime.guess_type("users/"+json_array[request.remote_addr]+"/chat_inbox"+secure_filename(filename))
+        )
 
 # * Lumos Admin
 
