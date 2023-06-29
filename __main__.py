@@ -26,7 +26,7 @@ mime = MimeTypes()
 import re
 import psutil
 
-if not os.path.exists("/users"):
+if not os.path.exists("users"):
     os.mkdir("users/")
 
 def encode_as_base64(str):
@@ -99,7 +99,7 @@ if (open("admin_set.cfg").read() == "0"):
         print("Setup done. Please close the app by pressing CTRL+C util the app closed.")
         open("admin_set.cfg", "w").write("1")
         exit()
-    setup_app.run(host="0.0.0.0", port=4999, debug=False, ssl_context="adhoc")
+    setup_app.run(host="0.0.0.0", port=4999, debug=False=True, ssl_context="adhoc")
 else:
     pass
 
@@ -128,7 +128,7 @@ def file_html_gen(username):
     files = os.listdir("users/"+username+"/")
     html_code = ""
     for file in files:
-        if file != "userpassword.cfg" and file != "enced_files" and file != "Thumbs.db" and not file.startswith("chat_log_file_"):
+        if file != "userpassword.cfg" and file != "enced_files" and file != "Thumbs.db" and not file.startswith("chat_log_file_") and file != "chat_inbox":
             file_mime = mime.guess_type("users/"+username+"/"+file)[0]
             if file_mime == "image/png" or file_mime == "image/jpeg" or file_mime == "image/jpg" or file_mime == "image/heic":
                 html_code += "<div class=file_button onclick=\"location.href = '/load-file/" + \
@@ -657,19 +657,19 @@ def filebox():
     if os.path.exists("users/"+json_array[request.remote_addr]+"/chat_inbox"):
         if request.remote_addr in json_array:
             for file in os.listdir("users/"+json_array[request.remote_addr]+"/chat_inbox"):
-                filelist_html += "<div class=filelist onclick=window.open('/chat/web/fb/l/"+file+"')>"+file+"</div><br>"
+                filelist_html += "<div class=filelist onclick=window.open('/chat/web/fb/l/"+file+"')> <span class=sender>"+file.split("_")[1]+"</span> "+file.split("_")[2]+"</div><br>"
     else:
         filelist_html = "Your filebox is empty"
     return render_template("filebox.html").replace("[[ filelist ]]", filelist_html)
 
-@app.route("/chat/web/fb/<string:filename>")
+@app.route("/chat/web/fb/l/<string:filename>")
 def filebox_load(filename):
     input_file = open('loggedin_users')
     json_array = json.load(input_file)
     if request.remote_addr in json_array:
         return send_file(
-            "users/"+json_array[request.remote_addr]+"/chat_inbox"+secure_filename(filename),
-            mimetype=mime.guess_type("users/"+json_array[request.remote_addr]+"/chat_inbox"+secure_filename(filename))
+            "users/"+json_array[request.remote_addr]+"/chat_inbox/"+secure_filename(filename),
+            mimetype=str(mime.guess_type("users/"+json_array[request.remote_addr]+"/chat_inbox/"+secure_filename(filename)))
         )
     else:
         return "You're not allowed to access this location"
@@ -781,4 +781,4 @@ def info():
     return render_template("info.html", version=version, login_subtitle=login_subtitle)
 
 
-app.run(host="0.0.0.0", port=5000, debug=False, ssl_context="adhoc")
+app.run(host="0.0.0.0", port=5000, debug=False=True, ssl_context="adhoc")

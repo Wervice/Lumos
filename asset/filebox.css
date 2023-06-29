@@ -217,3 +217,16 @@ button.circle {
     text-align: center;
     padding-left: 7.5px;
 }
+
+span.sender {
+    color: #ffffffaa;
+    width: 100px;
+    text-overflow: ellipsis;
+    display: inline-block;
+}
+
+div.filelist {
+    padding: 10px;
+    background-color: #ffffff42;
+    border-radius: 5px;
+}
