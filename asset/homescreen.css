@@ -65,6 +65,7 @@ body {
     margin: 0px;
     padding: 0px;
     max-height: 100vh;
+    height: 100vh;
 }
 
 button {
@@ -292,43 +293,36 @@ div#main_box {
 div#main_box #file_box {
     padding-left: 10px;
     background-color: var(--transparent-low);
-    padding-top: 30px;
     overflow-y: scroll;
+    height: 100%;
 }
 
+div#main_box #file_box a {
+    color: white;
+    text-decoration: none;
+}
 
 div.file_button {
-    background-color: var(--transparent-heavy);
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-blend-mode: hard-light;
-    display: inline-flex;
-    width: 200px;
-    height: 200px;
-    margin-left: 10px;
-    margin-bottom: 10px;
-    border-radius: 10px;
-    border-width: 1px;
-    border-color: var(--background-color-2);
-    border-style: solid;
-    padding: 10px;
-    cursor: pointer;
-    transition: all ease-in-out 0.25s;
-    text-align: center;
-    font-size: 20px;
-    align-items: center;
-    vertical-align: middle;
-    justify-content: center;
-    overflow-x: hidden;
+    padding: 15px;
+    width: calc(100% - 40px);
+    margin-top: 10px;
+    border-bottom: #202020 1px solid;
+    border-radius: 5px;
+    transition: ease-in-out 100ms;
 }
 
 div.file_button:hover {
-    filter: brightness(120%);
+    border-bottom: transparent 1px solid;
+    background-color: #202020;
+}
+
+div.file_button img {
+    margin-bottom: -5px;
+    margin-right: 10px;
 }
 
 div#file_menu {
-    background-color: var(--background-color-2);
+    background-color: #202020;
     border-radius: 5px;
     position: absolute;
     width: 200px;
@@ -338,7 +332,7 @@ div#file_menu {
 
 div#file_menu button {
     width: 100%;
-    background-color: var(--background-color-2) !important;
+    background-color: #393939 !important;
     height: auto;
     font-size: 12pt;
     border-radius: 0px;

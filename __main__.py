@@ -99,7 +99,7 @@ if (open("admin_set.cfg").read() == "0"):
         print("Setup done. Please close the app by pressing CTRL+C util the app closed.")
         open("admin_set.cfg", "w").write("1")
         exit()
-    setup_app.run(host="0.0.0.0", port=4999, debug=False=True, ssl_context="adhoc")
+    setup_app.run(host="0.0.0.0", port=4999, debug=False, ssl_context="adhoc")
 else:
     pass
 
@@ -129,17 +129,54 @@ def file_html_gen(username):
     html_code = ""
     for file in files:
         if file != "userpassword.cfg" and file != "enced_files" and file != "Thumbs.db" and not file.startswith("chat_log_file_") and file != "chat_inbox":
-            file_mime = mime.guess_type("users/"+username+"/"+file)[0]
-            if file_mime == "image/png" or file_mime == "image/jpeg" or file_mime == "image/jpg" or file_mime == "image/heic":
-                html_code += "<div class=file_button onclick=\"location.href = '/load-file/" + \
-                    file+"'\" style=\"background-image: linear-gradient(var(--filter-gradient), var(--filter-gradient)),\
-                    url(\'/thumbnail-load-file/"+file+"\') !important\" oncontextmenu=\
-                    \"show_file_menu(\'"+file+"\', event); return false;\">"+file.split(".")[0]\
-                    .replace("_", " ").replace("-", " ")+"</div>"
+            # mime_image.svg
+            # mime_doc.svg
+            # mime_presentation.svg
+            # mime_spreadsheet.svg
+            # mime_pdf.svg
+            # mime_video.svg
+            mime_icon_dict = {
+                # Images
+                "png": "mime_image.svg",
+                "jpg": "mime_image.svg",  
+                "heic": "mime_image.svg",  
+                "gif": "mime_image.svg",  
+                "heif": "mime_image.svg",  
+                "bmp": "mime_image.svg",  
+                # Text Document
+                "doc": "mime_doc.svg",
+                "docx": "mime_doc.svg",
+                "odt": "mime_doc.svg",
+                "md": "mime_doc.svg",
+                "txt": "mime_doc.svg",
+                # Presentation
+                "ppt": "mime_presentation.svg",
+                "pptx": "mime_presentation.svg",
+                "odp": "mime_presentation.svg",
+                "pptm": "mime_presentation.svg",
+                # Spreadsheet
+                "xls": "mime_spreadsheet.svg",
+                "xlsx": "mime_spreadsheet.svg",
+                "ods": "mime_spreadsheet.svg",
+                "csv": "mime_spreadsheet.svg",
+                # PDF
+                "pdf": "mime_pdf.svg",
+                # Videos
+                "mp4": "mime_video.svg",
+                "mov": "mime_video.svg",
+                "avi": "mime_video.svg",
+                "webm": "mime_video.svg",
+                }
+            try:
+                mimet = file.split(".")[1]
+            except IndexError:
+                mimet = "mime_none.svg"
+            print(mimet)
+            if mimet in mime_icon_dict:
+                mime_icon = mime_icon_dict[mimet]
             else:
-                html_code += "<div class=file_button onclick=\"location.href = '/load-file/" + \
-                    file+"'\" oncontextmenu=\"show_file_menu(\'"+file+"\', event); return false;\">\
-                    "+file.split(".")[0].replace("_", " ").replace("-", " ")+"</div>"
+                mime_icon = "mime_none.svg"
+            html_code += "<div class=file_button ondblclick=\"location.href = '/load-file/"+file+"'\" oncontextmenu=\"show_file_menu(\'"+file+"\', event); return false;\"><img src=asset/"+mime_icon+" height=20> "+file.replace("_", " ").replace("-", " ")+"</div>"
     if html_code == "":
         html_code = "<img src=/asset/empty.png height=200 id=empty_icon>"
     return html_code
@@ -382,7 +419,10 @@ def load_file_password():
     json_array = json.load(input_file)
     if request.remote_addr in json_array:
         if not validate_access_permissions(filename=request.form["filename"]):
-            pyAesCrypt.decryptFile("users/"+json_array[request.remote_addr]+"/"+secure_filename(request.form["filename"]), outfile="users/"+json_array[request.remote_addr]+"/decryption_tempfile.tmp", passw=hashlib.sha256(request.form["password"].encode("utf-8")).hexdigest(), bufferSize=131072)
+            try:
+                pyAesCrypt.decryptFile("users/"+json_array[request.remote_addr]+"/"+secure_filename(request.form["filename"]), outfile="users/"+json_array[request.remote_addr]+"/decryption_tempfile.tmp", passw=hashlib.sha256(request.form["password"].encode("utf-8")).hexdigest(), bufferSize=131072)
+            except ValueError:
+                return "<script>sessionStorage.setItem('last_screen_info', 'wrong_password'); history.back();</script>"
             temp_file_reader_dec = open("users/"+json_array[request.remote_addr]+"/decryption_tempfile.tmp", "rb")
             return send_file(temp_file_reader_dec, mimetype=str(mime.guess_type(
                             "users/"+json_array[request.remote_addr]+"/"+secure_filename(request.form["filename"]))))
@@ -781,4 +821,4 @@ def info():
     return render_template("info.html", version=version, login_subtitle=login_subtitle)
 
 
-app.run(host="0.0.0.0", port=5000, debug=False=True, ssl_context="adhoc")
+app.run(host="0.0.0.0", port=5000, debug=False, ssl_context="adhoc")

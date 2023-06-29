@@ -17,9 +17,12 @@
         <big id="p_info_message">
             The file you want to download is encrypted. Please enter the password to download it.
         </big><br><br>
-        <form action="/load-file-password" method="post">
+        <form action="/load-file-password" method="post" download>
         <input type="password" name="password" placeholder="Password">
         <input type="hidden" value="" id="filename" name="filename">
+        <br>
+        <button type="submit" download>Submit</button>
+        <button type="button" onclick="document.getElementById('password_request').hidden = true;">Cancle</button>
     </form>
     </div>
     <div id="file_menu" hidden>

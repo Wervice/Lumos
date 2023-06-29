@@ -38,8 +38,8 @@ function show_file_menu(file, event) {
     }
     var x = event.clientX;
     var y = event.clientY;
-    document.getElementById("file_menu").style.left = (x - document.getElementById("file_menu").offsetWidth / 2 + 120) + 'px';
-    document.getElementById("file_menu").style.top = (y - document.getElementById("file_menu").offsetHeight / 2 + 120) + 'px';
+    document.getElementById("file_menu").style.left = (x - document.getElementById("file_menu").offsetWidth / 2 + 90) + 'px';
+    document.getElementById("file_menu").style.top = (y - document.getElementById("file_menu").offsetHeight / 2 + 90) + 'px';
     document.body.onclick = function () {
         document.getElementById("file_menu").hidden = true
     }
@@ -69,6 +69,10 @@ function last_topic() {
 
 window.onload = function () {
     if (sessionStorage.getItem("last_screen_info") == "password_load_file") {
+        document.getElementById("password_request").hidden = false;
+        sessionStorage.removeItem("last_screen_info")
+    }
+    else if (sessionStorage.getItem("last_screen_info") == "wrong_password") {
         document.getElementById("password_request").hidden = false;
         sessionStorage.removeItem("last_screen_info")
     }
