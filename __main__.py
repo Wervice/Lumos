@@ -26,6 +26,9 @@ mime = MimeTypes()
 import re
 import psutil
 
+if not os.path.exists("/users"):
+    os.mkdir("users/")
+
 def encode_as_base64(str):
     if str != "":
         message_bytes = str.encode('utf-8')
@@ -96,7 +99,7 @@ if (open("admin_set.cfg").read() == "0"):
         print("Setup done. Please close the app by pressing CTRL+C util the app closed.")
         open("admin_set.cfg", "w").write("1")
         exit()
-    setup_app.run(host="0.0.0.0", port=4999, debug=False, ssl_context="adhoc")
+    setup_app.run(host="0.0.0.0", port=4999, debug=True, ssl_context="adhoc")
 else:
     pass
 
@@ -778,4 +781,4 @@ def info():
     return render_template("info.html", version=version, login_subtitle=login_subtitle)
 
 
-app.run(host="0.0.0.0", port=5000, debug=False, ssl_context="adhoc")
+app.run(host="0.0.0.0", port=5000, debug=True, ssl_context="adhoc")
