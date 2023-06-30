@@ -25,6 +25,7 @@ import threading
 mime = MimeTypes()
 import re
 import psutil
+import math
 
 if not os.path.exists("users"):
     os.mkdir("users/")
@@ -166,6 +167,12 @@ def file_html_gen(username):
                 "mov": "mime_video.svg",
                 "avi": "mime_video.svg",
                 "webm": "mime_video.svg",
+                # Archive
+                "zip": "mime_archive.svg",
+                "tar": "mime_archive.svg",
+                "xz": "mime_archive.svg",
+                "exe": "mime_archive.svg",
+                "iso": "mime_archive.svg",
                 }
             try:
                 mimet = file.split(".")[1]
@@ -176,7 +183,62 @@ def file_html_gen(username):
                 mime_icon = mime_icon_dict[mimet]
             else:
                 mime_icon = "mime_none.svg"
-            html_code += "<div class=file_button ondblclick=\"location.href = '/load-file/"+file+"'\" oncontextmenu=\"show_file_menu(\'"+file+"\', event); return false;\"><img src=asset/"+mime_icon+" height=20> "+file.replace("_", " ").replace("-", " ")+"</div>"
+            fileattrs = os.stat("users/"+username+"/"+file)
+            filesize = str(math.floor(fileattrs.st_size / 1024))
+            filetypel = {
+                # Images
+                "png": "Image file",
+                "jpg": "Image file",  
+                "heic": "Image file",  
+                "gif": "Image file",  
+                "heif": "Image file",  
+                "bmp": "Image file",  
+                # Text Document
+                "doc": "Word Document",
+                "docx": "Word Document",
+                "odt": "LibreOffice Writer Document",
+                "md": "Markdown",
+                "txt": "Plain Text",
+                # Presentation
+                "ppt": "PowerPoint Presentation",
+                "pptx": "PowerPoint Presentation",
+                "odp": "LibreOffice Impress Document",
+                "pptm": "PowerPoint Macro File",
+                # Spreadsheet
+                "xls": "Excel Spreadsheet",
+                "xlsx": "Excel Spreadsheet",
+                "ods": "LibreOffice Spreadsheet",
+                "csv": "CSV Table Text Document",
+                # PDF
+                "pdf": "PDF Document",
+                # Videos
+                "mp4": "Video",
+                "mov": "Video",
+                "avi": "Video",
+                "webm": "Video",
+                # Archive
+                "zip": "Archive",
+                "tar": "Archive",
+                "xz": "Archive",
+                "exe": "Archive / Windows Executable",
+                "iso": "Archive / Disk Image",
+                # Plain
+                "html": "HTML Code Document",
+                "js": "JavaScript Code Document",
+                "css": "CSS Code Document",
+                "py": "Python Code Document",
+                "pyw": "Python Code Document",
+                "c": "C Code Document",
+                "csharp": "C# Code Document",
+                "cpp": "C++ Code Document",
+                "sh": "Shell Code Document",
+                "bat": "Batch Code Document",
+            }
+            if not mimet in filetypel:
+                filetype = "mime_none.svg"
+            else:
+                filetype = filetypel[mimet]
+            html_code += "<div class=file_button ondblclick=\"location.href = '/load-file/"+file+"'\" onclick=\"show_file_info('"+file+"', "+"'"+filesize+"', '"+filetype+"', '"+mime_icon+"')\" oncontextmenu=\"show_file_menu(\'"+file+"\', event); return false;\"><img src=asset/"+mime_icon+" height=20> "+file.replace("_", " ").replace("-", " ")+"</div>"
     if html_code == "":
         html_code = "<img src=/asset/empty.png height=200 id=empty_icon>"
     return html_code

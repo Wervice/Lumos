@@ -46,24 +46,24 @@ function show_file_menu(file, event) {
     return false;
 }
 
-help_page= 0
+help_page = 0
 sites = ["upload_file", "file_options"]
 
 function next_topic() {
-    help_page = help_page+1
-    location.href = "#"+sites[help_page]
+    help_page = help_page + 1
+    location.href = "#" + sites[help_page]
     if (help_page > sites.length - 1) {
         help_page = sites.length - 1
-        location.href = "#"+sites[help_page]
+        location.href = "#" + sites[help_page]
     }
 }
 
 function last_topic() {
-    help_page = help_page-1
-    location.href = "#"+sites[help_page]
+    help_page = help_page - 1
+    location.href = "#" + sites[help_page]
     if (help_page < 0) {
         help_page = 0
-        location.href = "#"+sites[help_page]
+        location.href = "#" + sites[help_page]
     }
 }
 
@@ -79,4 +79,12 @@ window.onload = function () {
     if (sessionStorage.getItem("filename") != undefined) {
         document.getElementById("filename").value = sessionStorage.getItem("filename")
     }
+}
+function show_file_info(filename, filesize, filetype, mimeicon) {
+    document.getElementById("file_info_menu").hidden = false;
+    document.getElementById("file_info_menu_icon").src = "asset/" + mimeicon
+    document.getElementById("file_info_menu_filename").innerHTML = filename.replaceAll("_", " ");
+    document.getElementById("file_info_menu_filesize").innerHTML = filesize + "MB";
+    document.getElementById("file_info_menu_filetype").innerHTML = filetype;
+
 }

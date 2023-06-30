@@ -184,6 +184,7 @@ nav#menu_bar {
     width: calc(100% - 20px);
     background-color: var(--accent-color);
     height: 27px;
+    position: fixed;
 }
 
 nav#menu_bar img {
@@ -295,6 +296,7 @@ div#main_box #file_box {
     background-color: var(--transparent-low);
     overflow-y: scroll;
     height: 100%;
+    padding-top: 50px;
 }
 
 div#main_box #file_box a {
@@ -407,4 +409,33 @@ img#empty_icon {
     border-color: var(--accent-color);
     animation-name: fade-in;
     animation-duration: 200ms;
+}
+
+div#file_info_menu {
+    height: calc(100% - 70px);
+    position: fixed;
+    top: 49.99px;
+    right: 0px;
+    padding: 10px;
+    background-color: #1c1c1c;
+    width: 25vw;
+}
+
+div#file_info_menu span#file_info_menu_filename {
+    width: calc(25vw - 20px);
+    text-align: center;
+    display: inline-block;
+    font-size: x-large;
+    padding: 10px;
+}
+div#file_info_menu span#file_info_menu_filetype {
+    display: inline-block;
+    text-align: center;
+    width: calc(25vw - 20px);
+    opacity: 50%;
+    margin-bottom: 20px;
+}
+div#file_info_menu span#file_info_menu_filesize {
+    padding: 10px;
+    font-size: large;
 }
