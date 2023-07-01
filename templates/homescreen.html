@@ -120,7 +120,7 @@
         <img onclick="document.getElementById('chat_inframe').hidden = !document.getElementById('chat_inframe').hidden;setTimeout(function () {window.onclick = function () {document.getElementById('chat_inframe').hidden = true;setTimeout(function () { window.onclick = {}}, 100)}, 100})"
             src="asset/chat.svg" width="17" class="l2">
         <img src="asset/reload.svg" alt="Reload" title="Reload" onclick="location.reload()" class="l3">
-        <input type="text" name="search_input" id="search_input" onchange="search_for_file(this.value)">
+        <input type="text" name="search_input" id="search_input" onchange="search_for_file(this.value)" placeholder="Search">
     </nav>
     <div id="main_box">
         <div id="file_info_menu" hidden><br>

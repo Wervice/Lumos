@@ -113,7 +113,7 @@ function show_file_info(filename, filesize, filetype, filemday, filecday, mimeic
     document.getElementById("file_info_menu_fmd").innerHTML = "Last modification: " + filemday;
     document.getElementById("file_info_menu_fcd").innerHTML = "Creation: " + filecday
     if (filename.includes(".jpg") || filename.includes(".png") || filename.includes(".jpeg") || filename.includes(".tiff") || filename.includes(".webp") || filename.includes(".heic") || filename.includes(".ico")) {
-        document.getElementById("file_info_menu_icon").src = "/thumbnail-load-file/" + filename
+        document.getElementById("file_info_menu_icon").src = "/thumbnail-load-file/" + filename.replaceAll(" ", "_")
         document.getElementById("file_info_menu_icon").style.borderRadius = "5px"
     }
     else {

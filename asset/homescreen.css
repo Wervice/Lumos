@@ -13,6 +13,10 @@
     --box-shadow-color-light: #00000042;
 }
 
+::placeholder {
+    color: white;
+}
+
 ::-webkit-scrollbar {
     display: none;
 }
