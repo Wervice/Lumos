@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="16"
+   height="16"
+   viewBox="0 0 4.2333334 4.2333334"
+   version="1.1"
+   id="svg26107"
+   inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
+   inkscape:export-filename="svgpng"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview26109"
+     pagecolor="#ffffff"
+     bordercolor="#828282"
+     borderopacity="1"
+     inkscape:showpageshadow="false"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="false"
+     inkscape:deskcolor="#ffffff"
+     inkscape:document-units="mm"
+     showgrid="false"
+     shape-rendering="auto" />
+  <defs
+     id="defs26104" />
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g6250"
+       transform="matrix(0.72663951,0,0,0.72663951,0.6808924,0.28529091)"
+       style="fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-opacity:1">
+      <path
+         id="rect6197-4"
+         style="fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:0.324001;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0;stroke-opacity:1"
+         d="M -0.43420002,1.799368 1.2126621,0.80733277 2.6788318,3.241298 1.0319697,4.2333333 Z" />
+      <path
+         id="rect6197-4-2"
+         style="fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:0.324001;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0;stroke-opacity:1"
+         d="M 4.38602,1.799368 2.739158,0.80733281 1.2729883,3.2412981 2.9198503,4.2333333 Z" />
+      <path
+         id="rect6197"
+         style="fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:0.324001;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0;stroke-opacity:1"
+         d="M 1.0319696,1.3918829 H 2.954543 V 4.2333333 H 1.0319696 Z" />
+    </g>
+  </g>
+</svg>

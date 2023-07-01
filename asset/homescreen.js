@@ -17,25 +17,44 @@ function open_info() {
 function show_file_menu(file, event) {
     document.getElementById("file_menu").hidden = false
     document.getElementById("file_menu_delete_button").onclick = function () {
-        if (confirm("Do you want to delete \"" + file + "\"?")) {
-            location.href = "/delete-file/" + file
+        filename = event.srcElement.innerHTML.split("> ")[1]
+        if (confirm("Do you want to delete \"" + filename + "\"?")) {
+            fetch(location.protocol + "//" + location.hostname + ":" + location.port + "/delete-file/" + filename)
+            event.srcElement.remove()
         }
     }
     document.getElementById("file_menu_encryption_button").onclick = function () {
-        location.href = "/mng-encryption-file/" + file
+        filename = event.srcElement.innerHTML.split("> ")[1]
+        document.getElementById("encryption_popup").hidden = false;
+        document.getElementById("filename_encpop").value = filename
+        setTimeout(function () {
+            window.onclick = function (event) {
+                var divElement = document.getElementById("encryption_popup")
+                var targetElement = event.target;
+
+                if (!divElement.contains(targetElement) || divElement == targetElement) {
+                    console.log(targetElement)
+                    document.getElementById("encryption_popup").hidden = true;
+                    setTimeout(function () {
+                        window.onclick = function () { }
+                    }, 100)
+                }
+            }
+
+        }, 100)
     }
     document.getElementById("file_menu_download_button").onclick = function () {
-        window.open("/load-file/" + file)
+        filename = event.srcElement.innerHTML.split("> ")[1]
+        window.open("/load-file/" + filename)
     }
     document.getElementById("file_menu_rename_button").onclick = function () {
-        new_name = prompt("Rename", file)
+        new_name = prompt("Rename", event.srcElement.innerHTML.split("> ")[1])
         if (new_name != null) {
-            location.href = "/rename-file/" + file + "/" + new_name
-        }
-        else {
-            alert("You need to enter a valid file name.")
+            event.srcElement.innerHTML = event.srcElement.innerHTML.split(">")[0] + "> " + event.srcElement.innerHTML.split(">")[1].replaceAll(event.srcElement.innerHTML.split(">")[1], new_name)
+            fetch(location.protocol + "//" + location.hostname + ":" + location.port + "/rename-file/" + file + "/" + new_name)
         }
     }
+
     var x = event.clientX;
     var y = event.clientY;
     document.getElementById("file_menu").style.left = (x - document.getElementById("file_menu").offsetWidth / 2 + 90) + 'px';
@@ -76,15 +95,64 @@ window.onload = function () {
         document.getElementById("password_request").hidden = false;
         sessionStorage.removeItem("last_screen_info")
     }
+    else if (sessionStorage.getItem("last_screen_info") == "encryption_done") {
+        sessionStorage.removeItem("last_screen_info")
+    }
     if (sessionStorage.getItem("filename") != undefined) {
         document.getElementById("filename").value = sessionStorage.getItem("filename")
+        sessionStorage.removeItem("filename")
     }
 }
-function show_file_info(filename, filesize, filetype, mimeicon) {
+function show_file_info(filename, filesize, filetype, filemday, filecday, mimeicon) {
+    filename = event.srcElement.innerHTML.split("> ")[1]
     document.getElementById("file_info_menu").hidden = false;
     document.getElementById("file_info_menu_icon").src = "asset/" + mimeicon
     document.getElementById("file_info_menu_filename").innerHTML = filename.replaceAll("_", " ");
     document.getElementById("file_info_menu_filesize").innerHTML = filesize + "MB";
     document.getElementById("file_info_menu_filetype").innerHTML = filetype;
+    document.getElementById("file_info_menu_fmd").innerHTML = "Last modification: " + filemday;
+    document.getElementById("file_info_menu_fcd").innerHTML = "Creation: " + filecday
+    if (filename.includes(".jpg") || filename.includes(".png") || filename.includes(".jpeg") || filename.includes(".tiff") || filename.includes(".webp") || filename.includes(".heic") || filename.includes(".ico")) {
+        document.getElementById("file_info_menu_icon").src = "/thumbnail-load-file/" + filename
+        document.getElementById("file_info_menu_icon").style.borderRadius = "5px"
+    }
+    else {
+        document.getElementById("file_info_menu_icon").style.borderRadius = "0px"
+    }
+}
 
+function show_file(file) {
+    filename = event.srcElement.innerHTML.split("> ")[1]
+    var elbgb = event.srcElement.style.backgroundColor
+    event.srcElement.style.backgroundColor = "dodgerblue"
+    var evl = event
+    fetch(location.protocol + "//" + location.hostname + ":" + location.port + "/load-file/" + filename).then(
+        function (response) {
+            if (response.status == "901") {
+                sessionStorage.setItem('last_screen_info', 'password_load_file'); sessionStorage.setItem('filename', filename
+                ); location.reload()
+            }
+            else {
+                evl.srcElement.style.backgroundColor = elbgb
+                evl.srcElement.blur()
+                location.assign("/load-file/" + filename)
+            }
+        }
+    )
+}
+function search_for_file(filename) {
+    if (filename != "") {
+        fetch(location.protocol + "//" + location.hostname + ":" + location.port + "/search/q/" + filename)
+            .then(function (response) {
+                return response.text();
+            })
+            .then(function (data) {
+                document.getElementById("file_box").innerHTML = data;
+            })
+            .catch(function () {
+                location.reload();
+            });
+    } else {
+        location.reload();
+    }
 }

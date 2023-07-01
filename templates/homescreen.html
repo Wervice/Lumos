@@ -12,6 +12,14 @@
 </head>
 
 <body oncontextmenu="return false;">
+    <div id="encryption_popup" hidden>
+        <div class="modal_title">Encryption</div><br>
+        <form action="/mng-encryption-file-formular-handler" method="post" onsubmit="document.getElementById('encryption_popup').hidden = true;">
+            <input type="password" placeholder="Password" name="password"><br>
+            <input type="hidden" name="filename" id="filename_encpop">
+            <button style="margin: 10px;">Submit</button>
+        </form>
+    </div>
     <iframe src="/chat/web" id="chat_inframe" frameborder="0" hidden></iframe>
     <div id="password_request" hidden>
         <big id="p_info_message">
@@ -29,7 +37,7 @@
         <button id="file_menu_delete_button" class="dangerous">Delete</button><br>
         <button id="file_menu_encryption_button">Encryption</button><br>
         <button id="file_menu_rename_button">Rename</button><br>
-        <button id="file_menu_download_button">Download</button><br>
+        <button id="file_menu_download_button">Download</button>
     </div>
     <div id="menu" onmouseleave="hide_menu()" hidden>
         <a href="/logoff">Exit</a><br>
@@ -111,14 +119,20 @@
         <img onclick="location.href = '/upload/web'" src="asset/upload.svg" width="17" class="l1">
         <img onclick="document.getElementById('chat_inframe').hidden = !document.getElementById('chat_inframe').hidden;setTimeout(function () {window.onclick = function () {document.getElementById('chat_inframe').hidden = true;setTimeout(function () { window.onclick = {}}, 100)}, 100})"
             src="asset/chat.svg" width="17" class="l2">
+        <img src="asset/reload.svg" alt="Reload" title="Reload" onclick="location.reload()" class="l3">
+        <input type="text" name="search_input" id="search_input" onchange="search_for_file(this.value)">
     </nav>
     <div id="main_box">
         <div id="file_info_menu" hidden><br>
-            <div align="center"><img src="asset/mime_none.svg" id="file_info_menu_icon" alt="Mime Icon" height="75"></div><br>
+            <div align="center"><img src="asset/mime_none.svg" id="file_info_menu_icon" alt="Mime Icon" height="75"
+                    draggable="false">
+            </div><span id="file_info_menu_filetype"></span>
             <span id="file_info_menu_filename">
             </span><br>
-            <span id="file_info_menu_filetype"></span><br>
+
             <span id="file_info_menu_filesize"></span><br>
+            <span id="file_info_menu_fcd"></span><br>
+            <span id="file_info_menu_fmd"></span>
         </div>
         <div id="file_box">
             [[ files ]]

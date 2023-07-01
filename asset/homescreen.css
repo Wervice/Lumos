@@ -202,6 +202,10 @@ nav#menu_bar img.l2 {
     left: 69px;
 }
 
+nav#menu_bar img.l3 {
+    left: 96px;
+}
+
 nav#menu_bar img:hover {
     filter: brightness(125%);
 }
@@ -209,6 +213,18 @@ nav#menu_bar img:hover {
 nav#menu_bar h1 {
     font-size: 20px;
     margin-left: 30px;
+}
+
+nav#menu_bar input[type="text"] {
+    position: absolute;
+    right: 10px;
+    border-radius: 2.5px;
+    padding: 5px;
+    border-width: 0px;
+    font-family: "Inter", sans-serif;
+    background-color: #ffffff30;
+    margin: 0px;
+    font-size: 12px;
 }
 
 div#menu {
@@ -324,12 +340,14 @@ div.file_button img {
 }
 
 div#file_menu {
-    background-color: #202020;
+    background-color: #393939;
     border-radius: 5px;
     position: absolute;
     width: 200px;
     overflow-x: hidden;
     z-index: 100;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 div#file_menu button {
@@ -379,7 +397,7 @@ img#empty_icon {
 
 #password_request {
     position: absolute;
-    top: 20px;
+    top: 70px;
     left: calc(50vw - 150px);
     width: 300px;
     padding: 20px;
@@ -426,16 +444,71 @@ div#file_info_menu span#file_info_menu_filename {
     text-align: center;
     display: inline-block;
     font-size: x-large;
-    padding: 10px;
+    padding: 5px;
 }
 div#file_info_menu span#file_info_menu_filetype {
     display: inline-block;
     text-align: center;
     width: calc(25vw - 20px);
     opacity: 50%;
-    margin-bottom: 20px;
+    padding: 10px;
+    padding-bottom: 10px;
 }
-div#file_info_menu span#file_info_menu_filesize {
+div#file_info_menu span#file_info_menu_filesize, span#file_info_menu_fmd, span#file_info_menu_fcd {
     padding: 10px;
     font-size: large;
+}
+
+iframe#file_preview {
+    position: absolute;
+    width: 75vw;
+    height: 75vh;
+    top: 12.5vh;
+    left: 12.5vw;
+    border-radius: 5px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #393939;
+    z-index: 100;
+}
+
+div#share_user_list_modal {
+    position: absolute;
+    height: 85px;
+    width: 150px;
+    top: calc(50vh - 105px);
+    left: calc(50vw - 170px);
+    background-color: #3b3b3b;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+div#share_user_list_modal select {
+    border-width: 0px;
+    border-radius: 5px;
+    padding: 10px;
+    font-family: "Inter", sans-serif;
+    background-color: #1c1c1c;
+    color: white;
+}
+
+div#encryption_popup {
+    position: absolute;
+    width: 50vh;
+    height: 50vh;
+    top: 25vh;
+    left: 37.5vw;
+    background-color: #1f1f1f;
+    color: white;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+div#encryption_popup .modal_title {
+    background-color: var(--accent-color);
+    padding: 10px;
+}
+
+div#encryption_popup input {
+    margin: 10px;
 }

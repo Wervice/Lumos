@@ -1,10 +1,10 @@
 """
 Lumos Server Main File
---------------------------------
+**
 by Constantin Volke (wervice@proton.me)
 Please notice, that I'm using third party libraries. 
 Legal notes under https://www.github.com/Wervice/Lumos/legal.md
---------------------------------
+**
 The files accid.cfg, admin_set.cfg, login_subtitle.cfg, no_binary.cfg, virus_scanner.cfg should be set to 0 at first launch.
 """
 
@@ -26,6 +26,7 @@ mime = MimeTypes()
 import re
 import psutil
 import math
+import datetime as dt
 
 if not os.path.exists("users"):
     os.mkdir("users/")
@@ -120,12 +121,20 @@ def compress_image(image_bytes, username, filename):
         print("Image Compression Error: Maybe encrypted Image")
         return None
 
+def user_list_dropdown_html_gen(username):
+    html_res = ""
+    for user in os.listdir("users/"):
+        html_res += "<option value='{user}'>{user}</option>".replace("{user}", decode_from_base64(user))
+    return html_res
 
 def file_html_gen(username):
     input_file = open('loggedin_users')
     json_array = json.load(input_file)
-    if os.path.exists("users/"+json_array[request.remote_addr]+"/decryption_tempfile.tmp"):
-        os.remove("users/"+json_array[request.remote_addr]+"/decryption_tempfile.tmp")
+    try:
+        if os.path.exists("users/"+json_array[request.remote_addr]+"/decryption_tempfile.tmp"):
+            os.remove("users/"+json_array[request.remote_addr]+"/decryption_tempfile.tmp")
+    except:
+        pass
     files = os.listdir("users/"+username+"/")
     html_code = ""
     for file in files:
@@ -144,6 +153,7 @@ def file_html_gen(username):
                 "gif": "mime_image.svg",  
                 "heif": "mime_image.svg",  
                 "bmp": "mime_image.svg",  
+                "ico": "mime_image.svg",
                 # Text Document
                 "doc": "mime_doc.svg",
                 "docx": "mime_doc.svg",
@@ -192,7 +202,8 @@ def file_html_gen(username):
                 "heic": "Image file",  
                 "gif": "Image file",  
                 "heif": "Image file",  
-                "bmp": "Image file",  
+                "bmp": "Image file",
+                "ico": "Icon file",  
                 # Text Document
                 "doc": "Word Document",
                 "docx": "Word Document",
@@ -238,7 +249,10 @@ def file_html_gen(username):
                 filetype = "mime_none.svg"
             else:
                 filetype = filetypel[mimet]
-            html_code += "<div class=file_button ondblclick=\"location.href = '/load-file/"+file+"'\" onclick=\"show_file_info('"+file+"', "+"'"+filesize+"', '"+filetype+"', '"+mime_icon+"')\" oncontextmenu=\"show_file_menu(\'"+file+"\', event); return false;\"><img src=asset/"+mime_icon+" height=20> "+file.replace("_", " ").replace("-", " ")+"</div>"
+            filecday = str(dt.datetime.fromtimestamp(os.path.getctime("users/"+username+"/"+file)).strftime("%Y/%m/%d %H:%M"))
+            filemday = str(dt.datetime.fromtimestamp(os.path.getmtime("users/"+username+"/"+file)).strftime("%Y/%m/%d %H:%M"))
+            
+            html_code += "<div class=file_button ondblclick=\"show_file('"+file+"')\" onclick=\"show_file_info('"+file+"', "+"'"+filesize+"', '"+filetype+"', '"+filemday+"', '"+filecday+"', '"+mime_icon+"')\" oncontextmenu=\"show_file_menu(\'"+file+"\', event); return false;\"><img src=asset/"+mime_icon+" height=20> "+file.replace("_", " ")+"</div>"
     if html_code == "":
         html_code = "<img src=/asset/empty.png height=200 id=empty_icon>"
     return html_code
@@ -284,7 +298,7 @@ if open("no_binary.cfg").read() == "1":
     print("Block binaries")
 else:
     blacklist_extensions = []
-blacklist_filenames = ["is_admin", "userconfig.cfg", "enced_files", "Thumbs.db", "decryption_tempfile.tmp", "", "chat_inbox"]
+blacklist_filenames = ["is_admin", "userconfig.cfg", "enced_files", "Thumbs.db", "decryption_tempfile.tmp", "", "chat_inbox", "userpassword.cfg"]
 
 def validate_access_permissions(filename):
     if secure_filename(filename) in blacklist_filenames or filename.startswith('chat_log_file_'):
@@ -324,7 +338,8 @@ def startscreen():
                 return render_template("admin/admin_dashboard.html", version=version,
                                        platform=platform.system(), virscanner=virscanner, last_vir_update=open("last_virus_update.txt", "r").read(), blockbinary=enbin, ram=ram_value, cpu=cpu_value, servername = login_subtitle).replace("[[ userlist ]]", userdirlisthtml)
             else:
-                return render_template("homescreen.html", version=version).replace("[[ files ]]", file_html)
+                userlist_dropdown = user_list_dropdown_html_gen(json_array[request.remote_addr])
+                return render_template("homescreen.html", version=version).replace("[[ files ]]", file_html).replace("[[ userlist_dropdown ]]", userlist_dropdown)
 
 # * Login & Register
 
@@ -466,10 +481,12 @@ def load_file(filename):
                     io.BytesIO(open("users/"+username+"/" +
                             secure_filename(filename), 'rb').read()),
                     mimetype=str(mime.guess_type(
-                        "users/"+username+"/"+secure_filename(filename)))
+                        "users/"+username+"/"+secure_filename(filename))),
+                        as_attachment=True,
+                        download_name=filename
                 )
             else:
-                return "<script>sessionStorage.setItem('last_screen_info', 'password_load_file');sessionStorage.setItem('filename', '"+secure_filename(filename)+"'); history.back()</script>"
+                return "", 901
         else:
             return "You aren't allowed to access this file", 403
     else:
@@ -487,7 +504,7 @@ def load_file_password():
                 return "<script>sessionStorage.setItem('last_screen_info', 'wrong_password'); history.back();</script>"
             temp_file_reader_dec = open("users/"+json_array[request.remote_addr]+"/decryption_tempfile.tmp", "rb")
             return send_file(temp_file_reader_dec, mimetype=str(mime.guess_type(
-                            "users/"+json_array[request.remote_addr]+"/"+secure_filename(request.form["filename"]))))
+                            "users/"+json_array[request.remote_addr]+"/"+secure_filename(request.form["filename"]))), as_attachment=True, download_name=secure_filename(request.form["filename"]))
     else:
         return "You're not allowed to access this file"
 
@@ -508,7 +525,7 @@ def thumbnail_load_file(filename):
                     mimetype=str(mime.guess_type(
                         "users/"+username+"/"+secure_filename(filename))))
             except:
-                return_data = "Can't render img"
+                return_data = send_file("asset/no_access.png", "image/png")
             return return_data
         else:
             return "You aren't allowed to access this file", 403
@@ -553,25 +570,6 @@ def rename_file(filename, new_file_name):
             return "You aren't allowed to access this file", 403
     else:
         return "You're not logged in"
-
-
-@app.route("/mng-encryption-file/<string:filename>", methods=["GET"])
-def manage_encryption_file(filename):
-    input_file = open('loggedin_users')
-    json_array = json.load(input_file)
-    if request.remote_addr in json_array:
-        input_file_enc = open(
-            'users/'+json_array[request.remote_addr]+"/enced_files")
-        json_array_enc = json.load(input_file_enc)
-        if filename in json_array_enc:
-            if json_array_enc[filename] == "1":
-                is_encrypted = "true"
-            else:
-                is_encrypted = "false"
-        else:
-            is_encrypted = "false"
-        return render_template("encryption.html", file_for_enc=filename, is_encrypted=is_encrypted)
-
 
 @app.route("/mng-encryption-file-formular-handler", methods=["POST"])
 def mng_encryption_file_formular_handler():
@@ -633,6 +631,136 @@ def mng_encryption_file_formular_handler():
                 return "<script>sessionStorage.setItem('last_screen_info', 'encryption_done'); history.back()</script>" # * There is a script
         else:
             return "You are not allowed to edit this file", 403
+
+@app.route("/search/q/<string:query>")
+def search(query):
+    input_file = open('loggedin_users')
+    json_array = json.load(input_file)
+    if request.remote_addr in json_array:
+        username = json_array[request.remote_addr]
+        results = []
+        for e in os.listdir("users/"+username+"/"):
+            if query in e:
+                results += [e]
+        html_code = ""
+        for r in results:
+            if not validate_access_permissions(r):
+                try:
+                    mimet = r.split(".")[1]
+                except IndexError:
+                    mimet = "mime_none.svg"
+                filetypel = {
+                    # Images
+                    "png": "Image file",
+                    "jpg": "Image file",  
+                    "heic": "Image file",  
+                    "gif": "Image file",  
+                    "heif": "Image file",  
+                    "bmp": "Image file",
+                    "ico": "Icon file",  
+                    # Text Document
+                    "doc": "Word Document",
+                    "docx": "Word Document",
+                    "odt": "LibreOffice Writer Document",
+                    "md": "Markdown",
+                    "txt": "Plain Text",
+                    # Presentation
+                    "ppt": "PowerPoint Presentation",
+                    "pptx": "PowerPoint Presentation",
+                    "odp": "LibreOffice Impress Document",
+                    "pptm": "PowerPoint Macro File",
+                    # Spreadsheet
+                    "xls": "Excel Spreadsheet",
+                    "xlsx": "Excel Spreadsheet",
+                    "ods": "LibreOffice Spreadsheet",
+                    "csv": "CSV Table Text Document",
+                    # PDF
+                    "pdf": "PDF Document",
+                    # Videos
+                    "mp4": "Video",
+                    "mov": "Video",
+                    "avi": "Video",
+                    "webm": "Video",
+                    # Archive
+                    "zip": "Archive",
+                    "tar": "Archive",
+                    "xz": "Archive",
+                    "exe": "Archive / Windows Executable",
+                    "iso": "Archive / Disk Image",
+                    # Plain
+                    "html": "HTML Code Document",
+                    "js": "JavaScript Code Document",
+                    "css": "CSS Code Document",
+                    "py": "Python Code Document",
+                    "pyw": "Python Code Document",
+                    "c": "C Code Document",
+                    "csharp": "C# Code Document",
+                    "cpp": "C++ Code Document",
+                    "sh": "Shell Code Document",
+                    "bat": "Batch Code Document",
+                }
+                if not mimet in filetypel:
+                    filetype = "mime_none.svg"
+                else:
+                    filetype = filetypel[mimet]
+                filesize = str(os.stat("users/"+username+"/"+r).st_size)
+                filetype = str(os.stat("users/"+username+"/"+r).st_size)
+                filecday = str(dt.datetime.fromtimestamp(os.path.getctime("users/"+username+"/"+r)).strftime("%Y/%m/%d %H:%M"))
+                filemday = str(dt.datetime.fromtimestamp(os.path.getmtime("users/"+username+"/"+r)).strftime("%Y/%m/%d %H:%M"))
+                mime_icon_dict = {
+                    # Images
+                    "png": "mime_image.svg",
+                    "jpg": "mime_image.svg",  
+                    "heic": "mime_image.svg",  
+                    "gif": "mime_image.svg",  
+                    "heif": "mime_image.svg",  
+                    "bmp": "mime_image.svg",  
+                    "ico": "mime_image.svg",
+                    # Text Document
+                    "doc": "mime_doc.svg",
+                    "docx": "mime_doc.svg",
+                    "odt": "mime_doc.svg",
+                    "md": "mime_doc.svg",
+                    "txt": "mime_doc.svg",
+                    # Presentation
+                    "ppt": "mime_presentation.svg",
+                    "pptx": "mime_presentation.svg",
+                    "odp": "mime_presentation.svg",
+                    "pptm": "mime_presentation.svg",
+                    # Spreadsheet
+                    "xls": "mime_spreadsheet.svg",
+                    "xlsx": "mime_spreadsheet.svg",
+                    "ods": "mime_spreadsheet.svg",
+                    "csv": "mime_spreadsheet.svg",
+                    # PDF
+                    "pdf": "mime_pdf.svg",
+                    # Videos
+                    "mp4": "mime_video.svg",
+                    "mov": "mime_video.svg",
+                    "avi": "mime_video.svg",
+                    "webm": "mime_video.svg",
+                    # Archive
+                    "zip": "mime_archive.svg",
+                    "tar": "mime_archive.svg",
+                    "xz": "mime_archive.svg",
+                    "exe": "mime_archive.svg",
+                    "iso": "mime_archive.svg",
+                    }
+                try:
+                    mimet = r.split(".")[1]
+                except IndexError:
+                    mimet = "mime_none.svg"
+                print(mimet)
+                if mimet in mime_icon_dict:
+                    mime_icon = mime_icon_dict[mimet]
+                else:
+                    mime_icon = "mime_none.svg"
+                html_code += "<div class=file_button ondblclick=\"show_file('"+r+"')\" onclick=\"show_file_info('"+r+"', "+"'"+filesize+"', '"+filetype+"', '"+filemday+"', '"+filecday+"', '"+mime_icon+"')\" oncontextmenu=\"show_file_menu(\'"+r+"\', event); return false;\"><img src=asset/"+mime_icon+" height=20> "+r.replace("_", " ")+"</div>"
+        if html_code == "":
+            html_code = "No results"    
+        return html_code
+    else:
+        return "You are not logged in"
 
 # * Lumos Chat
 
