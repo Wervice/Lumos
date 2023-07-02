@@ -516,3 +516,71 @@ div#encryption_popup .modal_title {
 div#encryption_popup input {
     margin: 10px;
 }
+
+@keyframes flow_down_b {
+    0% {
+        top: 0px;
+    }
+}
+
+div#confirm_popup {
+    position: absolute;
+    top: 70px;
+    left: calc(50vw - 160px);
+    width: 300px;
+    padding: 10px;
+    padding-bottom: 5px;
+    background-color: #303030;
+    border-radius: 5px;
+    animation-name: flow_down_b;
+    animation-duration: 0.25s;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #515151;
+}
+
+div#confirm_popup span#confirm_popup_message {
+    margin-bottom: 10px;
+}
+
+div#confirm_popup button#confirm_popup_decline {
+    filter: grayscale(1);
+}
+
+div#confirm_popup button {
+    padding: 10px;
+    font-size: 15px;
+    box-shadow: 0px 2px 3px #1313132b;
+    border: #ffffff30 1px solid;
+}
+
+div#confirm_popup b {
+    letter-spacing: 0.75px;
+}
+
+#new_name_input {
+    border-width: 0px;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #ffffff39;
+    color: white;
+    font-family: "Inter", sans-serif;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #ffffff39;
+}
+
+#new_name_input::selection {
+    background-color: #02050f;
+}
+
+#info_msg {
+    position: absolute;
+    top: 70px;
+    left: calc(50vw - (300px + 20px));
+    width: 300px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: var(--background-color-2);
+    animation: flow_down 0.25s;    
+}

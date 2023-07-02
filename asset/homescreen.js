@@ -14,14 +14,21 @@ function open_info() {
     document.getElementById("info").hidden = !document.getElementById("info").hidden
 }
 
+function l_confirm(message, function_if_confirmed) {
+    document.getElementById("confirm_popup").hidden = false;
+    document.getElementById("confirm_popup_message").innerHTML = message;
+    document.getElementById("confirm_popup_confirm").onclick = function_if_confirmed;
+}
+
 function show_file_menu(file, event) {
     document.getElementById("file_menu").hidden = false
     document.getElementById("file_menu_delete_button").onclick = function () {
         filename = event.srcElement.innerHTML.split("> ")[1]
-        if (confirm("Do you want to delete \"" + filename + "\"?")) {
+        l_confirm("<b>Do you want to delete \"" + filename + "\"?</b>", function () {
             fetch(location.protocol + "//" + location.hostname + ":" + location.port + "/delete-file/" + filename)
             event.srcElement.remove()
-        }
+            document.getElementById("confirm_popup").hidden = true;
+        })
     }
     document.getElementById("file_menu_encryption_button").onclick = function () {
         filename = event.srcElement.innerHTML.split("> ")[1]
@@ -32,7 +39,7 @@ function show_file_menu(file, event) {
                 var divElement = document.getElementById("encryption_popup")
                 var targetElement = event.target;
 
-                if (!divElement.contains(targetElement) || divElement == targetElement) {
+                if (!divElement.contains(targetElement) && divElement != targetElement) {
                     console.log(targetElement)
                     document.getElementById("encryption_popup").hidden = true;
                     setTimeout(function () {
@@ -48,11 +55,14 @@ function show_file_menu(file, event) {
         window.open("/load-file/" + filename)
     }
     document.getElementById("file_menu_rename_button").onclick = function () {
-        new_name = prompt("Rename", event.srcElement.innerHTML.split("> ")[1])
-        if (new_name != null) {
-            event.srcElement.innerHTML = event.srcElement.innerHTML.split(">")[0] + "> " + event.srcElement.innerHTML.split(">")[1].replaceAll(event.srcElement.innerHTML.split(">")[1], new_name)
-            fetch(location.protocol + "//" + location.hostname + ":" + location.port + "/rename-file/" + file + "/" + new_name)
-        }
+        l_confirm("<b>Rename</b><br><br><input id=new_name_input placeholder=\"New name\" value=\""+event.srcElement.innerHTML.split("> ")[1]+"\">", function () {
+            new_name = document.getElementById("new_name_input").value
+            if (new_name != "") {
+                event.srcElement.innerHTML = event.srcElement.innerHTML.split(">")[0] + "> " + event.srcElement.innerHTML.split(">")[1].replaceAll(event.srcElement.innerHTML.split(">")[1], new_name)
+                fetch(location.protocol + "//" + location.hostname + ":" + location.port + "/rename-file/" + file + "/" + new_name)
+                document.getElementById("confirm_popup").hidden = true;
+            }
+        })
     }
 
     var x = event.clientX;
@@ -98,10 +108,38 @@ window.onload = function () {
     else if (sessionStorage.getItem("last_screen_info") == "encryption_done") {
         sessionStorage.removeItem("last_screen_info")
     }
+    else if (sessionStorage.getItem('last_screen_info') == "upload_success") {
+        document.getElementById("info_msg").hidden = false;
+        document.getElementById("info_message").innerHTML = "Upload successfully";
+        sessionStorage.removeItem("last_screen_info")
+        setTimeout(hide_info, 2000)
+    }
+    else if (sessionStorage.getItem('last_screen_info') == "upload_fail_blacklist") {
+        document.getElementById("info_msg").hidden = false;
+        document.getElementById("info_message").innerHTML = "The file type is blocked";
+        sessionStorage.removeItem("last_screen_info")
+        setTimeout(hide_info, 2000)
+    }
+    else if (sessionStorage.getItem('last_screen_info') == "upload_fail_already") {
+        document.getElementById("info_msg").hidden = false;
+        document.getElementById("info_message").innerHTML = "This file already exists";
+        sessionStorage.removeItem("last_screen_info")
+        setTimeout(hide_info, 6500)
+    }else if (sessionStorage.getItem('last_screen_info') == "upload_fail_virus") {
+        document.getElementById("info_msg").hidden = false;
+        document.getElementById("info_message").innerHTML = "The file is a virus<br>"+sessionStorage.getItem("virus_name+");
+        sessionStorage.removeItem("last_screen_info")
+        sessionStorage.removeItem("virus_name")
+        setTimeout(hide_info, 6500)
+    }
     if (sessionStorage.getItem("filename") != undefined) {
         document.getElementById("filename").value = sessionStorage.getItem("filename")
         sessionStorage.removeItem("filename")
     }
+    function hide_info() {
+        document.getElementById("info_msg").hidden = true;
+    }
+    
 }
 function show_file_info(filename, filesize, filetype, filemday, filecday, mimeicon) {
     filename = event.srcElement.innerHTML.split("> ")[1]
@@ -156,3 +194,11 @@ function search_for_file(filename) {
         location.reload();
     }
 }
+
+function upload_new_file() {
+    document.getElementById("file_upload_button").click()
+    window.onchange = function () {
+        document.getElementById("filename_upload_hidden_input").value = document.getElementById("file_upload_button").value.split("\\")[document.getElementById("file_upload_button").value.split("\\").length - 1]
+        document.getElementById("file_upload_form").submit()
+    }
+} 

@@ -101,7 +101,7 @@ if (open("admin_set.cfg").read() == "0"):
         print("Setup done. Please close the app by pressing CTRL+C util the app closed.")
         open("admin_set.cfg", "w").write("1")
         exit()
-    setup_app.run(host="0.0.0.0", port=4999, debug=False, ssl_context="adhoc")
+    setup_app.run(host="0.0.0.0", port=4999, debug=True, ssl_context="adhoc")
 else:
     pass
 
@@ -446,23 +446,23 @@ def upload():
                                 "users/"+username+"/" + secure_filename(request.form["filename"]), "wb")
                             file_writer.write(file_contents)
                             file_writer.close()
-                            return "<script>sessionStorage.setItem('last_screen_info', 'upload_success'); location.href = '/upload/web'</script>"
+                            return "<script>sessionStorage.setItem('last_screen_info', 'upload_success'); location.href = '/'</script>"
                         else:
                             return "<script>sessionStorage.setItem('last_screen_info', \
                             'upload_fail_virus'); sessionStorage.setItem('virus_name', '"+\
                             open("names_main.txt", "r").read().split("\n")[open("hashes_main.txt", "r").read().split("\n").\
-                            index(hashlib.md5(file_contents).hexdigest())]+"') location.href = '/upload/web'</script>"
+                            index(hashlib.md5(file_contents).hexdigest())]+"') location.href = '/'</script>"
                     else:
                         file_writer = open(
                             "users/"+username+"/" + secure_filename(request.form["filename"]), "wb")
                         file_writer.write(file_contents)
                         file_writer.close()
-                        return "<script>sessionStorage.setItem('last_screen_info', 'upload_success'); location.href = '/upload/web'</script>"
+                        return "<script>sessionStorage.setItem('last_screen_info', 'upload_success'); location.href = '/'</script>"
                 else:
-                    return "<script>sessionStorage.setItem('last_screen_info', 'upload_fail_blacklist'); location.href = '/upload/web'</script>"
+                    return "<script>sessionStorage.setItem('last_screen_info', 'upload_fail_already'); location.href = '/'</script>"
                 
             else:
-                return "<script>sessionStorage.setItem('last_screen_info', 'upload_fail_already'); location.href = '/upload/web'</script>"
+                return "<script>sessionStorage.setItem('last_screen_info', 'upload_fail_already'); location.href = '/'</script>"
         else:
             return "You're not logged in"
 
@@ -757,7 +757,7 @@ def search(query):
                     mime_icon = "mime_none.svg"
                 html_code += "<div class=file_button ondblclick=\"show_file('"+r+"')\" onclick=\"show_file_info('"+r+"', "+"'"+filesize+"', '"+filetype+"', '"+filemday+"', '"+filecday+"', '"+mime_icon+"')\" oncontextmenu=\"show_file_menu(\'"+r+"\', event); return false;\"><img src=asset/"+mime_icon+" height=20> "+r.replace("_", " ")+"</div>"
         if html_code == "":
-            html_code = "No results"    
+            html_code = "<div style=padding:10px;>No results</div>"    
         return html_code
     else:
         return "You are not logged in"
@@ -1011,4 +1011,4 @@ def info():
     return render_template("info.html", version=version, login_subtitle=login_subtitle)
 
 
-app.run(host="0.0.0.0", port=5000, debug=False, ssl_context="adhoc")
+app.run(host="0.0.0.0", port=5000, debug=True, ssl_context="adhoc")

@@ -12,6 +12,20 @@
 </head>
 
 <body oncontextmenu="return false;">
+    <div id="info_msg" hidden>
+        <big id="info_message">
+            None
+        </big>
+    </div>
+    <form action="/upload/web" method="post" id="file_upload_form" enctype="multipart/form-data"><input type="hidden" name="filename" id="filename_upload_hidden_input"><input type="file" name="file_upload" id="file_upload_button" hidden></form>
+    
+    <div id="confirm_popup" hidden>
+        <span id="confirm_popup_message">
+
+        </span><br><br>
+        <button id="confirm_popup_confirm">Ok</button>
+        <button id="confirm_popup_decline" onclick="document.getElementById('confirm_popup').hidden = true;">Cancle</button>
+    </div>
     <div id="encryption_popup" hidden>
         <div class="modal_title">Encryption</div><br>
         <form action="/mng-encryption-file-formular-handler" method="post" onsubmit="document.getElementById('encryption_popup').hidden = true;">
@@ -116,7 +130,7 @@
     </div>
     <nav id="menu_bar">
         <img src="asset/menu.svg" alt="Menu" title="Menu" width="17" onclick="open_menu()" tabindex="1">
-        <img onclick="location.href = '/upload/web'" src="asset/upload.svg" width="17" class="l1">
+        <img onclick="upload_new_file()" src="asset/upload.svg" width="17" class="l1">
         <img onclick="document.getElementById('chat_inframe').hidden = !document.getElementById('chat_inframe').hidden;setTimeout(function () {window.onclick = function () {document.getElementById('chat_inframe').hidden = true;setTimeout(function () { window.onclick = {}}, 100)}, 100})"
             src="asset/chat.svg" width="17" class="l2">
         <img src="asset/reload.svg" alt="Reload" title="Reload" onclick="location.reload()" class="l3">
