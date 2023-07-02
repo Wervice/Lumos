@@ -101,7 +101,7 @@ if (open("admin_set.cfg").read() == "0"):
         print("Setup done. Please close the app by pressing CTRL+C util the app closed.")
         open("admin_set.cfg", "w").write("1")
         exit()
-    setup_app.run(host="0.0.0.0", port=4999, debug=True, ssl_context="adhoc")
+    setup_app.run(host="0.0.0.0", port=4999, debug=False, ssl_context="adhoc")
 else:
     pass
 
@@ -120,12 +120,6 @@ def compress_image(image_bytes, username, filename):
     except:
         print("Image Compression Error: Maybe encrypted Image")
         return None
-
-def user_list_dropdown_html_gen(username):
-    html_res = ""
-    for user in os.listdir("users/"):
-        html_res += "<option value='{user}'>{user}</option>".replace("{user}", decode_from_base64(user))
-    return html_res
 
 def file_html_gen(username):
     input_file = open('loggedin_users')
@@ -338,8 +332,7 @@ def startscreen():
                 return render_template("admin/admin_dashboard.html", version=version,
                                        platform=platform.system(), virscanner=virscanner, last_vir_update=open("last_virus_update.txt", "r").read(), blockbinary=enbin, ram=ram_value, cpu=cpu_value, servername = login_subtitle).replace("[[ userlist ]]", userdirlisthtml)
             else:
-                userlist_dropdown = user_list_dropdown_html_gen(json_array[request.remote_addr])
-                return render_template("homescreen.html", version=version).replace("[[ files ]]", file_html).replace("[[ userlist_dropdown ]]", userlist_dropdown)
+                return render_template("homescreen.html", version=version).replace("[[ files ]]", file_html)
 
 # * Login & Register
 
@@ -446,25 +439,27 @@ def upload():
                                 "users/"+username+"/" + secure_filename(request.form["filename"]), "wb")
                             file_writer.write(file_contents)
                             file_writer.close()
-                            return "<script>sessionStorage.setItem('last_screen_info', 'upload_success'); location.href = '/'</script>"
+                            file_html = file_html_gen(json_array[request.remote_addr])
+                            return render_template("homescreen.html", version=version).replace("[[ files ]]", file_html)
                         else:
-                            return "<script>sessionStorage.setItem('last_screen_info', \
+                            return "sessionStorage.setItem('last_screen_info', \
                             'upload_fail_virus'); sessionStorage.setItem('virus_name', '"+\
                             open("names_main.txt", "r").read().split("\n")[open("hashes_main.txt", "r").read().split("\n").\
-                            index(hashlib.md5(file_contents).hexdigest())]+"') location.href = '/'</script>"
+                            index(hashlib.md5(file_contents).hexdigest())]+"') location.href = '/'", 902
                     else:
                         file_writer = open(
                             "users/"+username+"/" + secure_filename(request.form["filename"]), "wb")
                         file_writer.write(file_contents)
                         file_writer.close()
-                        return "<script>sessionStorage.setItem('last_screen_info', 'upload_success'); location.href = '/'</script>"
+                        file_html = file_html_gen(json_array[request.remote_addr])
+                        return render_template("homescreen.html", version=version).replace("[[ files ]]", file_html)
                 else:
-                    return "<script>sessionStorage.setItem('last_screen_info', 'upload_fail_already'); location.href = '/'</script>"
+                    return "sessionStorage.setItem('last_screen_info', 'upload_fail_already'); location.href = '/'", 902
                 
             else:
-                return "<script>sessionStorage.setItem('last_screen_info', 'upload_fail_already'); location.href = '/'</script>"
+                return ">sessionStorage.setItem('last_screen_info', 'upload_fail_already'); location.href = '/'", 902
         else:
-            return "You're not logged in"
+            return "You're not logged in", 902
 
 
 @app.route("/load-file/<string:filename>")
@@ -1011,4 +1006,4 @@ def info():
     return render_template("info.html", version=version, login_subtitle=login_subtitle)
 
 
-app.run(host="0.0.0.0", port=5000, debug=True, ssl_context="adhoc")
+app.run(host="0.0.0.0", port=5000, debug=False, ssl_context="adhoc")

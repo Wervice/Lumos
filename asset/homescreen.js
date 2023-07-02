@@ -55,7 +55,7 @@ function show_file_menu(file, event) {
         window.open("/load-file/" + filename)
     }
     document.getElementById("file_menu_rename_button").onclick = function () {
-        l_confirm("<b>Rename</b><br><br><input id=new_name_input placeholder=\"New name\" value=\""+event.srcElement.innerHTML.split("> ")[1]+"\">", function () {
+        l_confirm("<b>Rename</b><br><br><input id=new_name_input placeholder=\"New name\" value=\"" + event.srcElement.innerHTML.split("> ")[1] + "\">", function () {
             new_name = document.getElementById("new_name_input").value
             if (new_name != "") {
                 event.srcElement.innerHTML = event.srcElement.innerHTML.split(">")[0] + "> " + event.srcElement.innerHTML.split(">")[1].replaceAll(event.srcElement.innerHTML.split(">")[1], new_name)
@@ -125,9 +125,9 @@ window.onload = function () {
         document.getElementById("info_message").innerHTML = "This file already exists";
         sessionStorage.removeItem("last_screen_info")
         setTimeout(hide_info, 6500)
-    }else if (sessionStorage.getItem('last_screen_info') == "upload_fail_virus") {
+    } else if (sessionStorage.getItem('last_screen_info') == "upload_fail_virus") {
         document.getElementById("info_msg").hidden = false;
-        document.getElementById("info_message").innerHTML = "The file is a virus<br>"+sessionStorage.getItem("virus_name+");
+        document.getElementById("info_message").innerHTML = "The file is a virus<br>" + sessionStorage.getItem("virus_name+");
         sessionStorage.removeItem("last_screen_info")
         sessionStorage.removeItem("virus_name")
         setTimeout(hide_info, 6500)
@@ -139,7 +139,7 @@ window.onload = function () {
     function hide_info() {
         document.getElementById("info_msg").hidden = true;
     }
-    
+
 }
 function show_file_info(filename, filesize, filetype, filemday, filecday, mimeicon) {
     filename = event.srcElement.innerHTML.split("> ")[1]
@@ -198,7 +198,19 @@ function search_for_file(filename) {
 function upload_new_file() {
     document.getElementById("file_upload_button").click()
     window.onchange = function () {
-        document.getElementById("filename_upload_hidden_input").value = document.getElementById("file_upload_button").value.split("\\")[document.getElementById("file_upload_button").value.split("\\").length - 1]
-        document.getElementById("file_upload_form").submit()
+        const upload_form_data = new FormData();
+        upload_form_data.append("file_upload", document.getElementById("file_upload_button").files[0]);
+        upload_form_data.append("filename", document.getElementById("file_upload_button").value.split("\\")[document.getElementById("file_upload_button").value.split("\\").length - 1]);
+        const requestOptions = {
+            method: "POST",
+            body: upload_form_data,
+        };
+        fetch(location.protocol + "//" + location.hostname + ":" + location.port + "/upload/web", requestOptions).then (
+            function () {
+                location.reload()
+            }
+        )
+        
     }
+
 } 
