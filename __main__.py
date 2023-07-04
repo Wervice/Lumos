@@ -997,6 +997,14 @@ def remover_user(username):
     else:
         return "You are not allowed to access this site", 403
 
+@app.route("/admin/ciconupload", methods=["POST"])
+def ciupload():
+    input_file = open('loggedin_users')
+    json_array = json.load(input_file)
+    if os.path.exists("users/"+json_array[request.remote_addr]+"/is_admin"):
+        request.files["icon_upload"].save("asset/company_icon.png")
+        return "<script>history.back()</script>"
+
 @app.route("/favicon.ico")
 def favicon():
     return send_file("asset/logo.png")

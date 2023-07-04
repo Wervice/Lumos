@@ -52,6 +52,17 @@
                 <tr>
                     <td>Server Name</td>
                     <td>{{ servername }}</td>
+                </tr><tr>
+                    <td>Server Logo</td>
+                    <td>
+                        <img src="/asset/company_icon.png" alt="Company logo" height="40" onerror="this.hidden = true;">
+                    </td>
+                    <td>
+                        <form action="/admin/ciconupload" id="icon_upload_form" method="post" enctype="multipart/form-data">
+                            <button onclick="document.getElementById('icon_upload_button').click()" type="button">Upload logo</button>
+                            <input type="file" name="icon_upload" id="icon_upload_button" onchange="document.getElementById('icon_upload_form').submit()" hidden>
+                        </form>
+                    </td>
                 </tr>
             </table>
         </div>
@@ -79,7 +90,7 @@
             </table>
         </div><br>
         <div class="infocard wide">
-            <h3>Users</h3><br>
+            <h3>Users</h3>
             [[ userlist ]]
         </div>
     </div>
