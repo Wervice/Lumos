@@ -1,0 +1,32 @@
+:root {
+    --background-color: #02050f;
+    --foreground-color: #ffffff;
+    --accent-color: #1F75FE;
+    --accent-color-red: #FF0800;
+    --transparent-heavy: rgba(255, 255, 255, 0.15);
+    --transparent-low: transparent;
+    --link-color: #599CE9;
+    --box-shadow-ten-ten: 0px 10px 10px black;
+    --background-color-2: #171b29;
+    --box-shadow-color: black;
+    --filter-gradient: #1d202999;
+    --box-shadow-color-light: #00000042;
+    --grey-1: #313131;
+    --grey-2: #2e2e2e;
+    --grey-3: #252525;
+    --grey-4: #474747;
+    --input-background: #ffffff20;
+    --light-grey-1: #ffffffd1;
+    --light-grey-2: #ffffff13;
+    --msg-1: dodgerblue;
+    --msg-2: forestgreen;
+    --nav-exit: #ffffffbe;
+}
+
+div#file_menu button {
+    color: white !important;
+}
+
+div.file_button:hover {
+    background-color: #2e2e2e;
+}

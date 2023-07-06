@@ -1,0 +1,70 @@
+:root {
+    --background-color: #ffffff;
+    --foreground-color: #000000;
+    --accent-color: #08cd49;
+    --accent-color-red: #FF0800;
+    --transparent-heavy: #00000026;
+    --transparent-low: transparent;
+    --link-color: #256c3d;
+    --box-shadow-ten-ten: 0px 10px 10px #b3b3b3;
+    --background-color-2: #ececec;
+    --box-shadow-color: #9e9e9e;
+    --filter-gradient: #e9e9e999;
+    --box-shadow-color-light: #b4b4b442;
+    --grey-1: #313131;
+    --grey-2: #bbbbbb;
+    --grey-3: #252525;
+    --grey-4: #474747;
+    --input-background: #aeaeae36;
+    --light-grey-1: #ffffffd1;
+    --light-grey-2: #abababcf;
+    --msg-1: dodgerblue;
+    --msg-2: forestgreen;
+    --nav-exit: #ffffffbe;
+}
+
+button {
+    color: white;
+}
+
+div#file_menu {
+    background-color: #d6d6d6;
+}
+
+div#file_menu button {
+    background-color: #d6d6d6 !important;
+    color: #000000;
+}
+
+div#file_menu button:hover {
+    background-color: #474747 !important;
+    color: white !important;
+}
+
+div.file_button {
+    border-bottom-color: #999999;
+}
+
+table tr #userlist {
+    background-color: transparent;
+    border-right-color: var(--accent-color);
+    border-right-style: solid;
+    border-right-width: 1px;
+}
+
+nav#menu_bar input[type="text"] {
+    background-color: #ffffff;
+}
+
+#file_info_menu {
+    backdrop-filter: none;
+    background-color: white !important;
+    border-left-color: #000000 !important;
+    border-left-style: solid;
+    border-left-width: 1px;
+    z-index: 100;
+}
+
+div.file_button:hover {
+    backdrop-filter: brightness(0.9);
+}

@@ -1,17 +1,3 @@
-:root {
-    --background-color: #02050f;
-    --foreground-color: #ffffff;
-    --accent-color: #1F75FE;
-    --accent-color-red: #FF0800;
-    --transparent-heavy: rgba(255, 255, 255, 0.15);
-    --transparent-low: rgba(255, 255, 255, 0.07);
-    --link-color: #599CE9;
-    --box-shadow-ten-ten: 0px 10px 10px black;
-    --background-color-2: #282a33;
-    --box-shadow-color: black;
-    --filter-gradient: #1d202999;
-}
-
 @keyframes turn {
     50% {
         transform: rotate(1turn);
@@ -68,7 +54,7 @@ body {
 
 button {
     background-color: var(--accent-color);
-    color: var(--foreground-color);
+    color: var(--background-color);
     border-width: 0px;
     border-color: 0px;
     border-style: solid;
@@ -85,19 +71,19 @@ button {
 
 input[type="text"], input[type="password"] {
     border-width: 0px;
-    background-color: #ffffff34;
+    background-color: var(--background-color-2);
     border-radius: 5px;
     padding: 10px;
     margin-bottom: 20px;
     font-family: "Instrument Sans", sans-serif;
     font-size: 18pt;
     width: 400px;
-    color: white;
+    color: var(--foreground-color);
     transition: ease-in-out 0.25s;
 }
 
 input[type="text"]:focus, input[type="password"]:focus {
-    background-color: var(--background-color-2);
+    filter: brightness(0.8);
 }
 
 button:hover {
@@ -158,14 +144,6 @@ div#login_box h2 {
     font-family: "Instrument Sans";
     margin: 0px;
     padding-bottom: 15px;
-}
-
-#password_fail_label {
-    color: #FF0800;
-}
-
-#user_exit_label {
-    color: #0BDA51;
 }
 
 @keyframes flow_down {

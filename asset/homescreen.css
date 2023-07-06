@@ -1,20 +1,5 @@
-:root {
-    --background-color: #02050f;
-    --foreground-color: #ffffff;
-    --accent-color: #1F75FE;
-    --accent-color-red: #FF0800;
-    --transparent-heavy: rgba(255, 255, 255, 0.15);
-    --transparent-low: transparent;
-    --link-color: #599CE9;
-    --box-shadow-ten-ten: 0px 10px 10px black;
-    --background-color-2: #171b29;
-    --box-shadow-color: black;
-    --filter-gradient: #1d202999;
-    --box-shadow-color-light: #00000042;
-}
-
 ::placeholder {
-    color: white;
+    color: var(--foreground-color);
 }
 
 ::-webkit-scrollbar {
@@ -44,7 +29,7 @@
 }
 
 ::selection {
-    background-color: #ffffff00;
+    background-color: transparent;
 }
 
 *:focus {
@@ -74,7 +59,7 @@ body {
 
 button {
     background-color: var(--accent-color);
-    color: var(--foreground-color);
+    color: var(--background-color);
     border-width: 0px;
     border-color: 0px;
     border-style: solid;
@@ -87,14 +72,6 @@ button {
     margin-top: 7.5px;
     margin-bottom: 7.5px;
     transition: ease-in-out 0.25s;
-}
-
-button.second {
-    background-color: #848484;
-}
-
-button.chat_button {
-    background-color: #15bb68;
 }
 
 input[type="text"],
@@ -226,7 +203,7 @@ nav#menu_bar input[type="text"] {
     padding: 5px;
     border-width: 0px;
     font-family: "Inter", sans-serif;
-    background-color: #ffffff30;
+    background-color: var(--input-background);
     margin: 0px;
     font-size: 12px;
 }
@@ -320,7 +297,7 @@ div#main_box #file_box {
 }
 
 div#main_box #file_box a {
-    color: white;
+    color: var(--foreground-color);
     text-decoration: none;
 }
 
@@ -328,14 +305,17 @@ div.file_button {
     padding: 15px;
     width: calc(100% - 40px);
     margin-top: 10px;
-    border-bottom: #202020 1px solid;
+    border-bottom: var(--grey-1) 1px solid;
     border-radius: 5px;
     transition: ease-in-out 100ms;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
 }
 
 div.file_button:hover {
     border-bottom: transparent 1px solid;
-    background-color: #202020;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 div.file_button img {
@@ -344,7 +324,7 @@ div.file_button img {
 }
 
 div#file_menu {
-    background-color: #393939;
+    background-color: var(--grey-3);
     border-radius: 5px;
     position: absolute;
     width: 200px;
@@ -356,7 +336,7 @@ div#file_menu {
 
 div#file_menu button {
     width: 100%;
-    background-color: #393939 !important;
+    background-color: var(--grey-3) !important;
     height: auto;
     font-size: 12pt;
     border-radius: 0px;
@@ -439,8 +419,9 @@ div#file_info_menu {
     top: 49.99px;
     right: 0px;
     padding: 10px;
-    background-color: #1c1c1c;
+    background-color: var(--grey-2);
     width: 25vw;
+    z-index: 100;
 }
 
 div#file_info_menu span#file_info_menu_filename {
@@ -472,29 +453,10 @@ iframe#file_preview {
     border-radius: 5px;
     border-width: 1px;
     border-style: solid;
-    border-color: #393939;
+    border-color: var(--grey-3);
     z-index: 100;
 }
 
-div#share_user_list_modal {
-    position: absolute;
-    height: 85px;
-    width: 150px;
-    top: calc(50vh - 105px);
-    left: calc(50vw - 170px);
-    background-color: #3b3b3b;
-    padding: 10px;
-    border-radius: 5px;
-}
-
-div#share_user_list_modal select {
-    border-width: 0px;
-    border-radius: 5px;
-    padding: 10px;
-    font-family: "Inter", sans-serif;
-    background-color: #1c1c1c;
-    color: white;
-}
 
 div#encryption_popup {
     position: absolute;
@@ -502,8 +464,8 @@ div#encryption_popup {
     height: 50vh;
     top: 25vh;
     left: 37.5vw;
-    background-color: #1f1f1f;
-    color: white;
+    background-color: var(--grey-2);
+    color: var(--foreground-color);
     border-radius: 5px;
     overflow: hidden;
 }
@@ -530,13 +492,13 @@ div#confirm_popup {
     width: 300px;
     padding: 10px;
     padding-bottom: 5px;
-    background-color: #303030;
+    background-color: var(--grey-2);
     border-radius: 5px;
     animation-name: flow_down_b;
     animation-duration: 0.25s;
     border-style: solid;
     border-width: 1px;
-    border-color: #515151;
+    border-color: var(--grey-4);
 }
 
 div#confirm_popup span#confirm_popup_message {
@@ -563,7 +525,7 @@ div#confirm_popup b {
     border-radius: 5px;
     padding: 10px;
     background-color: #ffffff39;
-    color: white;
+    color: var(--foreground-color);
     font-family: "Inter", sans-serif;
     border-width: 1px;
     border-style: solid;

@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="/asset/chat.css">
     <script src="/asset/chat.js"></script>
     <meta http-equiv="cache-control" content="no-cache">
+    <link rel="stylesheet" href="/asset/themeoverride.css">
+
 </head>
 
 <body oncontextmenu="return false;">
@@ -18,8 +20,7 @@
     <table>
         <tr>
             <td id="userlist">
-                <img src="/asset/reload.svg" alt="Refresh" onclick="location.reload()" height="20"
-                    style="margin-left: 10px;" title="Refresh"><br><br>
+                <a href="javascript:location.reload()">Reload</a><br><br>
                     <button onclick="location.href = '/chat/web/fb'">Filebox</button>
                 [[ userlist ]] <br>
             </td>

@@ -28,6 +28,8 @@ import psutil
 import math
 import datetime as dt
 
+open("asset/themeoverride.css", "w").write(open("asset/themes/"+open("theme.cfg", "r").read()+".css").read())
+
 if not os.path.exists("users"):
     os.mkdir("users/")
 
@@ -327,10 +329,10 @@ def startscreen():
                     if username_encoded != json_array[request.remote_addr]:
                         userdirlisthtml += "<div class='userdiv'>"+decode_from_base64(username_encoded)+"<button onclick=\"rmuser('"+decode_from_base64(username_encoded)+"')\">Remove</button></div>"
                 ram_value = psutil.virtual_memory()[2]
-                cpu_value = psutil.cpu_percent(4)
-                
+                cpu_value = psutil.cpu_percent(2)
+                theme = open("theme.cfg", "r").read().split(".")[0]
                 return render_template("admin/admin_dashboard.html", version=version,
-                                       platform=platform.system(), virscanner=virscanner, last_vir_update=open("last_virus_update.txt", "r").read(), blockbinary=enbin, ram=ram_value, cpu=cpu_value, servername = login_subtitle).replace("[[ userlist ]]", userdirlisthtml)
+                                       platform=platform.system(), virscanner=virscanner, last_vir_update=open("last_virus_update.txt", "r").read(), blockbinary=enbin, ram=ram_value, cpu=cpu_value, servername = login_subtitle, acttheme=theme).replace("[[ userlist ]]", userdirlisthtml)
             else:
                 return render_template("homescreen.html", version=version).replace("[[ files ]]", file_html)
 
@@ -359,7 +361,24 @@ def login():
                 loggedin_users_writer.write(json_array_json)
                 loggedin_users_writer.close()
                 if os.path.exists("users/"+encode_as_base64(secure_filename(request.form["username"]))+"/is_admin"):
-                    return render_template("admin/admin_dashboard.html")
+                    if open("virus_scanner.cfg", "r").read() == "1":
+                        virscanner = "Enabled"
+                    else:
+                        virscanner = "Disabled"
+                    if open("no_binary.cfg", "r").read() == "1":
+                        enbin = "yes"
+                    else:
+                        enbin = "no"
+                    userdirlisthtml = ""
+                    userdirlist = os.listdir("users/")
+                    for username_encoded in userdirlist:
+                        if username_encoded != json_array[request.remote_addr]:
+                            userdirlisthtml += "<div class='userdiv'>"+decode_from_base64(username_encoded)+"<button onclick=\"rmuser('"+decode_from_base64(username_encoded)+"')\">Remove</button></div>"
+                    ram_value = psutil.virtual_memory()[2]
+                    cpu_value = psutil.cpu_percent(2)
+                    theme = open("theme.cfg", "r").read().split(".")[0]
+                    return render_template("admin/admin_dashboard.html", version=version,
+                                       platform=platform.system(), virscanner=virscanner, last_vir_update=open("last_virus_update.txt", "r").read(), blockbinary=enbin, ram=ram_value, cpu=cpu_value, servername = login_subtitle, acttheme=theme).replace("[[ userlist ]]", userdirlisthtml)
                 else:
                     return "<script>location.href = '/'</script>"
             else:
@@ -1004,6 +1023,19 @@ def ciupload():
     if os.path.exists("users/"+json_array[request.remote_addr]+"/is_admin"):
         request.files["icon_upload"].save("asset/company_icon.png")
         return "<script>history.back()</script>"
+
+@app.route("/admin/themechange/<string:theme>")
+def theme_change(theme):
+    input_file = open('loggedin_users')
+    json_array = json.load(input_file)
+    if os.path.exists("users/"+json_array[request.remote_addr]+"/is_admin"):
+        if os.path.exists("asset/themes/"+theme+".css"):
+            open("theme.cfg", "w").write(theme)
+            open("asset/themeoverride.css", "w").write(open("asset/themes/"+open("theme.cfg", "r").read()+".css").read())
+            return ""
+        else:
+            return "doesnotexist"
+            
 
 @app.route("/favicon.ico")
 def favicon():

@@ -20,6 +20,7 @@
             }
         }
     </script>
+    <link rel="stylesheet" href="/asset/themeoverride.css">
 </head>
 
 <body>
@@ -29,7 +30,7 @@
     <br>
     <div align="center">
         <div class="infocard">
-            <h3>System Information</h3>
+            <h3>General</h3>
             <table>
                 <tr>
                     <td>RAM</td>
@@ -64,6 +65,23 @@
                         </form>
                     </td>
                 </tr>
+                <tr>
+                    <td>Design</td>
+                    <td>
+                        <select id="theme" onchange="fetch('/admin/themechange/'+this.value);location.reload()">
+                            <optgroup>
+                                <option value="{{ acttheme }}">Actual theme</option>
+                            </optgroup>
+                            <optgroup>
+                            <option value="default">Dark</option>
+                            <option value="green_dark">Green</option>
+                        </optgroup>
+                            <optgroup>
+                                <option value="light">Light</option>
+                            <option value="green_light">Green</option></optgroup>
+                        </select>
+                    </td>
+                </tr>
             </table>
         </div>
         <div class="infocard">
@@ -84,7 +102,7 @@
                         <form action="/admin/binary-block" method="post"><input type="checkbox" name="binary-block"
                                 id="binary-block">
                     </td>
-                    <td><button style="background-color: transparent; border-width: 0px; padding: 0px; margin: 0px; color: #599CE9; text-decoration: underline;">Apply</button></form>
+                    <td><button style="background-color: transparent; border-width: 0px; padding: 0px; margin: 0px; text-decoration: underline; color: var(--link-color);">Apply</button></form>
                     </td>
                 </tr>
             </table>
