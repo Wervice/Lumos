@@ -56,6 +56,10 @@ nav#menu_bar input[type="text"] {
     background-color: #ffffff;
 }
 
+nav#menu_bar {
+    background-color: var(--accent-color);
+}
+
 #file_info_menu {
     backdrop-filter: none;
     background-color: white !important;

@@ -125,22 +125,25 @@
             </ol>
         </div>
         <div id="nav" align="right">
-            <button onclick="open_info()">Exit</button><button id="bf" onclick="last_topic()"><-< /button><button
+            <button onclick="open_info()">Exit</button><button id="bf" onclick="last_topic()"><-</button><button
                         id="bf" onclick="next_topic()">-></button>
         </div>
     </div>
     <nav id="menu_bar">
-        <img src="asset/menu.svg" alt="Menu" title="Menu" width="17" onclick="open_menu()" tabindex="1">
-        <img onclick="upload_new_file()" src="asset/upload.svg" width="17" class="l1">
+        <div id="logo_button" align=center onclick="open_menu()">
+            L
+        </div>
+
+        <img onclick="upload_new_file()" src="asset/upload.svg" width="17">
         <img onclick="document.getElementById('chat_inframe').hidden = !document.getElementById('chat_inframe').hidden;setTimeout(function () {window.onclick = function () {document.getElementById('chat_inframe').hidden = true;setTimeout(function () { window.onclick = {}}, 100)}, 100})"
-            src="asset/chat.svg" width="17" class="l2">
-        <img src="asset/reload.svg" alt="Reload" title="Reload" onclick="location.reload()" class="l3">
+            src="asset/chat.svg" width="17" class="l1">
+        <img src="asset/reload.svg" alt="Reload" title="Reload" onclick="location.reload()" class="l2">
         <input type="text" name="search_input" id="search_input" onchange="search_for_file(this.value)" placeholder="Search">
     </nav>
     <div id="main_box">
         <div id="file_info_menu" hidden><br>
-            <div align="center"><img src="asset/mime_none.svg" id="file_info_menu_icon" alt="Mime Icon" height="75"
-                    draggable="false">
+            <div align="center"><span id="img_wrapper"><img src="asset/mime_none.svg" id="file_info_menu_icon" alt="Mime Icon" height="90"
+                    draggable="false"></span>
             </div><span id="file_info_menu_filetype"></span>
             <span id="file_info_menu_filename">
             </span><br>

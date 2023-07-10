@@ -163,28 +163,41 @@ h2 {
 nav#menu_bar {
     padding: 10px;
     width: calc(100% - 20px);
-    background-color: var(--accent-color);
-    height: 27px;
+    height: 32px;
     position: fixed;
 }
 
+#logo_button {
+    padding: 5px;
+    font-size: 20px;
+    position: fixed;
+    background-color: var(--accent-color);
+    width: 25px;
+    border-radius: 5px;
+    transition: all ease-in-out 0.25s;
+}
+
+#logo_button:hover {
+    filter: brightness(1.1);
+}
+
 nav#menu_bar img {
-    top: 14px;
-    left: 15px;
+    top: 18px;
+    left: 55px;
     position: absolute;
     transition: ease-in-out 0.25s;
 }
 
 nav#menu_bar img.l1 {
-    left: 42px;
+    left: 82px;
 }
 
 nav#menu_bar img.l2 {
-    left: 69px;
+    left: 109px;
 }
 
 nav#menu_bar img.l3 {
-    left: 96px;
+    left: 136px;
 }
 
 nav#menu_bar img:hover {
@@ -202,14 +215,16 @@ nav#menu_bar input[type="text"] {
     border-radius: 2.5px;
     padding: 5px;
     border-width: 0px;
-    font-family: "Inter", sans-serif;
+    font-family: "Instrumental", sans-serif;
     background-color: var(--input-background);
     margin: 0px;
     font-size: 12px;
+    top: 12px;
+    z-index: 100;
 }
 
 div#menu {
-    background-color: var(--background-color-2);
+    background-color: var(--grey-1);
     position: absolute;
     left: 10px;
     top: 60px;
@@ -229,10 +244,6 @@ div#menu a {
     transition: all ease-in-out 200ms;
     text-decoration: underline;
     text-decoration-color: transparent;
-}
-
-div#menu a:hover {
-    text-decoration-color: var(--foreground-color);
 }
 
 div#info {
@@ -416,12 +427,17 @@ img#empty_icon {
 div#file_info_menu {
     height: calc(100% - 70px);
     position: fixed;
-    top: 49.99px;
+    top: 52px;
     right: 0px;
     padding: 10px;
     background-color: var(--grey-2);
     width: 25vw;
     z-index: 100;
+}
+
+div#file_info_menu #img_wrapper img {
+    object-fit: cover;
+    width: 90px;
 }
 
 div#file_info_menu span#file_info_menu_filename {
@@ -526,7 +542,7 @@ div#confirm_popup b {
     padding: 10px;
     background-color: #ffffff39;
     color: var(--foreground-color);
-    font-family: "Inter", sans-serif;
+    font-family: "Instrumental", sans-serif;
     border-width: 1px;
     border-style: solid;
     border-color: #ffffff39;
@@ -544,5 +560,6 @@ div#confirm_popup b {
     padding: 20px;
     border-radius: 10px;
     background-color: var(--background-color-2);
-    animation: flow_down 0.25s;    
+    animation: flow_down 0.25s;
+    z-index: 100;
 }

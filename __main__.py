@@ -20,13 +20,15 @@ import hashlib
 import os
 import json
 from mimetypes import MimeTypes
-import pyAesCrypt  # ? Under Apache License 2.0 by Marco Bellaccini
+import pyAesCrypt
 import threading
 mime = MimeTypes()
 import re
 import psutil
 import math
 import datetime as dt
+
+
 
 open("asset/themeoverride.css", "w").write(open("asset/themes/"+open("theme.cfg", "r").read()+".css").read())
 

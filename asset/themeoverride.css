@@ -1,5 +1,5 @@
 :root {
-    --background-color: #02050f;
+    --background-color: #000000;
     --foreground-color: #ffffff;
     --accent-color: #1F75FE;
     --accent-color-red: #FF0800;
@@ -12,8 +12,8 @@
     --filter-gradient: #1d202999;
     --box-shadow-color-light: #00000042;
     --grey-1: #313131;
-    --grey-2: #2e2e2e;
-    --grey-3: #252525;
+    --grey-2: #0e0e0e;
+    --grey-3: #363636;
     --grey-4: #474747;
     --input-background: #ffffff20;
     --light-grey-1: #ffffffd1;

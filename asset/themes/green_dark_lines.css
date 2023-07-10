@@ -12,7 +12,7 @@
     --filter-gradient: #1d202999;
     --box-shadow-color-light: #00000042;
     --grey-1: #313131;
-    --grey-2: #0e0e0e;
+    --grey-2: #2e2e2e;
     --grey-3: #252525;
     --grey-4: #474747;
     --input-background: #ffffff20;
@@ -28,5 +28,19 @@ div#file_menu button {
 }
 
 div.file_button:hover {
-    background-color: #2e2e2e;
+    background-color: #01270e;
+}
+
+nav {
+    background-color: #011b0a !important;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: #043e18;
+}
+
+div#file_info_menu {
+    background-color: #000e05;
+    border-left-width: 1px;
+    border-left-style: solid;
+    border-left-color: #022a10;
 }
