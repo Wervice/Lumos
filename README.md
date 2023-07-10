@@ -7,15 +7,15 @@
 <img src="asset/login_illustration.png" height="200" style="border-radius: 10px;" alt="Lumos Login"> <br> <br>
 </div>
 
-Lumos is a self hostable python & flask application you can run on Windows or Linux Servers.
+Lumos is a self-hostable Python Flask application you can run on Windows or Linux servers.
 
-It has an easy webshell & filemanager for the admin and for your team mates or family members.
+It has an easy web shell & file manager for the admin and for your teammates or family members.
 
-Lumos also offers a samll chat solution embeded in the filemanager.
+Lumos also offers a small chat solution embedded in the file manager.
 
-Its lightweigh web interface and small kept design makes it simple to manage files and keep a fast workflow.
+Its light web interface and small design make it simple to manage files and keep a fast workflow.
 
-It also gives you the opportunity to protect your files using robutst symetric encryption out of the box.
+It also gives you the opportunity to protect your files using robust symmetric encryption out of the box.
 
 You can connect to it on port 5000 or 4999 for setup.
 
@@ -29,28 +29,28 @@ You can connect to it on port 5000 or 4999 for setup.
 
 ### Prequisites
 
-Lumos uses python to work. On Linux it is installed by default. If you want to use it under Windows, you'll need to download Python from the [official website](https://www.python.org/).
+Lumos uses Python to work. On Linux, it is installed by default. If you want to use it on Windows, you'll need to download Python from the [official website](https://www.python.org/).
 
 ### The setup
 
-After you downloaded the code from the respository, run the following command or install the following packages using pip on your computer.
+After you downloaded the code from the repository, run the following command or install the following packages using pip on your computer.
 
-`pip3 install pyAesCrypt flask Pillow` *This installes pyAesCrypt for encryption, Flask as the webserver with werkzeug and Pillow for image manipulaion*
+`pip3 install pyAesCrypt flask Pillow psutil` *This installs pyAesCrypt for encryption, Flask as the web server with werkzeug and Pillow for image manipulation, and PSutil for system information like CPU and RAM usage.*
 
 When everything is done run the python file `__main__.py` by running `python3 ./__main__.py` in the Lumos folder.
 
-After few seconds, you'll be able to access the address `0.0.0.0:4999` (Linux) or `127.0.0.1:4999` in your webbrowser.
+After few seconds, you'll be able to access the address `0.0.0.0:4999` (Linux) or `127.0.0.1:4999` in your web browser.
 
 Now you can follow the instructions on the website.
 
 ### After the setup
 
-You now can give the ACCID code you set in the process to your family members or team mates.
+You can now give the ACCID code you set in the process to your family members or teammates.
 
-They can create an own account at your cloud. Therfore you need to give them the IP address of your
+They can create their own account on your cloud. Therefore, you need to give them the IP address of your
 server, too. It might look like: `192.168.1.83:5000`.
 
-After that, your members can log in and upload files and you are done.
+After that, your members can log in and upload files, and you are done.
 
 ### Legal information
 
