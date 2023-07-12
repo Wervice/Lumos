@@ -23,7 +23,7 @@ function l_confirm(message, function_if_confirmed) {
 function show_file_menu(file, event) {
     document.getElementById("file_menu").hidden = false
     document.getElementById("file_menu_delete_button").onclick = function () {
-        filename = event.srcElement.innerHTML.split("> ")[1]
+        filename = event.srcElement.innerHTML.split("> ")[1].replace(" ", "_")
         l_confirm("<b>Do you want to delete \"" + filename + "\"?</b>", function () {
             fetch(location.protocol + "//" + location.hostname + ":" + location.port + "/delete-file/" + filename)
             event.srcElement.remove()
@@ -31,7 +31,7 @@ function show_file_menu(file, event) {
         })
     }
     document.getElementById("file_menu_encryption_button").onclick = function () {
-        filename = event.srcElement.innerHTML.split("> ")[1]
+        filename = event.srcElement.innerHTML.split("> ")[1].replace(" ", "_")
         document.getElementById("encryption_popup").hidden = false;
         document.getElementById("filename_encpop").value = filename
         setTimeout(function () {
@@ -48,10 +48,30 @@ function show_file_menu(file, event) {
                 }
             }
 
+        }, 100)}
+    document.getElementById("file_menu_rawedit_button").onclick = function () {
+        filename = event.srcElement.innerHTML.split("> ")[1].replace(" ", "_")
+        document.getElementById("editor_popup").hidden = false
+        document.getElementById("editor_popup").src = "/rawedit/"+filename
+        setTimeout(function () {
+            window.onclick = function (event) {
+                var divElement = document.getElementById("editor_popup")
+                var targetElement = event.target;
+
+                if (!divElement.contains(targetElement) && divElement != targetElement) {
+                    console.log(targetElement)
+                    document.getElementById("editor_popup").hidden = true;
+                    setTimeout(function () {
+                        window.onclick = function () { }
+                    }, 100)
+                }
+            }
+
         }, 100)
     }
+    
     document.getElementById("file_menu_download_button").onclick = function () {
-        filename = event.srcElement.innerHTML.split("> ")[1]
+        filename = event.srcElement.innerHTML.split("> ")[1].replace(" ", "_")
         window.open("/load-file/" + filename)
     }
     document.getElementById("file_menu_rename_button").onclick = function () {
@@ -142,7 +162,7 @@ window.onload = function () {
 
 }
 function show_file_info(filename, filesize, filetype, filemday, filecday, mimeicon) {
-    filename = event.srcElement.innerHTML.split("> ")[1]
+    filename = event.srcElement.innerHTML.split("> ")[1].replace(" ", "_")
     document.getElementById("file_info_menu").hidden = false;
     document.getElementById("file_info_menu_icon").src = "asset/" + mimeicon
     document.getElementById("file_info_menu_filename").innerHTML = filename.replaceAll("_", " ");
@@ -160,7 +180,7 @@ function show_file_info(filename, filesize, filetype, filemday, filecday, mimeic
 }
 
 function show_file(file) {
-    filename = event.srcElement.innerHTML.split("> ")[1]
+    filename = event.srcElement.innerHTML.split("> ")[1].replace(" ", "_")
     var elbgb = event.srcElement.style.backgroundColor
     event.srcElement.style.backgroundColor = "dodgerblue"
     var evl = event

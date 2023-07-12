@@ -126,8 +126,8 @@ def compress_image(image_bytes, username, filename):
         return None
 
 def file_html_gen(username):
-    input_file = open('loggedin_users')
-    json_array = json.load(input_file)
+    login_user_input_file = open('loggedin_users')
+    json_array = json.load(login_user_input_file)
     try:
         if os.path.exists("users/"+json_array[request.remote_addr]+"/decryption_tempfile.tmp"):
             os.remove("users/"+json_array[request.remote_addr]+"/decryption_tempfile.tmp")
@@ -310,8 +310,8 @@ def validate_access_permissions(filename):
 @app.route("/", methods=["GET"])
 def startscreen():
     if request.method == "GET":
-        input_file = open('loggedin_users')
-        json_array = json.load(input_file)
+        login_user_input_file = open('loggedin_users')
+        json_array = json.load(login_user_input_file)
         if not request.remote_addr in json_array:
             return render_template("login.html", login_subtitle=login_subtitle)
         else:
@@ -343,8 +343,8 @@ def startscreen():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
-        input_file = open('loggedin_users')
-        json_array = json.load(input_file)
+        login_user_input_file = open('loggedin_users')
+        json_array = json.load(login_user_input_file)
         if not request.remote_addr in json_array:
             return render_template("login.html", login_subtitle=login_subtitle)
         else:
@@ -354,8 +354,8 @@ def login():
         if os.path.exists("users/"+encode_as_base64(secure_filename(request.form["username"]))+"/userpassword.cfg"):
             if hashlib.sha256(request.form["password"].encode("utf-8")).hexdigest() ==\
                     open("users/"+encode_as_base64(secure_filename(request.form["username"]))+"/userpassword.cfg", "r").read():
-                input_file = open('loggedin_users')
-                json_array = json.load(input_file)
+                login_user_input_file = open('loggedin_users')
+                json_array = json.load(login_user_input_file)
                 json_array[request.remote_addr] = encode_as_base64(
                     secure_filename(request.form["username"]))
                 json_array_json = json.dumps(json_array)
@@ -419,8 +419,8 @@ def register():
 
 @app.route("/logoff")
 def logoff():
-    input_file = open('loggedin_users')
-    json_array = json.load(input_file)
+    login_user_input_file = open('loggedin_users')
+    json_array = json.load(login_user_input_file)
     if request.remote_addr in json_array:
         del json_array[request.remote_addr]
         loggedin_users_writer = open("loggedin_users", "w")
@@ -437,15 +437,15 @@ def logoff():
 # ! Is it secure?
 def upload():
     if request.method == "GET":
-        input_file = open('loggedin_users')
-        json_array = json.load(input_file)
+        login_user_input_file = open('loggedin_users')
+        json_array = json.load(login_user_input_file)
         if request.remote_addr in json_array:
             return render_template("upload.html")
         else:
             return "You're not logged in", 403
     elif request.method == "POST":
-        input_file = open('loggedin_users')
-        json_array = json.load(input_file)
+        login_user_input_file = open('loggedin_users')
+        json_array = json.load(login_user_input_file)
         username = json_array[request.remote_addr]
         if request.remote_addr in json_array:
             if not os.path.exists("users/"+username+"/"+secure_filename(request.form["filename"])):
@@ -485,8 +485,8 @@ def upload():
 
 @app.route("/load-file/<string:filename>")
 def load_file(filename):
-    input_file = open('loggedin_users')
-    json_array = json.load(input_file)
+    login_user_input_file = open('loggedin_users')
+    json_array = json.load(login_user_input_file)
     enced_files = open('users/'+json_array[request.remote_addr]+"/enced_files")
     enced_file_array = json.load(enced_files)
     if request.remote_addr in json_array:
@@ -510,8 +510,8 @@ def load_file(filename):
 
 @app.route("/load-file-password", methods=["POST"])
 def load_file_password():
-    input_file = open('loggedin_users')
-    json_array = json.load(input_file)
+    login_user_input_file = open('loggedin_users')
+    json_array = json.load(login_user_input_file)
     if request.remote_addr in json_array:
         if not validate_access_permissions(filename=request.form["filename"]):
             try:
@@ -526,8 +526,8 @@ def load_file_password():
 
 @app.route("/thumbnail-load-file/<string:filename>")
 def thumbnail_load_file(filename):
-    input_file = open('loggedin_users')
-    json_array = json.load(input_file)
+    login_user_input_file = open('loggedin_users')
+    json_array = json.load(login_user_input_file)
     if request.remote_addr in json_array:
         username = json_array[request.remote_addr]
         if not validate_access_permissions(filename=filename):
@@ -551,8 +551,8 @@ def thumbnail_load_file(filename):
 
 @app.route("/delete-file/<string:filename>")
 def delete_file(filename):
-    input_file = open('loggedin_users')
-    json_array = json.load(input_file)
+    login_user_input_file = open('loggedin_users')
+    json_array = json.load(login_user_input_file)
     if request.remote_addr in json_array:
         username = json_array[request.remote_addr]
         if not validate_access_permissions(filename=filename):
@@ -574,8 +574,8 @@ def delete_file(filename):
 
 @app.route("/rename-file/<string:filename>/<string:new_file_name>")
 def rename_file(filename, new_file_name):
-    input_file = open('loggedin_users')
-    json_array = json.load(input_file)
+    login_user_input_file = open('loggedin_users')
+    json_array = json.load(login_user_input_file)
     if request.remote_addr in json_array:
         username = json_array[request.remote_addr]
         if not validate_access_permissions(filename=filename) and not validate_access_permissions(filename=new_file_name):
@@ -589,8 +589,8 @@ def rename_file(filename, new_file_name):
 
 @app.route("/mng-encryption-file-formular-handler", methods=["POST"])
 def mng_encryption_file_formular_handler():
-    input_file = open('loggedin_users')
-    json_array = json.load(input_file)
+    login_user_input_file = open('loggedin_users')
+    json_array = json.load(login_user_input_file)
     filename = request.form["filename"]
     if not validate_access_permissions(filename=filename):
         if request.remote_addr in json_array:
@@ -650,8 +650,8 @@ def mng_encryption_file_formular_handler():
 
 @app.route("/search/q/<string:query>")
 def search(query):
-    input_file = open('loggedin_users')
-    json_array = json.load(input_file)
+    login_user_input_file = open('loggedin_users')
+    json_array = json.load(login_user_input_file)
     if request.remote_addr in json_array:
         username = json_array[request.remote_addr]
         results = []
@@ -798,8 +798,8 @@ def remove_emojis(data):
 
 @app.route("/chat/web")
 def chat_web():
-    input_file = open('loggedin_users')
-    json_array = json.load(input_file)
+    login_user_input_file = open('loggedin_users')
+    json_array = json.load(login_user_input_file)
     if request.remote_addr in json_array:
         users_dir_array = os.listdir("users/")
         userlist_parsed_to_html = ""
@@ -812,8 +812,8 @@ def chat_web():
 
 @app.route("/chat/web/s", methods=["POST", "GET"])
 def chat_web_send():
-    input_file = open('loggedin_users')
-    json_array = json.load(input_file)
+    login_user_input_file = open('loggedin_users')
+    json_array = json.load(login_user_input_file)
     if request.method == "POST":
         if request.remote_addr in json_array:
             reciver_name = secure_filename(request.form["username"])
@@ -862,8 +862,8 @@ def chat_web_send():
 
 @app.route("/chat/web/l", methods=["GET", "POST"])
 def chat_web_load():
-    input_file = open('loggedin_users')
-    json_array = json.load(input_file)
+    login_user_input_file = open('loggedin_users')
+    json_array = json.load(login_user_input_file)
     if request.method == "POST":
         reciver_name = secure_filename(request.form["username"])
         sender_name = decode_from_base64(json_array[request.remote_addr])
@@ -897,8 +897,8 @@ def chat_web_load():
 
 @app.route("/chat/web/fb")
 def filebox():
-    input_file = open('loggedin_users')
-    json_array = json.load(input_file)
+    login_user_input_file = open('loggedin_users')
+    json_array = json.load(login_user_input_file)
     filelist_html = ""
     if os.path.exists("users/"+json_array[request.remote_addr]+"/chat_inbox"):
         if request.remote_addr in json_array:
@@ -910,8 +910,8 @@ def filebox():
 
 @app.route("/chat/web/fb/l/<string:filename>")
 def filebox_load(filename):
-    input_file = open('loggedin_users')
-    json_array = json.load(input_file)
+    login_user_input_file = open('loggedin_users')
+    json_array = json.load(login_user_input_file)
     if request.remote_addr in json_array:
         return send_file(
             "users/"+json_array[request.remote_addr]+"/chat_inbox/"+secure_filename(filename),
@@ -924,8 +924,8 @@ def filebox_load(filename):
 
 @app.route("/admin/update")
 def admin_update():
-    input_file = open('loggedin_users')
-    json_array = json.load(input_file)
+    login_user_input_file = open('loggedin_users')
+    json_array = json.load(login_user_input_file)
     if os.path.exists("users/"+json_array[request.remote_addr]+"/is_admin"):
         return render_template("admin/update.html")
     else:
@@ -933,8 +933,8 @@ def admin_update():
   
 @app.route("/admin/system")
 def admin_system():
-    input_file = open('loggedin_users')
-    json_array = json.load(input_file)
+    login_user_input_file = open('loggedin_users')
+    json_array = json.load(login_user_input_file)
     if os.path.exists("users/"+json_array[request.remote_addr]+"/is_admin"):
         return render_template("admin/system.html")
     else:
@@ -942,8 +942,8 @@ def admin_system():
     
 @app.route("/admin/vrscnr")
 def admin_vrscnr():
-    input_file = open('loggedin_users')
-    json_array = json.load(input_file)
+    login_user_input_file = open('loggedin_users')
+    json_array = json.load(login_user_input_file)
     if os.path.exists("users/"+json_array[request.remote_addr]+"/is_admin"):
         if open("virus_scanner.cfg", "r").read() == "0":
             enabled = "false"
@@ -955,8 +955,8 @@ def admin_vrscnr():
     
 @app.route("/admin_virus_definitions", methods=["POST"])
 def upload_virus_definitions():
-    input_file = open('loggedin_users')
-    json_array = json.load(input_file)
+    login_user_input_file = open('loggedin_users')
+    json_array = json.load(login_user_input_file)
     if os.path.exists("users/"+json_array[request.remote_addr]+"/is_admin"):
         main_file = request.files["main_upload"]
         daily_file = request.files["daily_upload"]
@@ -975,8 +975,8 @@ def upload_virus_definitions():
     
 @app.route("/admin_virus_protection_settings", methods=["POST"])
 def apply_settings_av():
-    input_file = open('loggedin_users')
-    json_array = json.load(input_file)
+    login_user_input_file = open('loggedin_users')
+    json_array = json.load(login_user_input_file)
     if os.path.exists("users/"+json_array[request.remote_addr]+"/is_admin"):
         if len(request.form) == 1:
             open("virus_scanner.cfg", "w").write("1")
@@ -992,8 +992,8 @@ def apply_settings_av():
 
 @app.route("/admin/binary-block", methods=["POST"])
 def binaryblock():
-    input_file = open('loggedin_users')
-    json_array = json.load(input_file)
+    login_user_input_file = open('loggedin_users')
+    json_array = json.load(login_user_input_file)
     if os.path.exists("users/"+json_array[request.remote_addr]+"/is_admin"):
         if "binary-block" in request.form:
             if request.form["binary-block"] == "on":
@@ -1006,8 +1006,8 @@ def binaryblock():
 
 @app.route("/admin/rmuser/<string:username>")
 def remover_user(username):
-    input_file = open('loggedin_users')
-    json_array = json.load(input_file)
+    login_user_input_file = open('loggedin_users')
+    json_array = json.load(login_user_input_file)
     if os.path.exists("users/"+json_array[request.remote_addr]+"/is_admin"):
         if platform.system() == "Windows":
             os.system("rmdir /q /s \"users/"+encode_as_base64(secure_filename(username))+"\"")
@@ -1020,16 +1020,16 @@ def remover_user(username):
 
 @app.route("/admin/ciconupload", methods=["POST"])
 def ciupload():
-    input_file = open('loggedin_users')
-    json_array = json.load(input_file)
+    login_user_input_file = open('loggedin_users')
+    json_array = json.load(login_user_input_file)
     if os.path.exists("users/"+json_array[request.remote_addr]+"/is_admin"):
         request.files["icon_upload"].save("asset/company_icon.png")
         return "<script>history.back()</script>"
 
 @app.route("/admin/themechange/<string:theme>")
 def theme_change(theme):
-    input_file = open('loggedin_users')
-    json_array = json.load(input_file)
+    login_user_input_file = open('loggedin_users')
+    json_array = json.load(login_user_input_file)
     if os.path.exists("users/"+json_array[request.remote_addr]+"/is_admin"):
         if os.path.exists("asset/themes/"+theme+".css"):
             open("theme.cfg", "w").write(theme)
@@ -1047,5 +1047,33 @@ def favicon():
 def info():
     return render_template("info.html", version=version, login_subtitle=login_subtitle)
 
+@app.route("/rawedit/<string:filename>")
+def rawedit(filename):
+    login_user_input_file = open('loggedin_users')
+    json_array = json.load(login_user_input_file)
+    if request.remote_addr in json_array:
+        try:
+            username = json_array[request.remote_addr]
+            load_filename = "users/"+username+"/"+secure_filename(filename)
+            file_content = open(load_filename, "r").read()
+            return render_template("rawedit.html", filename = filename).replace("[[ file_content ]]", file_content)
+        except UnicodeDecodeError:
+            return "<script>window.top.document.getElementById('editor_popup').hidden = true; window.top.l_confirm('This file type is not supported.', function () {window.top.document.getElementById('confirm_popup').hidden = true;})</script>"
+    else:
+        return "", 403
+
+@app.route("/rawedits", methods=["POST"])
+def rawedit_s():
+    login_user_input_file = open('loggedin_users')
+    json_array = json.load(login_user_input_file)
+    if request.remote_addr in json_array:
+        filename = secure_filename(request.form["filename"])
+        username = json_array[request.remote_addr]
+        open("users/"+json_array[request.remote_addr]+"/"+secure_filename(filename), "w").write(request.form["file_content"])
+        load_filename = "users/"+username+"/"+secure_filename(filename)
+        file_content = open(load_filename, "r").read()
+        return render_template("rawedit.html", filename = filename).replace("[[ file_content ]]", file_content)
+    else:
+        return ""
 
 app.run(host="0.0.0.0", port=5000, debug=False, ssl_context="adhoc")

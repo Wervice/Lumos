@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rawedit</title>
+    <link rel="stylesheet" href="/asset/rawedit.css">
+    <link rel="stylesheet" href="/asset/themeoverride.css">
+</head>
+<body>
+    <nav>
+        <button onclick="document.getElementById('editor_form').submit()">Save</button>
+    </nav>
+    <form action="/rawedits" id="editor_form" method="post" style="height: 100%;">
+        <input type="hidden" name="filename" value="{{ filename }}">
+    <textarea id="edit_area" name="file_content" spellcheck="false">[[ file_content ]]</textarea></form>
+</body>
+</html>
