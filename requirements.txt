@@ -1,0 +1,5 @@
+pillow==10.0.0
+flask==2.3.2
+pyAesCrypt==6.1.0
+psutil==5.9.5
+werkzeug==2.3.6

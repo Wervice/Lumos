@@ -137,7 +137,7 @@ def file_html_gen(username):
     files = os.listdir("users/"+username+"/")
     html_code = ""
     for file in files:
-        if file != "userpassword.cfg" and file != "enced_files" and file != "Thumbs.db" and not file.startswith("chat_log_file_") and file != "chat_inbox":
+        if file != "userpassword.cfg" and file != "enced_files" and file != "Thumbs.db" and file != "ckey.cfg" and not file.startswith("chat_log_file_") and file != "chat_inbox":
             # mime_image.svg
             # mime_doc.svg
             # mime_presentation.svg
@@ -297,7 +297,7 @@ if open("no_binary.cfg").read() == "1":
     print("Block binaries")
 else:
     blacklist_extensions = []
-blacklist_filenames = ["is_admin", "userconfig.cfg", "enced_files", "Thumbs.db", "decryption_tempfile.tmp", "", "chat_inbox", "userpassword.cfg"]
+blacklist_filenames = ["is_admin", "userconfig.cfg", "enced_files", "Thumbs.db", "decryption_tempfile.tmp", "", "chat_inbox", "userpassword.cfg", "ckey.cfg"]
 
 def validate_access_permissions(filename):
     if secure_filename(filename) in blacklist_filenames or filename.startswith('chat_log_file_'):
