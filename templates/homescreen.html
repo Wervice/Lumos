@@ -5,11 +5,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Lumos</title>
+    <title>Lumos</title>
     <link rel="stylesheet" href="asset/homescreen.css">
     <script src="asset/homescreen.js"></script>
     <meta http-equiv="cache-control" content="no-cache">
     <link rel="stylesheet" href="/asset/themeoverride.css">
+    <link rel="stylesheet" href="/asset/lui.css">
 </head>
 
 <body oncontextmenu="return false;">
@@ -24,9 +25,9 @@
     <div id="confirm_popup" hidden>
         <span id="confirm_popup_message">
 
-        </span><br><br>
+        </span><br>
         <button id="confirm_popup_confirm">Ok</button>
-        <button id="confirm_popup_decline" onclick="document.getElementById('confirm_popup').hidden = true;">Cancle</button>
+        <button id="confirm_popup_decline" class="second" onclick="document.getElementById('confirm_popup').hidden = true;">Cancle</button>
     </div>
     <div id="encryption_popup" hidden>
         <div class="modal_title">Encryption</div><br>
@@ -146,8 +147,8 @@
         <div id="file_info_menu" hidden><br>
             <div align="center"><span id="img_wrapper"><img src="asset/mime_none.svg" id="file_info_menu_icon" alt="Mime Icon" height="90"
                     draggable="false"></span>
-            </div><span id="file_info_menu_filetype"></span>
-            <span id="file_info_menu_filename">
+            </div><span id="file_info_menu_filetype" align="center"></span><br>
+            <span id="file_info_menu_filename" align="center">
             </span><br>
 
             <span id="file_info_menu_filesize"></span><br>

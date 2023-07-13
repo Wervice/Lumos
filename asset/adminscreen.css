@@ -59,68 +59,6 @@ body {
     margin: 0px;
 }
 
-button {
-    background-color: var(--accent-color);
-    color: var(--background-color);
-    border-width: 0px;
-    border-color: 0px;
-    border-style: solid;
-    border-radius: 5px;
-    font-family: "Instrument Sans";
-    padding: 7.5px;
-    padding-left: 10px;
-    font-size: 18px;
-    width: 125px;
-    margin-top: 7.5px;
-    margin-bottom: 7.5px;
-    transition: ease-in-out 0.25s;
-    text-align: left;
-}
-
-input[type="text"], input[type="password"] {
-    background-color: var(--transparent-heavy);
-    color: var(--foreground-color);
-    border-width: 0px;
-    border-color: 0px;
-    border-style: solid;
-    border-radius: 5px;
-    font-family: "Instrument Sans";
-    padding: 7.5px;
-    font-size: 18px;
-    width: 250px;
-    margin-top: 7.5px;
-    margin-bottom: 7.5px;
-    transition: ease-in-out 0.25s;
-}
-
-button:hover, input[type="text"]:focus, input[type="password"]:focus {
-    filter: brightness(110%);
-}
-
-button:focus {
-    filter: brightness(120%);
-}
-
-button:active {
-    filter: brightness(130%);
-}
-
-input[type="checkbox"] {
-    accent-color: var(--accent-color);
-}
-
-b {
-    font-family: "Instrument Sans Bold";
-}
-
-i {
-    font-family: "Instrument Sans Italic";
-}
-
-a, a::after, a:hover, a:active {
-    color: var(--link-color);
-}
-
 nav {
     padding: 15px;
     color: var(--foreground-color);

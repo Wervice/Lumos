@@ -27,6 +27,7 @@ import re
 import psutil
 import math
 import datetime as dt
+import random
 
 
 
@@ -252,7 +253,7 @@ def file_html_gen(username):
             
             html_code += "<div class=file_button ondblclick=\"show_file('"+file+"')\" onclick=\"show_file_info('"+file+"', "+"'"+filesize+"', '"+filetype+"', '"+filemday+"', '"+filecday+"', '"+mime_icon+"')\" oncontextmenu=\"show_file_menu(\'"+file+"\', event); return false;\"><img src=asset/"+mime_icon+" height=20> "+file.replace("_", " ")+"</div>"
     if html_code == "":
-        html_code = "<img src=/asset/empty.png height=200 id=empty_icon>"
+        html_code = "<div align=center><img src=/asset/empty.png height=200 id=empty_icon></div>"
     return html_code
 
 
@@ -312,9 +313,7 @@ def startscreen():
     if request.method == "GET":
         login_user_input_file = open('loggedin_users')
         json_array = json.load(login_user_input_file)
-        if not request.remote_addr in json_array:
-            return render_template("login.html", login_subtitle=login_subtitle)
-        else:
+        if request.remote_addr in json_array and request.cookies["ckey"] == open("users/"+json_array[request.remote_addr]+"/ckey.cfg").read():
             file_html = file_html_gen(json_array[request.remote_addr])
             if os.path.exists("users/"+json_array[request.remote_addr]+"/is_admin"):
                 if open("virus_scanner.cfg", "r").read() == "1":
@@ -337,6 +336,8 @@ def startscreen():
                                        platform=platform.system(), virscanner=virscanner, last_vir_update=open("last_virus_update.txt", "r").read(), blockbinary=enbin, ram=ram_value, cpu=cpu_value, servername = login_subtitle, acttheme=theme).replace("[[ userlist ]]", userdirlisthtml)
             else:
                 return render_template("homescreen.html", version=version).replace("[[ files ]]", file_html)
+        else:
+            return render_template("login.html", login_subtitle=login_subtitle)  
 
 # * Login & Register
 
@@ -362,6 +363,12 @@ def login():
                 loggedin_users_writer = open("loggedin_users", "w")
                 loggedin_users_writer.write(json_array_json)
                 loggedin_users_writer.close()
+                i = 0
+                cookiekeystr = ""
+                while i != 512:
+                    cookiekeystr += chr(random.randint(1, 128))
+                    i = i+1
+                cookiekey = hashlib.sha512(cookiekeystr.encode("utf-8")).hexdigest()
                 if os.path.exists("users/"+encode_as_base64(secure_filename(request.form["username"]))+"/is_admin"):
                     if open("virus_scanner.cfg", "r").read() == "1":
                         virscanner = "Enabled"
@@ -379,10 +386,12 @@ def login():
                     ram_value = psutil.virtual_memory()[2]
                     cpu_value = psutil.cpu_percent(2)
                     theme = open("theme.cfg", "r").read().split(".")[0]
+                    open("users/"+json_array[request.remote_addr]+"/"+"ckey.cfg", "w").write(cookiekey)
                     return render_template("admin/admin_dashboard.html", version=version,
-                                       platform=platform.system(), virscanner=virscanner, last_vir_update=open("last_virus_update.txt", "r").read(), blockbinary=enbin, ram=ram_value, cpu=cpu_value, servername = login_subtitle, acttheme=theme).replace("[[ userlist ]]", userdirlisthtml)
+                                       platform=platform.system(), virscanner=virscanner, last_vir_update=open("last_virus_update.txt", "r").read(), blockbinary=enbin, ram=ram_value, cpu=cpu_value, servername = login_subtitle, acttheme=theme).replace("[[ userlist ]]", userdirlisthtml).replace("[[ ckey ]]", cookiekey)
                 else:
-                    return "<script>location.href = '/'</script>"
+                    open("users/"+json_array[request.remote_addr]+"/"+"ckey.cfg", "w").write(cookiekey)
+                    return "<script>document.cookie = 'ckey="+cookiekey+"' ;location.href = '/'</script>"
             else:
                 return "<script>sessionStorage.setItem('last_screen_info', 'login_auth_fail_password'); location.href = '/login'</script>"
         else:
@@ -421,12 +430,13 @@ def register():
 def logoff():
     login_user_input_file = open('loggedin_users')
     json_array = json.load(login_user_input_file)
-    if request.remote_addr in json_array:
+    if request.remote_addr in json_array and request.cookies["ckey"] == open("users/"+json_array[request.remote_addr]+"/ckey.cfg").read():
+        open("users/"+json_array[request.remote_addr]+"/ckey.cfg", "w").write("")
         del json_array[request.remote_addr]
         loggedin_users_writer = open("loggedin_users", "w")
         loggedin_users_writer.write(json.dumps(json_array))
         loggedin_users_writer.close()
-        return "<script>sessionStorage.setItem('last_screen_info', 'logged_of'); location.replace('/')</script>"
+        return "<script>sessionStorage.setItem('last_screen_info', 'logged_of'); document.cookie = 'ckey=; expires=Thu, 01 Jan 1970 00:00:00 UTC;'; location.replace('/')</script>"
     else:
         return "You're not logged in anymore"
 
@@ -439,7 +449,7 @@ def upload():
     if request.method == "GET":
         login_user_input_file = open('loggedin_users')
         json_array = json.load(login_user_input_file)
-        if request.remote_addr in json_array:
+        if request.remote_addr in json_array and request.cookies["ckey"] == open("users/"+json_array[request.remote_addr]+"/ckey.cfg").read():
             return render_template("upload.html")
         else:
             return "You're not logged in", 403
@@ -447,7 +457,7 @@ def upload():
         login_user_input_file = open('loggedin_users')
         json_array = json.load(login_user_input_file)
         username = json_array[request.remote_addr]
-        if request.remote_addr in json_array:
+        if request.remote_addr in json_array and request.cookies["ckey"] == open("users/"+json_array[request.remote_addr]+"/ckey.cfg").read():
             if not os.path.exists("users/"+username+"/"+secure_filename(request.form["filename"])):
                 file = request.files["file_upload"]
                 username = json_array[request.remote_addr]
@@ -489,7 +499,7 @@ def load_file(filename):
     json_array = json.load(login_user_input_file)
     enced_files = open('users/'+json_array[request.remote_addr]+"/enced_files")
     enced_file_array = json.load(enced_files)
-    if request.remote_addr in json_array:
+    if request.remote_addr in json_array and request.cookies["ckey"] == open("users/"+json_array[request.remote_addr]+"/ckey.cfg").read():
         username = json_array[request.remote_addr]
         if not validate_access_permissions(filename=filename):
             if not filename in enced_file_array:
@@ -512,7 +522,7 @@ def load_file(filename):
 def load_file_password():
     login_user_input_file = open('loggedin_users')
     json_array = json.load(login_user_input_file)
-    if request.remote_addr in json_array:
+    if request.remote_addr in json_array and request.cookies["ckey"] == open("users/"+json_array[request.remote_addr]+"/ckey.cfg").read():
         if not validate_access_permissions(filename=request.form["filename"]):
             try:
                 pyAesCrypt.decryptFile("users/"+json_array[request.remote_addr]+"/"+secure_filename(request.form["filename"]), outfile="users/"+json_array[request.remote_addr]+"/decryption_tempfile.tmp", passw=hashlib.sha256(request.form["password"].encode("utf-8")).hexdigest(), bufferSize=131072)
@@ -528,7 +538,7 @@ def load_file_password():
 def thumbnail_load_file(filename):
     login_user_input_file = open('loggedin_users')
     json_array = json.load(login_user_input_file)
-    if request.remote_addr in json_array:
+    if request.remote_addr in json_array and request.cookies["ckey"] == open("users/"+json_array[request.remote_addr]+"/ckey.cfg").read():
         username = json_array[request.remote_addr]
         if not validate_access_permissions(filename=filename):
             file_reader = open("users/"+username+"/" +
@@ -553,7 +563,7 @@ def thumbnail_load_file(filename):
 def delete_file(filename):
     login_user_input_file = open('loggedin_users')
     json_array = json.load(login_user_input_file)
-    if request.remote_addr in json_array:
+    if request.remote_addr in json_array and request.cookies["ckey"] == open("users/"+json_array[request.remote_addr]+"/ckey.cfg").read():
         username = json_array[request.remote_addr]
         if not validate_access_permissions(filename=filename):
             os.remove("users/"+username+"/"+secure_filename(filename))
@@ -576,7 +586,7 @@ def delete_file(filename):
 def rename_file(filename, new_file_name):
     login_user_input_file = open('loggedin_users')
     json_array = json.load(login_user_input_file)
-    if request.remote_addr in json_array:
+    if request.remote_addr in json_array and request.cookies["ckey"] == open("users/"+json_array[request.remote_addr]+"/ckey.cfg").read():
         username = json_array[request.remote_addr]
         if not validate_access_permissions(filename=filename) and not validate_access_permissions(filename=new_file_name):
             os.rename("users/"+username+"/"+secure_filename(filename),
@@ -593,8 +603,8 @@ def mng_encryption_file_formular_handler():
     json_array = json.load(login_user_input_file)
     filename = request.form["filename"]
     if not validate_access_permissions(filename=filename):
-        if request.remote_addr in json_array:
-            if request.remote_addr in json_array:
+        if request.remote_addr in json_array and request.cookies["ckey"] == open("users/"+json_array[request.remote_addr]+"/ckey.cfg").read():
+            if request.remote_addr in json_array and request.cookies["ckey"] == open("users/"+json_array[request.remote_addr]+"/ckey.cfg").read():
                 input_file_enc = open(
                     'users/'+json_array[request.remote_addr]+"/enced_files")
                 json_array_enc = json.load(input_file_enc)
@@ -652,7 +662,7 @@ def mng_encryption_file_formular_handler():
 def search(query):
     login_user_input_file = open('loggedin_users')
     json_array = json.load(login_user_input_file)
-    if request.remote_addr in json_array:
+    if request.remote_addr in json_array and request.cookies["ckey"] == open("users/"+json_array[request.remote_addr]+"/ckey.cfg").read():
         username = json_array[request.remote_addr]
         results = []
         for e in os.listdir("users/"+username+"/"):
@@ -800,7 +810,7 @@ def remove_emojis(data):
 def chat_web():
     login_user_input_file = open('loggedin_users')
     json_array = json.load(login_user_input_file)
-    if request.remote_addr in json_array:
+    if request.remote_addr in json_array and request.cookies["ckey"] == open("users/"+json_array[request.remote_addr]+"/ckey.cfg").read():
         users_dir_array = os.listdir("users/")
         userlist_parsed_to_html = ""
         for found_user in users_dir_array:
@@ -815,7 +825,7 @@ def chat_web_send():
     login_user_input_file = open('loggedin_users')
     json_array = json.load(login_user_input_file)
     if request.method == "POST":
-        if request.remote_addr in json_array:
+        if request.remote_addr in json_array and request.cookies["ckey"] == open("users/"+json_array[request.remote_addr]+"/ckey.cfg").read():
             reciver_name = secure_filename(request.form["username"])
             sender_name = decode_from_base64(json_array[request.remote_addr])
             reciver_log_file = "users/"+encode_as_base64(reciver_name)+"/chat_log_file_"+sender_name+".txt"
@@ -868,7 +878,7 @@ def chat_web_load():
         reciver_name = secure_filename(request.form["username"])
         sender_name = decode_from_base64(json_array[request.remote_addr])
         sender_log_file = "users/"+encode_as_base64(sender_name)+"/chat_log_file_"+reciver_name+".txt"
-        if request.remote_addr in json_array:
+        if request.remote_addr in json_array and request.cookies["ckey"] == open("users/"+json_array[request.remote_addr]+"/ckey.cfg").read():
             users_dir_array = os.listdir("users/")
             userlist_parsed_to_html = ""
             for found_user in users_dir_array:
@@ -901,7 +911,7 @@ def filebox():
     json_array = json.load(login_user_input_file)
     filelist_html = ""
     if os.path.exists("users/"+json_array[request.remote_addr]+"/chat_inbox"):
-        if request.remote_addr in json_array:
+        if request.remote_addr in json_array and request.cookies["ckey"] == open("users/"+json_array[request.remote_addr]+"/ckey.cfg").read():
             for file in os.listdir("users/"+json_array[request.remote_addr]+"/chat_inbox"):
                 filelist_html += "<div class=filelist onclick=window.open('/chat/web/fb/l/"+file+"')> <span class=sender>"+file.split("_")[1]+"</span> "+file.split("_")[2]+"</div><br>"
     else:
@@ -912,7 +922,7 @@ def filebox():
 def filebox_load(filename):
     login_user_input_file = open('loggedin_users')
     json_array = json.load(login_user_input_file)
-    if request.remote_addr in json_array:
+    if request.remote_addr in json_array and request.cookies["ckey"] == open("users/"+json_array[request.remote_addr]+"/ckey.cfg").read():
         return send_file(
             "users/"+json_array[request.remote_addr]+"/chat_inbox/"+secure_filename(filename),
             mimetype=str(mime.guess_type("users/"+json_array[request.remote_addr]+"/chat_inbox/"+secure_filename(filename)))
@@ -1051,7 +1061,7 @@ def info():
 def rawedit(filename):
     login_user_input_file = open('loggedin_users')
     json_array = json.load(login_user_input_file)
-    if request.remote_addr in json_array:
+    if request.remote_addr in json_array and request.cookies["ckey"] == open("users/"+json_array[request.remote_addr]+"/ckey.cfg").read():
         try:
             username = json_array[request.remote_addr]
             load_filename = "users/"+username+"/"+secure_filename(filename)
@@ -1066,7 +1076,7 @@ def rawedit(filename):
 def rawedit_s():
     login_user_input_file = open('loggedin_users')
     json_array = json.load(login_user_input_file)
-    if request.remote_addr in json_array:
+    if request.remote_addr in json_array and request.cookies["ckey"] == open("users/"+json_array[request.remote_addr]+"/ckey.cfg").read():
         filename = secure_filename(request.form["filename"])
         username = json_array[request.remote_addr]
         open("users/"+json_array[request.remote_addr]+"/"+secure_filename(filename), "w").write(request.form["file_content"])

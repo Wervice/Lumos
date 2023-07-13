@@ -43,49 +43,6 @@
     outline: none;
 }
 
-body {
-    background-color: var(--background-color);
-    color: var(--foreground-color);
-    font-family: "Instrument Sans", sans-serif;
-    opacity: 1;
-    animation-name: screen-transition;
-    animation-duration: 0.4s;
-}
-
-button {
-    background-color: var(--accent-color);
-    color: var(--background-color);
-    border-width: 0px;
-    border-color: 0px;
-    border-style: solid;
-    border-radius: 5px;
-    font-family: "Instrument Sans";
-    padding: 10px;
-    padding-left: 10px;
-    font-size: 20px;
-    width: 140px;
-    margin-top: 7.5px;
-    margin-bottom: 7.5px;
-    transition: ease-in-out 0.25s;
-}
-
-input[type="text"], input[type="password"] {
-    border-width: 0px;
-    background-color: var(--background-color-2);
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 20px;
-    font-family: "Instrument Sans", sans-serif;
-    font-size: 18pt;
-    width: 400px;
-    color: var(--foreground-color);
-    transition: ease-in-out 0.25s;
-}
-
-input[type="text"]:focus, input[type="password"]:focus {
-    filter: brightness(0.8);
-}
-
 button:hover {
     filter: brightness(120%);
 }
@@ -104,7 +61,7 @@ button:disabled {
 
 button img {
     height: 15px;
-    margin-left: 35px;
+    margin-left: 20px;
     animation-name: turn;
     animation-duration: 2s;
     animation-iteration-count: infinite;

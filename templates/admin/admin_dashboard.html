@@ -11,6 +11,8 @@
         window.onload = function () {
             if ("{{ blockbinary }}" == "yes") {
                 document.getElementById("binary-block").checked = "true"
+                if ("[[ ckey ]]" != "") {
+                document.cookie = "ckey=[[ ckey ]];"}
             }
         }
 
@@ -19,8 +21,10 @@
                 location.href = "/admin/rmuser/"+username
             }
         }
+
     </script>
     <link rel="stylesheet" href="/asset/themeoverride.css">
+    <link rel="stylesheet" href="/asset/lui.css">
 </head>
 
 <body>

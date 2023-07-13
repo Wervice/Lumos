@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Lumos</title>
+    <title>Lumos Login</title>
     <link rel="stylesheet" href="asset/welcome.css">
     <script src="asset/login.js"></script>
     <link rel="stylesheet" href="/asset/themeoverride.css">
+    <link rel="stylesheet" href="/asset/lui.css">
 </head>
 
 <body>
@@ -22,7 +23,6 @@
             <img src="asset/company_icon.png" alt="Logo" onerror="this.hidden = true" height="50" draggable="false">
             <h1>Lumos Login</h1>
             <h2>{{ login_subtitle }}</h2>
-            <br>
             <form action="/login" method="post" id="login_formular">
                 <span id="password_fail_label" hidden>Your password or username is worng<br><br></span>
                 <span id="user_exit_label" hidden>You're not logged in anymore<br><br></span>

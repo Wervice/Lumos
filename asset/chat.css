@@ -33,30 +33,14 @@
 body {
     background-color: var(--background-color);
     color: var(--foreground-color);
-    font-family: "Instrument Sans";
+    font-family: "Instrument Sans", sans-serif;
     margin: 0px;
-    padding: 0px;
-    overflow: hidden;
-    max-height: 100vh;
-}
-
-button {
-    border-width: 0px;
-    border-radius: 5px;
-    padding: 12.5px;
-    background-color: var(--accent-color);
-    color: var(--background-color);
-    font-family: "Instrument Sans";
-    font-size: 16px;
-    cursor: pointer;
-}
-
-a {
-    color: var(--accent-color);
-}
-
-table, table tr {
     height: 100vh;
+}
+
+table,
+table tr {
+    height: 100%;
 }
 
 table tr #userlist {
@@ -98,7 +82,7 @@ table tr #messages {
 table tr #messages #container {
     overflow: scroll;
     padding-top: 60px;
-    height: calc(100vh - 160px);    
+    height: calc(100% - 130px);
 }
 
 table tr #messages #container b {
@@ -117,7 +101,6 @@ table tr #messages #input {
 }
 
 table tr #messages #input input {
-    padding: 15px;
     background-color: var(--light-grey-input);
     border-radius: 5px;
     border-width: 1px;
@@ -125,12 +108,24 @@ table tr #messages #input input {
     border-color: var(--accent-color);
     width: 250px;
     max-width: 20vw;
-    margin-right: 10px;
+    margin-right: 5px;
     color: var(--foreground-color);
     font-size: 18px;
     letter-spacing: 1px;
+    height: 40px;
 }
 
+table tr #messages button {
+    width: 50px;
+}
+
+button.circle {
+    border-radius: 50%;
+    width: 40px !important;
+    height: 40px;
+    text-align: center;
+    padding-left: 5px;
+}
 
 table tr #messages #input input:focus {
     outline: none;

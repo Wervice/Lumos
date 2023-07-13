@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Lumos</title>
+    <title>Lumos Register</title>
     <link rel="stylesheet" href="asset/welcome.css">
+    <link rel="stylesheet" href="/asset/lui.css">
     <script>
         if (localStorage.getItem("last_screen_info") == "register_fail_unknown") {
             localStorage.removeItem("last_screen_info")
@@ -24,7 +25,6 @@
             <img src="asset/company_logo.png" alt="Logo" onerror="this.hidden = true" height="50" draggable="false">
             <h1>Lumos Register</h1>
             <h2>{{ login_subtitle }}</h2>
-            <br>
             <span id="error_message" style="color: red;" hidden></span> 
             <form action="/register" method="post">
                 <input type="text" id="username_input" name="username" placeholder="Username" required><br>

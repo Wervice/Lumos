@@ -10,6 +10,7 @@
     <script src="/asset/chat.js"></script>
     <meta http-equiv="cache-control" content="no-cache">
     <link rel="stylesheet" href="/asset/themeoverride.css">
+    <link rel="stylesheet" href="/asset/lui.css">
 
 </head>
 
@@ -35,7 +36,7 @@
                         <input type="hidden" name="username" id="username" value="{{ username }}">
                         <input type="file" id="file-upload" name="file-upload" hidden>
                         <input type="hidden" id="filename" name="filename">
-                        <button type="submit">Submit</button>
+                        <button type="submit" class="circle">-></button>
                         <button style="background-color: transparent;" type="button" onclick="file_upload()"><img src="/asset/upload.svg" alt="Uplaod" title="Upload a file"></button>
                     </form>
                 </div>

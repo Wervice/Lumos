@@ -1,3 +1,24 @@
+function simple_post_fetch(url, data) {
+    const formData = new FormData();
+    for (const key in data) {
+        if (data.hasOwnProperty(key)) {
+          formData.append(key, data[key]);
+        }
+    }
+
+    fetch(url, {
+      method: "POST",
+      body: formData
+    })
+      .then(response => response.text())
+      .then(
+        function (response) {
+            console.log(response)
+        }
+      )
+        
+}
+
 function hide_menu() {
     setTimeout(function () {
         document.getElementById("menu").hidden = true;
@@ -24,7 +45,7 @@ function show_file_menu(file, event) {
     document.getElementById("file_menu").hidden = false
     document.getElementById("file_menu_delete_button").onclick = function () {
         filename = event.srcElement.innerHTML.split("> ")[1].replace(" ", "_")
-        l_confirm("<b>Do you want to delete \"" + filename + "\"?</b>", function () {
+        l_confirm("Do you want to delete \"" + filename + "\"?", function () {
             fetch(location.protocol + "//" + location.hostname + ":" + location.port + "/delete-file/" + filename)
             event.srcElement.remove()
             document.getElementById("confirm_popup").hidden = true;
@@ -75,7 +96,7 @@ function show_file_menu(file, event) {
         window.open("/load-file/" + filename)
     }
     document.getElementById("file_menu_rename_button").onclick = function () {
-        l_confirm("<b>Rename</b><br><br><input id=new_name_input placeholder=\"New name\" value=\"" + event.srcElement.innerHTML.split("> ")[1] + "\">", function () {
+        l_confirm("Rename<br><input id=new_name_input placeholder=\"New name\" value=\"" + event.srcElement.innerHTML.split("> ")[1] + "\">", function () {
             new_name = document.getElementById("new_name_input").value
             if (new_name != "") {
                 event.srcElement.innerHTML = event.srcElement.innerHTML.split(">")[0] + "> " + event.srcElement.innerHTML.split(">")[1].replaceAll(event.srcElement.innerHTML.split(">")[1], new_name)
@@ -168,8 +189,8 @@ function show_file_info(filename, filesize, filetype, filemday, filecday, mimeic
     document.getElementById("file_info_menu_filename").innerHTML = filename.replaceAll("_", " ");
     document.getElementById("file_info_menu_filesize").innerHTML = filesize + "MB";
     document.getElementById("file_info_menu_filetype").innerHTML = filetype;
-    document.getElementById("file_info_menu_fmd").innerHTML = "Last modification: " + filemday;
-    document.getElementById("file_info_menu_fcd").innerHTML = "Creation: " + filecday
+    document.getElementById("file_info_menu_fmd").innerHTML = "Edited: " + filemday;
+    document.getElementById("file_info_menu_fcd").innerHTML = "Created: " + filecday
     if (filename.includes(".jpg") || filename.includes(".png") || filename.includes(".jpeg") || filename.includes(".tiff") || filename.includes(".webp") || filename.includes(".heic") || filename.includes(".ico")) {
         document.getElementById("file_info_menu_icon").src = "/thumbnail-load-file/" + filename.replaceAll(" ", "_")
         document.getElementById("file_info_menu_icon").style.borderRadius = "5px"
@@ -177,6 +198,7 @@ function show_file_info(filename, filesize, filetype, filemday, filecday, mimeic
     else {
         document.getElementById("file_info_menu_icon").style.borderRadius = "0px"
     }
+
 }
 
 function show_file(file) {
