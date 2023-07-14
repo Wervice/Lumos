@@ -112,13 +112,15 @@ div#login_box h2 {
 
 #info {
     position: absolute;
-    top: 20px;
-    left: calc(50vw - 150px);
+    top: 40px;
+    left: calc(50vw - (300px + 20px));
     width: 300px;
     padding: 20px;
     border-radius: 10px;
-    background-color: var(--background-color-2);
-    animation: flow_down 0.25s;    
+    background-color: #565656;
+    animation: flow_down 0.25s;
+    z-index: 100;
+    box-shadow: 0px 1px 0px 0px #A0A0A0 inset, 0px 5px 15px 0px rgba(0, 0, 0, 0.50); 
 }
 
 *.margin-left-small {

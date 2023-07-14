@@ -2,21 +2,21 @@ function simple_post_fetch(url, data) {
     const formData = new FormData();
     for (const key in data) {
         if (data.hasOwnProperty(key)) {
-          formData.append(key, data[key]);
+            formData.append(key, data[key]);
         }
     }
 
     fetch(url, {
-      method: "POST",
-      body: formData
+        method: "POST",
+        body: formData
     })
-      .then(response => response.text())
-      .then(
-        function (response) {
-            console.log(response)
-        }
-      )
-        
+        .then(response => response.text())
+        .then(
+            function (response) {
+                console.log(response)
+            }
+        )
+
 }
 
 function hide_menu() {
@@ -44,7 +44,7 @@ function l_confirm(message, function_if_confirmed) {
 function show_file_menu(file, event) {
     document.getElementById("file_menu").hidden = false
     document.getElementById("file_menu_delete_button").onclick = function () {
-        filename = event.srcElement.innerHTML.split("> ")[1].replace(" ", "_")
+        filename = event.srcElement.innerHTML.split("> ")[1].replaceAll(" ", "_")
         l_confirm("Do you want to delete \"" + filename + "\"?", function () {
             fetch(location.protocol + "//" + location.hostname + ":" + location.port + "/delete-file/" + filename)
             event.srcElement.remove()
@@ -52,7 +52,7 @@ function show_file_menu(file, event) {
         })
     }
     document.getElementById("file_menu_encryption_button").onclick = function () {
-        filename = event.srcElement.innerHTML.split("> ")[1].replace(" ", "_")
+        filename = event.srcElement.innerHTML.split("> ")[1].replaceAll(" ", "_")
         document.getElementById("encryption_popup").hidden = false;
         document.getElementById("filename_encpop").value = filename
         setTimeout(function () {
@@ -69,11 +69,12 @@ function show_file_menu(file, event) {
                 }
             }
 
-        }, 100)}
+        }, 100)
+    }
     document.getElementById("file_menu_rawedit_button").onclick = function () {
-        filename = event.srcElement.innerHTML.split("> ")[1].replace(" ", "_")
+        filename = event.srcElement.innerHTML.split("> ")[1].replaceAll(" ", "_")
         document.getElementById("editor_popup").hidden = false
-        document.getElementById("editor_popup").src = "/rawedit/"+filename
+        document.getElementById("editor_popup").src = "/rawedit/" + filename
         setTimeout(function () {
             window.onclick = function (event) {
                 var divElement = document.getElementById("editor_popup")
@@ -90,16 +91,16 @@ function show_file_menu(file, event) {
 
         }, 100)
     }
-    
+
     document.getElementById("file_menu_download_button").onclick = function () {
-        filename = event.srcElement.innerHTML.split("> ")[1].replace(" ", "_")
+        filename = event.srcElement.innerHTML.split("> ")[1].replaceAll(" ", "_")
         window.open("/load-file/" + filename)
     }
     document.getElementById("file_menu_rename_button").onclick = function () {
         l_confirm("Rename<br><input id=new_name_input placeholder=\"New name\" value=\"" + event.srcElement.innerHTML.split("> ")[1] + "\">", function () {
             new_name = document.getElementById("new_name_input").value
             if (new_name != "") {
-                event.srcElement.innerHTML = event.srcElement.innerHTML.split(">")[0] + "> " + event.srcElement.innerHTML.split(">")[1].replaceAll(event.srcElement.innerHTML.split(">")[1], new_name)
+                event.srcElement.innerHTML = event.srcElement.innerHTML.split(">")[0] + "> " + event.srcElement.innerHTML.split(">")[1].replaceAll(event.srcElement.innerHTML.split(">")[1], new_name.replaceAll("_", " "))
                 fetch(location.protocol + "//" + location.hostname + ":" + location.port + "/rename-file/" + file + "/" + new_name)
                 document.getElementById("confirm_popup").hidden = true;
             }
@@ -177,13 +178,10 @@ window.onload = function () {
         document.getElementById("filename").value = sessionStorage.getItem("filename")
         sessionStorage.removeItem("filename")
     }
-    function hide_info() {
-        document.getElementById("info_msg").hidden = true;
-    }
 
 }
 function show_file_info(filename, filesize, filetype, filemday, filecday, mimeicon) {
-    filename = event.srcElement.innerHTML.split("> ")[1].replace(" ", "_")
+    filename = event.srcElement.innerHTML.split("> ")[1].replaceAll(" ", "_")
     document.getElementById("file_info_menu").hidden = false;
     document.getElementById("file_info_menu_icon").src = "asset/" + mimeicon
     document.getElementById("file_info_menu_filename").innerHTML = filename.replaceAll("_", " ");
@@ -202,7 +200,7 @@ function show_file_info(filename, filesize, filetype, filemday, filecday, mimeic
 }
 
 function show_file(file) {
-    filename = event.srcElement.innerHTML.split("> ")[1].replace(" ", "_")
+    filename = event.srcElement.innerHTML.split("> ")[1].replaceAll(" ", "_")
     var elbgb = event.srcElement.style.backgroundColor
     event.srcElement.style.backgroundColor = "dodgerblue"
     var evl = event
@@ -238,8 +236,11 @@ function search_for_file(filename) {
 }
 
 function upload_new_file() {
+    function hide_info() {
+        document.getElementById("info_msg").hidden = true;
+    }
     document.getElementById("file_upload_button").click()
-    window.onchange = function () {
+    document.getElementById("file_upload_button").onchange = function () {
         const upload_form_data = new FormData();
         upload_form_data.append("file_upload", document.getElementById("file_upload_button").files[0]);
         upload_form_data.append("filename", document.getElementById("file_upload_button").value.split("\\")[document.getElementById("file_upload_button").value.split("\\").length - 1]);
@@ -247,12 +248,26 @@ function upload_new_file() {
             method: "POST",
             body: upload_form_data,
         };
-        fetch(location.protocol + "//" + location.hostname + ":" + location.port + "/upload/web", requestOptions).then (
-            function () {
-                location.reload()
+        fetch(location.protocol + "//" + location.hostname + ":" + location.port + "/upload/web", requestOptions).then(
+            function (response) {
+                if (response.status == 903) {
+                    document.getElementById("info_msg").hidden = false;
+                    document.getElementById("info_message").innerHTML = "The file type is blocked";
+                    sessionStorage.removeItem("last_screen_info")
+                    setTimeout(hide_info, 2000)
+                }
+                else if (response.status == 904) {
+                    document.getElementById("info_msg").hidden = false;
+                    document.getElementById("info_message").innerHTML = "This file already exists";
+                    sessionStorage.removeItem("last_screen_info")
+                    setTimeout(hide_info, 6500)
+                }
+                else {
+                    location.reload()
+                }
             }
         )
-        
+
     }
 
 } 

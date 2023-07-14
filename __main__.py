@@ -313,31 +313,46 @@ def startscreen():
     if request.method == "GET":
         login_user_input_file = open('loggedin_users')
         json_array = json.load(login_user_input_file)
-        if request.remote_addr in json_array and request.cookies["ckey"] == open("users/"+json_array[request.remote_addr]+"/ckey.cfg").read():
-            file_html = file_html_gen(json_array[request.remote_addr])
-            if os.path.exists("users/"+json_array[request.remote_addr]+"/is_admin"):
-                if open("virus_scanner.cfg", "r").read() == "1":
-                    virscanner = "Enabled"
+        if request.remote_addr in json_array and "ckey" in request.cookies:
+            if request.cookies["ckey"] == open("users/"+json_array[request.remote_addr]+"/ckey.cfg").read():
+                file_html = file_html_gen(json_array[request.remote_addr])
+                if os.path.exists("users/"+json_array[request.remote_addr]+"/is_admin"):
+                    if open("virus_scanner.cfg", "r").read() == "1":
+                        virscanner = "Enabled"
+                    else:
+                        virscanner = "Disabled"
+                    if open("no_binary.cfg", "r").read() == "1":
+                        enbin = "yes"
+                    else:
+                        enbin = "no"
+                    userdirlisthtml = ""
+                    userdirlist = os.listdir("users/")
+                    for username_encoded in userdirlist:
+                        if username_encoded != json_array[request.remote_addr]:
+                            userdirlisthtml += "<div class='userdiv'>"+decode_from_base64(username_encoded)+"<button onclick=\"rmuser('"+decode_from_base64(username_encoded)+"')\">Remove</button></div>"
+                    ram_value = psutil.virtual_memory()[2]
+                    cpu_value = psutil.cpu_percent(2)
+                    theme = open("theme.cfg", "r").read().split(".")[0]
+                    return render_template("admin/admin_dashboard.html", version=version,
+                                        platform=platform.system(), virscanner=virscanner, last_vir_update=open("last_virus_update.txt", "r").read(), blockbinary=enbin, ram=ram_value, cpu=cpu_value, servername = login_subtitle, acttheme=theme).replace("[[ userlist ]]", userdirlisthtml)
                 else:
-                    virscanner = "Disabled"
-                if open("no_binary.cfg", "r").read() == "1":
-                    enbin = "yes"
-                else:
-                    enbin = "no"
-                userdirlisthtml = ""
-                userdirlist = os.listdir("users/")
-                for username_encoded in userdirlist:
-                    if username_encoded != json_array[request.remote_addr]:
-                        userdirlisthtml += "<div class='userdiv'>"+decode_from_base64(username_encoded)+"<button onclick=\"rmuser('"+decode_from_base64(username_encoded)+"')\">Remove</button></div>"
-                ram_value = psutil.virtual_memory()[2]
-                cpu_value = psutil.cpu_percent(2)
-                theme = open("theme.cfg", "r").read().split(".")[0]
-                return render_template("admin/admin_dashboard.html", version=version,
-                                       platform=platform.system(), virscanner=virscanner, last_vir_update=open("last_virus_update.txt", "r").read(), blockbinary=enbin, ram=ram_value, cpu=cpu_value, servername = login_subtitle, acttheme=theme).replace("[[ userlist ]]", userdirlisthtml)
+                    return render_template("homescreen.html", version=version).replace("[[ files ]]", file_html)
             else:
-                return render_template("homescreen.html", version=version).replace("[[ files ]]", file_html)
+                open("users/"+json_array[request.remote_addr]+"/ckey.cfg", "w").write("")
+                del json_array[request.remote_addr]
+                loggedin_users_writer = open("loggedin_users", "w")
+                loggedin_users_writer.write(json.dumps(json_array))
+                loggedin_users_writer.close()
+                return render_template("login.html", login_subtitle=login_subtitle)
         else:
+            open("users/"+json_array[request.remote_addr]+"/ckey.cfg", "w").write("")
+            del json_array[request.remote_addr]
+            loggedin_users_writer = open("loggedin_users", "w")
+            loggedin_users_writer.write(json.dumps(json_array))
+            loggedin_users_writer.close()
             return render_template("login.html", login_subtitle=login_subtitle)  
+    else:
+        return "Method not allowed"
 
 # * Login & Register
 
@@ -485,12 +500,13 @@ def upload():
                         file_html = file_html_gen(json_array[request.remote_addr])
                         return render_template("homescreen.html", version=version).replace("[[ files ]]", file_html)
                 else:
-                    return "sessionStorage.setItem('last_screen_info', 'upload_fail_already'); location.href = '/'", 902
-                
+                    # Execu or illegal filename detected
+                    return "", 903
             else:
-                return ">sessionStorage.setItem('last_screen_info', 'upload_fail_already'); location.href = '/'", 902
+                # The file already exists
+                return "", 904
         else:
-            return "You're not logged in", 902
+            return "You're not logged in"
 
 
 @app.route("/load-file/<string:filename>")
