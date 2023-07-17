@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security advisor</title>
+    <link rel="stylesheet" href="/asset/lui.css">
+    <link rel="stylesheet" href="/asset/securityadvisor.css">
+    <link rel="stylesheet" href="/asset/themeoverride.css">
+    <style>
+        :root {
+            --p-score: {{p_score}};
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Lumos Security Advisor</h1>
+    <h2>Password</h2>
+    <div id="bar_cropper" style="width: var(--p-score);">
+        <div id="level_bar"></div>
+    </div>
+    <br>
+    <h2>Unencrypted files</h2>
+    <small>The following files seem to contain important data, but are not encrypted. The files might be a potential target for a hacker. It is recommended to encrypt them.<br></small>
+    <div id="mflistscroll">
+        [[ m_f_list_html ]]
+    </div>
+    <div align="right"><button onclick="window.top.document.getElementById('security_advisor').hidden = true;">Done</button></div>
+</body>
+
+</html>

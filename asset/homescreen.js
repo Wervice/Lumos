@@ -83,9 +83,6 @@ function show_file_menu(file, event) {
                 if (!divElement.contains(targetElement) && divElement != targetElement) {
                     console.log(targetElement)
                     document.getElementById("editor_popup").hidden = true;
-                    setTimeout(function () {
-                        window.onclick = function () { }
-                    }, 100)
                 }
             }
 
@@ -143,31 +140,7 @@ window.onload = function () {
         document.getElementById("password_request").hidden = false;
         sessionStorage.removeItem("last_screen_info")
     }
-    else if (sessionStorage.getItem("last_screen_info") == "wrong_password") {
-        document.getElementById("password_request").hidden = false;
-        sessionStorage.removeItem("last_screen_info")
-    }
-    else if (sessionStorage.getItem("last_screen_info") == "encryption_done") {
-        sessionStorage.removeItem("last_screen_info")
-    }
-    else if (sessionStorage.getItem('last_screen_info') == "upload_success") {
-        document.getElementById("info_msg").hidden = false;
-        document.getElementById("info_message").innerHTML = "Upload successfully";
-        sessionStorage.removeItem("last_screen_info")
-        setTimeout(hide_info, 2000)
-    }
-    else if (sessionStorage.getItem('last_screen_info') == "upload_fail_blacklist") {
-        document.getElementById("info_msg").hidden = false;
-        document.getElementById("info_message").innerHTML = "The file type is blocked";
-        sessionStorage.removeItem("last_screen_info")
-        setTimeout(hide_info, 2000)
-    }
-    else if (sessionStorage.getItem('last_screen_info') == "upload_fail_already") {
-        document.getElementById("info_msg").hidden = false;
-        document.getElementById("info_message").innerHTML = "This file already exists";
-        sessionStorage.removeItem("last_screen_info")
-        setTimeout(hide_info, 6500)
-    } else if (sessionStorage.getItem('last_screen_info') == "upload_fail_virus") {
+    else if (sessionStorage.getItem('last_screen_info') == "upload_fail_virus") {
         document.getElementById("info_msg").hidden = false;
         document.getElementById("info_message").innerHTML = "The file is a virus<br>" + sessionStorage.getItem("virus_name+");
         sessionStorage.removeItem("last_screen_info")
@@ -183,7 +156,7 @@ window.onload = function () {
 function show_file_info(filename, filesize, filetype, filemday, filecday, mimeicon) {
     filename = event.srcElement.innerHTML.split("> ")[1].replaceAll(" ", "_")
     document.getElementById("file_info_menu").hidden = false;
-    document.getElementById("file_info_menu_icon").src = "asset/" + mimeicon
+    document.getElementById("file_info_menu_icon").src = "/asset/" + mimeicon
     document.getElementById("file_info_menu_filename").innerHTML = filename.replaceAll("_", " ");
     document.getElementById("file_info_menu_filesize").innerHTML = filesize + "MB";
     document.getElementById("file_info_menu_filetype").innerHTML = filetype;
@@ -262,6 +235,12 @@ function upload_new_file() {
                     sessionStorage.removeItem("last_screen_info")
                     setTimeout(hide_info, 6500)
                 }
+                else if (response.status == 905) {
+                    document.getElementById("info_msg").hidden = false;
+                    document.getElementById("info_message").innerHTML = "This file is malicious";
+                    sessionStorage.removeItem("last_screen_info")
+                    setTimeout(hide_info, 6500)
+                }
                 else {
                     location.reload()
                 }
@@ -270,4 +249,16 @@ function upload_new_file() {
 
     }
 
-} 
+}
+
+function security_advisor() {
+    var advisorElement = document.getElementById("security_advisor");
+    advisorElement.hidden = false;
+  
+    setTimeout(function () {
+        window.addEventListener("click", function hideAdvisor() {
+            advisorElement.hidden = true;
+            window.removeEventListener("click", hideAdvisor);
+        });
+    }, 100);
+}

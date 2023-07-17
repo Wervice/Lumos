@@ -80,11 +80,12 @@ div#menu {
     position: absolute;
     left: 10px;
     top: 60px;
-    border-radius: 10px;
+    border-radius: 5px;
     animation-name: fall-down;
     animation-duration: 0.25s;
     animation-fill-mode: forwards;
     z-index: 100;
+    box-shadow: 0px 1px 0px 0px #A0A0A0 inset, 0px 5px 15px 0px rgba(0, 0, 0, 0.50);
 }
 
 div#menu a {
@@ -100,7 +101,7 @@ div#menu a {
 
 div#info {
     padding: 10px;
-    background-color: var(--background-color-2);
+    background-color: var(--grey-3);
     color: var(--foreground-color);
     position: absolute;
     left: calc(50vw - 30vw);
@@ -109,6 +110,7 @@ div#info {
     height: 60vh;
     border-radius: 10px;
     padding: 20px;
+    box-shadow: 0px 1px 0px 0px #A0A0A0 inset, 0px 5px 15px 0px rgba(0, 0, 0, 0.50);
 }
 
 div#info h1 {
@@ -188,13 +190,14 @@ div.file_button img {
 
 div#file_menu {
     background-color: var(--grey-3);
-    border-radius: 5px;
+    border-radius: 2.5px;
     position: absolute;
     width: 200px;
     overflow-x: hidden;
     z-index: 100;
     padding-top: 10px;
     padding-bottom: 10px;
+    box-shadow: 0px 1px 0px 0px #A0A0A0 inset, 0px 5px 15px 0px rgba(0, 0, 0, 0.50); 
 }
 
 div#file_menu button {
@@ -208,6 +211,8 @@ div#file_menu button {
     padding: 10px;
     text-align: left;
     transition: ease-in-out 100ms;
+    box-shadow: none;
+    border-width: 0px;
 }
 
 div#file_menu button:hover {
@@ -260,19 +265,29 @@ img#empty_icon {
     0%{opacity: 0%;}
 }
 
-#chat_inframe {
+#chat_inframe, #editor_popup, #security_advisor {
     position: absolute;
     top: calc(10vh);
     left: calc(10vw);
     height: 80vh;
     width: 80vw;
     border-radius: 10px;
-    z-index: 100;
-    border-width: 2px;
     border-style: solid;
-    border-color: var(--accent-color);
+    border-width: 0px;
+    z-index: 100;
+    box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.50); 
     animation-name: fade-in;
     animation-duration: 200ms;
+    background-color: var(--background-color);
+}
+
+#security_advisor {
+    width: 25vw;
+    height: 25vw;
+    left: 37.5vw;
+    top: 12.5vw;
+    border-color: var(--grey-3);
+    border-width: 1px;
 }
 
 div#file_info_menu {
@@ -355,30 +370,31 @@ div#encryption_popup input {
 }
 
 div#confirm_popup {
+    color: white;
     position: absolute;
-    top: 70px;
+    top: 60px;
     left: calc(50vw - 160px);
     width: 300px;
     padding: 10px;
     padding-bottom: 5px;
-    background-color: var(--grey-2);
+    background-color: #282828;
     border-radius: 5px;
     animation-name: flow_down_b;
     animation-duration: 0.25s;
     border-style: solid;
-    border-width: 1px;
-    border-color: var(--grey-4);
+    border-width: 0px;
+    box-shadow: 0px 1px 0px 0px #717171 inset, 0px 5px 15px 0px rgba(0, 0, 0, 0.50);
+    z-index: 1000;
 }
 
 div#confirm_popup button {
     margin-top: 15px;
-}
-
-div#confirm_popup button {
+    border-width: 0px !important;
     padding: 10px;
     font-size: 15px;
-    box-shadow: 0px 2px 3px #1313132b;
-    border: #ffffff30 1px solid;
+    color: white !important;
+    margin-bottom: 7.5px;
+    box-shadow: none;
 }
 
 div#confirm_popup b {
@@ -403,31 +419,22 @@ div#confirm_popup b {
 
 #info_msg {
     position: absolute;
-    top: 40px;
+    top: 50px;
     left: calc(50vw - (300px + 20px));
     width: 300px;
     padding: 20px;
     border-radius: 10px;
     background-color: #565656;
+    color: white;
     animation: flow_down 0.25s;
     z-index: 100;
     box-shadow: 0px 1px 0px 0px #A0A0A0 inset, 0px 5px 15px 0px rgba(0, 0, 0, 0.50);
 }
 
-iframe#editor_popup {
-    position: fixed;
-    height: 90vh;
-    top: 5vh;
-    width: 70vw;
-    left: 15vw;
-    border-width: 1px;
-    border-color: var(--foreground-color);
-    border-style: solid;
-    border-radius: 5px;
-    background-color: var(--background-color);
-    z-index: 900;
-}
-
 #search_input {
     height: 20px;
+}
+
+#search_input::placeholder {
+    color: white;
 }

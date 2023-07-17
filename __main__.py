@@ -22,14 +22,12 @@ import json
 from mimetypes import MimeTypes
 import pyAesCrypt
 import threading
-mime = MimeTypes()
 import re
 import psutil
 import math
 import datetime as dt
 import random
-
-
+mime = MimeTypes()
 
 open("asset/themeoverride.css", "w").write(open("asset/themes/"+open("theme.cfg", "r").read()+".css").read())
 
@@ -339,17 +337,13 @@ def startscreen():
                     return render_template("homescreen.html", version=version).replace("[[ files ]]", file_html)
             else:
                 open("users/"+json_array[request.remote_addr]+"/ckey.cfg", "w").write("")
-                del json_array[request.remote_addr]
+                if request.remote_addr in json_array:
+                    del json_array[request.remote_addr]
                 loggedin_users_writer = open("loggedin_users", "w")
                 loggedin_users_writer.write(json.dumps(json_array))
                 loggedin_users_writer.close()
                 return render_template("login.html", login_subtitle=login_subtitle)
         else:
-            open("users/"+json_array[request.remote_addr]+"/ckey.cfg", "w").write("")
-            del json_array[request.remote_addr]
-            loggedin_users_writer = open("loggedin_users", "w")
-            loggedin_users_writer.write(json.dumps(json_array))
-            loggedin_users_writer.close()
             return render_template("login.html", login_subtitle=login_subtitle)  
     else:
         return "Method not allowed"
@@ -367,6 +361,7 @@ def login():
             return "<script>location.href = '/'</script>"
     elif request.method == "POST":
         time.sleep(3)
+        print("users/"+encode_as_base64(secure_filename(request.form["username"]))+"/userpassword.cfg")
         if os.path.exists("users/"+encode_as_base64(secure_filename(request.form["username"]))+"/userpassword.cfg"):
             if hashlib.sha256(request.form["password"].encode("utf-8")).hexdigest() ==\
                     open("users/"+encode_as_base64(secure_filename(request.form["username"]))+"/userpassword.cfg", "r").read():
@@ -445,7 +440,7 @@ def register():
 def logoff():
     login_user_input_file = open('loggedin_users')
     json_array = json.load(login_user_input_file)
-    if request.remote_addr in json_array and request.cookies["ckey"] == open("users/"+json_array[request.remote_addr]+"/ckey.cfg").read():
+    if request.remote_addr in json_array:
         open("users/"+json_array[request.remote_addr]+"/ckey.cfg", "w").write("")
         del json_array[request.remote_addr]
         loggedin_users_writer = open("loggedin_users", "w")
@@ -453,7 +448,7 @@ def logoff():
         loggedin_users_writer.close()
         return "<script>sessionStorage.setItem('last_screen_info', 'logged_of'); document.cookie = 'ckey=; expires=Thu, 01 Jan 1970 00:00:00 UTC;'; location.replace('/')</script>"
     else:
-        return "You're not logged in anymore"
+        return "<script>location.href = '/'</script>"
 
 
 # * File upload
@@ -488,10 +483,7 @@ def upload():
                             file_html = file_html_gen(json_array[request.remote_addr])
                             return render_template("homescreen.html", version=version).replace("[[ files ]]", file_html)
                         else:
-                            return "sessionStorage.setItem('last_screen_info', \
-                            'upload_fail_virus'); sessionStorage.setItem('virus_name', '"+\
-                            open("names_main.txt", "r").read().split("\n")[open("hashes_main.txt", "r").read().split("\n").\
-                            index(hashlib.md5(file_contents).hexdigest())]+"') location.href = '/'", 902
+                            return "", 905
                     else:
                         file_writer = open(
                             "users/"+username+"/" + secure_filename(request.form["filename"]), "wb")
@@ -1073,6 +1065,10 @@ def favicon():
 def info():
     return render_template("info.html", version=version, login_subtitle=login_subtitle)
 
+@app.route("/info/p")
+def info_privacy():
+    return render_template("privacy.html")
+
 @app.route("/rawedit/<string:filename>")
 def rawedit(filename):
     login_user_input_file = open('loggedin_users')
@@ -1101,5 +1097,59 @@ def rawedit_s():
         return render_template("rawedit.html", filename = filename).replace("[[ file_content ]]", file_content)
     else:
         return ""
+
+@app.route("/security_advisor")
+def security_advisor():
+    login_user_input_file = open('loggedin_users')
+    json_array = json.load(login_user_input_file)
+    if request.remote_addr in json_array and request.cookies["ckey"] == open("users/"+json_array[request.remote_addr]+"/ckey.cfg").read():
+        return render_template("security_advisor.html")
+    else:
+        return "You are not allowed to access this page", 403
+
+@app.route("/security_advisor/start", methods=["POST"])
+def security_advisor_start():
+    login_user_input_file = open('loggedin_users')
+    json_array = json.load(login_user_input_file)
+    if request.remote_addr in json_array and request.cookies["ckey"] == open("users/"+json_array[request.remote_addr]+"/ckey.cfg").read():
+        password = request.form["password"]
+        p_score = 0
+        if len(password) < 5:
+            p_score = 1
+        elif len(password) < 10:
+            p_score = 40
+        elif len(password) < 15:
+            p_score = 70
+        elif len(password) < 20:
+            p_score = 100
+        elif len(password) < 30:
+            p_score = 120
+        else:
+            p_score = 180
+        scs = 0
+        special_chars = ["!", "\"", "§", "$", "%", "&", "/", "(", ")", "=", "?", "+", "*", "#", "'", "-", ".", ":", ",", ";", "[", "]", "{", "}", "\\", "^", "°", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
+        for c in password:
+            if c in special_chars:
+                scs = scs+1
+        p_score = p_score - (10 - scs)
+        p_score = p_score / 2
+        if p_score > 100:
+            p_score = 100
+        if p_score < 20:
+            p_score = 20
+        p_score = p_score * 4
+        p_score = str(p_score)+"px"
+        user_encrypted_files = json.load(open("users/"+json_array[request.remote_addr]+"/enced_files"))
+        m_f_list_html = ""
+        for file in os.listdir("users/"+json_array[request.remote_addr]):
+            if not file in user_encrypted_files:
+                try:
+                    if file.split(".")[1] in ["doc", "docx", "rtf", "pdf", "odt", "xls", "xlsx", "csv", "ods", "ppt", "pptx", "odp"]:
+                     m_f_list_html += "<div class='missing_file'>"+file+"</div>"
+                except IndexError:
+                    pass
+        return render_template("security_advisor_overview.html", p_score = p_score).replace("[[ m_f_list_html ]]", m_f_list_html)
+    else:
+        return "You are not allowed to access this page", 403
 
 app.run(host="0.0.0.0", port=5000, debug=False, ssl_context="adhoc")

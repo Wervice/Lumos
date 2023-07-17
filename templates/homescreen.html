@@ -6,29 +6,34 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lumos</title>
-    <link rel="stylesheet" href="asset/homescreen.css">
-    <script src="asset/homescreen.js"></script>
+    <link rel="stylesheet" href="/asset/homescreen.css">
+    <script src="/asset/homescreen.js"></script>
     <meta http-equiv="cache-control" content="no-cache">
     <link rel="stylesheet" href="/asset/themeoverride.css">
     <link rel="stylesheet" href="/asset/lui.css">
+    <link rel="manifest" href="/asset/manifest.json">
 </head>
 
 <body oncontextmenu="return false;">
+    <iframe src="/security_advisor" id="security_advisor" hidden></iframe>
+
     <iframe id="editor_popup" src="" frameborder="0" hidden></iframe>
     <div id="info_msg" hidden>
         <big id="info_message">
             None
         </big>
     </div>
+
     <form action="/upload/web" method="post" id="file_upload_form" enctype="multipart/form-data"><input type="hidden" name="filename" id="filename_upload_hidden_input"><input type="file" name="file_upload" id="file_upload_button" hidden></form>
     
     <div id="confirm_popup" hidden>
         <span id="confirm_popup_message">
 
         </span><br>
-        <button id="confirm_popup_confirm">Ok</button>
+        <button id="confirm_popup_confirm" style="background-color: #424242;">Ok</button>
         <button id="confirm_popup_decline" class="second" onclick="document.getElementById('confirm_popup').hidden = true;">Cancle</button>
     </div>
+
     <div id="encryption_popup" hidden>
         <div class="modal_title">Encryption</div><br>
         <form action="/mng-encryption-file-formular-handler" method="post" onsubmit="document.getElementById('encryption_popup').hidden = true;">
@@ -37,6 +42,7 @@
             <button style="margin: 10px;">Submit</button>
         </form>
     </div>
+
     <iframe src="/chat/web" id="chat_inframe" frameborder="0" hidden></iframe>
     <div id="password_request" hidden>
         <big id="p_info_message">
@@ -50,6 +56,7 @@
             <button type="button" onclick="document.getElementById('password_request').hidden = true;">Cancle</button>
         </form>
     </div>
+
     <div id="file_menu" hidden>
         <button id="file_menu_delete_button" class="dangerous">Delete</button><br>
         <button id="file_menu_encryption_button">Encryption</button><br>
@@ -57,6 +64,7 @@
         <button id="file_menu_download_button">Download</button>
         <button id="file_menu_rawedit_button">Edit</button>
     </div>
+    
     <div id="menu" onmouseleave="hide_menu()" hidden>
         <a href="/logoff">Exit</a><br>
         <a href="javascript:document.getElementById('info').hidden = false">Help</a>
@@ -137,15 +145,16 @@
             L
         </div>
 
-        <img onclick="upload_new_file()" src="asset/upload.svg" width="17">
+        <img onclick="upload_new_file()" src="/asset/upload.svg" width="17">
         <img onclick="document.getElementById('chat_inframe').hidden = !document.getElementById('chat_inframe').hidden;setTimeout(function () {window.onclick = function () {document.getElementById('chat_inframe').hidden = true;setTimeout(function () { window.onclick = {}}, 100)}, 100})"
-            src="asset/chat.svg" width="17" class="l1">
-        <img src="asset/reload.svg" alt="Reload" title="Reload" onclick="location.reload()" class="l2">
+            src="/asset/chat.svg" width="17" class="l1">
+        <img src="/asset/reload.svg" alt="Reload" title="Reload" onclick="location.reload()" class="l2">
+        <img src="/asset/security.svg" alt="Security Advisor" title="Reload" onclick="security_advisor()" class="l3">
         <input type="text" name="search_input" id="search_input" onchange="search_for_file(this.value)" placeholder="Search">
     </nav>
     <div id="main_box">
         <div id="file_info_menu" hidden><br>
-            <div align="center"><span id="img_wrapper"><img src="asset/mime_none.svg" id="file_info_menu_icon" alt="Mime Icon" height="90"
+            <div align="center"><span id="img_wrapper"><img src="/asset/mime_none.svg" id="file_info_menu_icon" alt="Mime Icon" height="90"
                     draggable="false"></span>
             </div><span id="file_info_menu_filetype" align="center"></span><br>
             <span id="file_info_menu_filename" align="center">

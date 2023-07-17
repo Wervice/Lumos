@@ -81,12 +81,14 @@ div.infocard {
     padding: 10px;
     display: inline-table;
     border-radius: 10px;
-    background-color: var(--background-color-2);
     width: 30vw;
     height: 330px;
     text-align: left;
     margin-left: 10px;
     margin-bottom: 10px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--grey-3);
 }
 
 div.infocard h3 {
@@ -116,7 +118,6 @@ div.wide {
 
 div.userdiv {
     padding: 10px;
-    background-color: var(--background-color-2);
     border-radius: 5px;
     padding-top: 0px;
     padding-bottom: 0px;
@@ -126,6 +127,7 @@ div.userdiv button {
     background-color: transparent;
     color: red;
     border-width: 0px;
+    box-shadow: none;
 }
 
 div.userdiv button {

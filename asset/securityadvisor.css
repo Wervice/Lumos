@@ -1,0 +1,161 @@
+::placeholder {
+    color: var(--foreground-color);
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+@font-face {
+    font-family: "Instrument Sans";
+    src: url("InstrumentSans-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Instrument Sans Bold";
+    src: url("InstrumentSans-Bold.ttf");
+}
+
+@font-face {
+    font-family: "Instrument Sans Italic";
+    src: url("InstrumentSans-Italic.ttf");
+}
+
+@keyframes fall-down {
+    0% {
+        opacity: 0%;
+        height: 0px;
+    }
+}
+
+::selection {
+    background-color: transparent;
+}
+
+*:focus {
+    outline: none;
+}
+
+* {
+    cursor: default;
+}
+
+h1 {
+    font-size: xx-large;
+    font-family: "Instrument Sans Bold", sans-serif;
+    margin-bottom: 10px;
+}
+
+h2 {
+    font-size: large;
+    margin-bottom: 10px;
+}
+
+/*
+-- Login Box --
+Width: 33vw
+Padding: 40px;
+Height: 100vh - 80
+Margin-Top: 40px;
+*/
+
+html {
+    height: 100%;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--foreground-color);
+    font-family: "Instrument Sans", sans-serif;
+    margin: 20px;
+    height: 100%;
+    overflow: hidden;
+}
+
+
+@keyframes flow_down_b {
+    0% {
+        top: 0px;
+    }
+}
+
+div#confirm_popup {
+    color: white;
+    position: absolute;
+    top: 60px;
+    left: calc(50vw - 160px);
+    width: 300px;
+    padding: 10px;
+    padding-bottom: 5px;
+    background-color: #282828;
+    border-radius: 5px;
+    animation-name: flow_down_b;
+    animation-duration: 0.25s;
+    border-style: solid;
+    border-width: 0px;
+    box-shadow: 0px 1px 0px 0px #717171 inset, 0px 5px 15px 0px rgba(0, 0, 0, 0.50);
+    z-index: 1000;
+}
+
+div#confirm_popup button {
+    margin-top: 15px;
+    border-width: 0px !important;
+    padding: 10px;
+    font-size: 15px;
+    color: white !important;
+    margin-bottom: 7.5px;
+    box-shadow: none;
+}
+
+div#confirm_popup b {
+    letter-spacing: 0.75px;
+}
+
+#info_msg {
+    position: absolute;
+    top: 50px;
+    left: calc(50vw - (300px + 20px));
+    width: 300px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #565656;
+    color: white;
+    animation: flow_down 0.25s;
+    z-index: 100;
+    box-shadow: 0px 1px 0px 0px #A0A0A0 inset, 0px 5px 15px 0px rgba(0, 0, 0, 0.50);
+}
+
+@keyframes fill-up {
+    0% {width: 0px;}
+}
+
+#bar_cropper {
+    border-radius: 5px;
+    overflow: hidden;
+    height: 14px;
+    width: 300px;
+    animation-name: fill-up;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+#level_bar {
+    background-image: linear-gradient(270deg, #ADFF00 0%, #FF000F 100%);
+    box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.50), 0px 2px 0px 0px rgba(255, 255, 255, 0.53) inset;
+    height: 14px;
+    width: 300px;
+    border-radius: 5px;
+}
+
+.missing_file {
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    background-color: var(--grey-3);
+    box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.50), 0px 1px 0px 0px rgba(255, 255, 255, 0.53) inset;
+}
+
+#mflistscroll {
+    height: 140px;
+    overflow: scroll;
+}

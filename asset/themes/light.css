@@ -57,7 +57,7 @@ nav#menu_bar input[type="text"] {
 }
 
 nav#menu_bar {
-    background-color: var(--accent-color);
+    background-color: black;
 }
 
 #file_info_menu {

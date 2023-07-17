@@ -48,6 +48,12 @@ Height: 100vh - 80
 Margin-Top: 40px;
 */
 
+body, html {
+    height: 100%;
+    max-height: 100vh;
+    overflow: hidden;
+}
+
 div#login_box {
     width: 33vw;
     min-width: 450px;
@@ -92,6 +98,7 @@ nav button {
     padding: 0px;
     text-align: left;
     transition: none;
+    box-shadow: none;
 }
 
 div#info {
@@ -225,7 +232,7 @@ textarea {
     background-color: var(--grey-1);
     border-width: 0px;
     width: calc(100% - 60px);
-    height: calc(100% - 100px);
+    height: calc(100% - 120px);
     color: var(--foreground-color);
     padding: 10px;
     margin: 20px;

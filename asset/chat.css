@@ -67,6 +67,7 @@ table tr #userlist button.user {
     margin-top: 5px;
     font-size: 16px;
     transition: ease-in-out 100ms;
+    box-shadow: none;
 }
 
 table tr #userlist button.user:hover {
@@ -151,4 +152,9 @@ table tr #messages #input input:focus {
     display: block;
     margin-left: auto;
     overflow-wrap: break-word;
+}
+
+#upload_button {
+    box-shadow: none;
+    margin-left: 7.5px !important;
 }
