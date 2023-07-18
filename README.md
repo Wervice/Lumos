@@ -17,7 +17,12 @@ Its light web interface and small design make it simple to manage files and keep
 
 It also gives you the opportunity to protect your files using robust symmetric encryption out of the box.
 
-You can connect to it on port 5000 or 4999 for setup.
+- 🕒 Fast
+- 🔒 Secure
+- 👾 Virus Scanner
+- 💬 Chat
+- 🖥 Web Interface
+- 🤓 Easy
 
 ### Screenshots
 
@@ -57,4 +62,4 @@ After that, your members can log in and upload files, and you are done.
 Lumos is released under the Apache 2.0 license. Please be honest and don't violate its conditions, 
 but feel free to fork it or edit it for your purposes.
 
-More information at [legal.md](legal.md)
+More information at [legal.md](legal.md)I
