@@ -151,6 +151,10 @@ window.onload = function () {
         document.getElementById("filename").value = sessionStorage.getItem("filename")
         sessionStorage.removeItem("filename")
     }
+    if (localStorage.getItem("intro_homescreen") != "true") {
+        document.getElementById("info").hidden = false;
+        localStorage.setItem("intro_homescreen", "true")
+    }
 
 }
 function show_file_info(filename, filesize, filetype, filemday, filecday, mimeicon) {

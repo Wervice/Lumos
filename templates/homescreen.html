@@ -24,19 +24,23 @@
         </big>
     </div>
 
-    <form action="/upload/web" method="post" id="file_upload_form" enctype="multipart/form-data"><input type="hidden" name="filename" id="filename_upload_hidden_input"><input type="file" name="file_upload" id="file_upload_button" hidden></form>
-    
+    <form action="/upload/web" method="post" id="file_upload_form" enctype="multipart/form-data"><input type="hidden"
+            name="filename" id="filename_upload_hidden_input"><input type="file" name="file_upload"
+            id="file_upload_button" hidden></form>
+
     <div id="confirm_popup" hidden>
         <span id="confirm_popup_message">
 
         </span><br>
         <button id="confirm_popup_confirm" style="background-color: #424242;">Ok</button>
-        <button id="confirm_popup_decline" class="second" onclick="document.getElementById('confirm_popup').hidden = true;">Cancle</button>
+        <button id="confirm_popup_decline" class="second"
+            onclick="document.getElementById('confirm_popup').hidden = true;">Cancle</button>
     </div>
 
     <div id="encryption_popup" hidden>
         <div class="modal_title">Encryption</div><br>
-        <form action="/mng-encryption-file-formular-handler" method="post" onsubmit="document.getElementById('encryption_popup').hidden = true;">
+        <form action="/mng-encryption-file-formular-handler" method="post"
+            onsubmit="document.getElementById('encryption_popup').hidden = true;">
             <input type="password" placeholder="Password" name="password"><br>
             <input type="hidden" name="filename" id="filename_encpop">
             <button style="margin: 10px;">Submit</button>
@@ -64,80 +68,105 @@
         <button id="file_menu_download_button">Download</button>
         <button id="file_menu_rawedit_button">Edit</button>
     </div>
-    
+
     <div id="menu" onmouseleave="hide_menu()" hidden>
         <a href="/logoff">Exit</a><br>
         <a href="javascript:document.getElementById('info').hidden = false">Help</a>
     </div>
-    <!-- TODO @Me Help isn't done yet -->
-    <div id="info" hidden>
+    <div id="info">
         <div id="body">
-            <h1>Lumos Help</h1><br>
-            <h2 id="upload_file">Uploading a new file</h2>
+            <h1 align="center" style="font-family: 'Instrument Sans Bold';">Welcome to <br>Lumos</h1>
             <p>
-                Lumos offers an easy way to upload safely upload new files from your computer to the cloud. Follow the
-                step-by-step guide to uplaod a file.
+                Lumos is a cloud application where you can upload, edit, share and encrypt your files. It is an open
+                source project by <a href="https://github.com/Wervice">Wervice</a>.
+                <br><br>
+                This guide will teach you the basics how to use the Lumos filemanager, the encryption, the chat and the
+                security advisor.<br>
+                If you are more into coding, you can access the source code and more information at <a
+                    href="https://github.com/Wervice/Lumos">the GitHub page</a>.
             </p>
-            <ol>
-                <li>Click the blue upload button on the homescreen.</li>
-                <li>On the next page click the blue "Select file" button and choose a file from your computer.</li>
-                <li>Click the new "Upload" button.</li>
-                <li>After the page reloaded click "Go back" or "<-".< /li>
-            </ol>
-            <h3>Common errors and mistakes</h3>
+            <br>
+            <h3>Index</h3>
             <ul>
-                <li><b>This filetype is blocked</b> appears when you tried to upload a binary executable file from your
-                    computer or tried to upload a file with and illegal filename like <code>is_admin</code>. Lumos
-                    blocks the files by default to protect the server.</li>
-                <li><b>This file is a virus</b> means that Lumos indentified a file you tried to upload as malware. You
-                    may consider to remove this file from your computer.</li>
-            </ul><br>
-            <h2 id="file_options">File options</h2>
+                <li><a href="#help_filemanager">Filemanager</a></li>
+                <li><a href="#help_encryption">Encryption</a></li>
+                <li><a href="#help_chat">Chat</a></li>
+                <li><a href="#help_security_advisor">Security advisor</a></li>
+            </ul>
+            <h2 id="help_filemanager">
+                File Manager
+            </h2>
             <p>
-                You can run simple task with your files like renaming or encrypting them.
+                The Lumos filemanager is the main screen of Lumos.<br>From there you can interact with your files. It is
+                similar to your systems file manager.<br>You can access it directly after login or when you close this
+                popup.
             </p>
-            <h3>See options</h3>
-            <p>
-                To see all options for a file, right-click it.
-            </p>
-            <h3>Delete a file</h3>
-            <ol>
-                <li>
-                    Open the options.
-                </li>
-                <li>
-                    Click delete.
-                </li>
-                <li>
-                    Confirm the popup.
-                </li>
-            </ol>
-            <h3>Rename a file</h3>
-            <ol>
-                <li>Open the options.</li>
-                <li>Click rename.</li>
-                <li>Enter a new filename.</li>
-                <li>After the page reloaded, you'll see the renamed file.</li>
-            </ol>
-            <h3>
+            <h3>File interactions</h3><br>
+            <b>Upload a file</b><br>
+            To upload a file you need to click the upload icon in the nav bar.<br>
+            This will bring up a file selection prompt.<br>
+            Now you can select a file from your computer.<br>
+            The file will be uploaded soon. After a few seconds the site will reload and you can access the file.
+            <br><br>
+            <b>Opening a file</b><br>
+            To open or download a file you need to dubble click it.
+            Your browser will now download it.
+            <br><br>
+            <b>File information</b><br>
+            To access information about the file, you need to single click it once. On the side you'll now find some
+            basic information.
+            <br><br>
+            <b>Deleting a file</b><br>
+            To delete a file, you need to right-click the desired file once. Now select delete in the context menu and
+            confirm the popup.<br>
+            Deleted files can not be restored without direct access to the server.
+            <br><br>
+            <b>Renaming a file</b><br>
+            To rename a file, you need to right-click the desited file once. Now select rename and enter the new
+            filename.<br>
+            In a few cases, this might cause some issues with the interface. Please reload the website in this case.
+            <br><br>
+            <b>Editing a file</b><br>
+            You can edit the raw data of a file in Lumos. You need to right-click the desired file and then select
+            Edit.<br>This will bring up a editor popup. In this you can edit the data. Safe and close the popup when you
+            are done.<br>
+            Binary files like executables or images can't be edited.
+            <br><br>
+            <h2 id="help_encryption">
                 Encryption
-            </h3>
+            </h2>
             <p>
-                Lumos offers an easy way to protect your files using strong AES encryption.
+                You can encrypt files with Lumos, The encryption also works from the homescreen.<br>
+                If gives you the option to encrypt sensetive files using AES.
+                <br>
+                A hacker can't access your files with out a password anymore. You should choose a strong password.<br>
+                To encrypt a file, you need to right-click it once an select Encryption.<br>
+                In the new popup, you can enter a password and press submit.<br>
+                To decrypt the file again, you need to repeat the process above with the same password. You can also
+                just dubble-click the file.
             </p>
-            <b>Follow this guide to encrypt a file</b>
-            <ol>
-                <li>Open the menu for the file to encrypt.</li>
-                <li>Click Encryption.</li>
-                <li>Enter the password to encrypt it.</li>
-                <li>Press enter.</li>
-                <li>Leave the page.</li>
-                <li>If it worked, the file is encrypted now</li>
-            </ol>
+            <h2 id="help_chat">Chat</h2><br>
+            The main tool for collaboration in Lumos is the chat.<br>
+            You can write messages and share files from your computer.<br>
+            To open the chat, you need to click the chat icon in the nav bar.<br>
+            In the new popup, you can select the reciver in the left side.
+            <br>You now can view the full chat history with this person and write a new message.<br>
+            Enter your message text in the input field bellow and click the -> button.<br>
+            To share a file, you need to click the uplaod button next to the -> button.<br>
+            Then you can submit the message and the file will be shared with the reciver.<br>
+            If you want to download a file that go sent to you, you need to click the Filebox button.<br>
+            From there you can download any file that got sent to you.<br>
+            <h2 id="help_security_advisor">Security advisor</h2>
+            <br>
+            <p>
+                To reensure the security of Lumos, you can use the security advisor. To run it, you can click the shield button in the nav bar.
+            </p>
+            <br>
+            <br>
+            <b><a href="https://wervice.github.io/Lumos">by Constantin Volke (Wervice)</a></b>
         </div>
         <div id="nav" align="right">
-            <button onclick="open_info()">Exit</button><button id="bf" onclick="last_topic()"><-</button><button
-                        id="bf" onclick="next_topic()">-></button>
+            <button onclick="open_info()">Done</button>
         </div>
     </div>
     <nav id="menu_bar">
@@ -150,12 +179,13 @@
             src="/asset/chat.svg" width="17" class="l1">
         <img src="/asset/reload.svg" alt="Reload" title="Reload" onclick="location.reload()" class="l2">
         <img src="/asset/security.svg" alt="Security Advisor" title="Reload" onclick="security_advisor()" class="l3">
-        <input type="text" name="search_input" id="search_input" onchange="search_for_file(this.value)" placeholder="Search">
+        <input type="text" name="search_input" id="search_input" onchange="search_for_file(this.value)"
+            placeholder="Search">
     </nav>
     <div id="main_box">
         <div id="file_info_menu" hidden><br>
-            <div align="center"><span id="img_wrapper"><img src="/asset/mime_none.svg" id="file_info_menu_icon" alt="Mime Icon" height="90"
-                    draggable="false"></span>
+            <div align="center"><span id="img_wrapper"><img src="/asset/mime_none.svg" id="file_info_menu_icon"
+                        alt="Mime Icon" height="90" draggable="false"></span>
             </div><span id="file_info_menu_filetype" align="center"></span><br>
             <span id="file_info_menu_filename" align="center">
             </span><br>
