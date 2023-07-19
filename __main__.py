@@ -135,7 +135,7 @@ def file_html_gen(username):
     files = os.listdir("users/"+username+"/")
     html_code = ""
     for file in files:
-        if file != "userpassword.cfg" and file != "enced_files" and file != "Thumbs.db" and file != "ckey.cfg" and not file.startswith("chat_log_file_") and file != "chat_inbox":
+        if file != "userpassword.cfg" and file != "enced_files" and file != "Thumbs.db" and file != "ckey.cfg" and not file.startswith("chat_log_file_") and file != "chat_inbox" and file != "shared_files":
             # mime_image.svg
             # mime_doc.svg
             # mime_presentation.svg
@@ -295,7 +295,7 @@ if open("no_binary.cfg").read() == "1":
     print("Block binaries")
 else:
     blacklist_extensions = []
-blacklist_filenames = ["is_admin", "userconfig.cfg", "enced_files", "Thumbs.db", "decryption_tempfile.tmp", "", "chat_inbox", "userpassword.cfg", "ckey.cfg"]
+blacklist_filenames = ["is_admin", "userconfig.cfg", "enced_files", "Thumbs.db", "decryption_tempfile.tmp", "", "chat_inbox", "userpassword.cfg", "ckey.cfg", "shared_files"]
 
 def validate_access_permissions(filename):
     if secure_filename(filename) in blacklist_filenames or filename.startswith('chat_log_file_'):
@@ -583,6 +583,15 @@ def delete_file(filename):
                     'users/'+username+"/enced_files", "w")
                 loggedin_users_writer.write(json.dumps(json_array_enced))
                 loggedin_users_writer.close()
+            filename = str(secure_filename(filename))
+            username = json_array[request.remote_addr]
+            user_shared_list = open('users/'+username+"/shared_files")
+            user_shared_list_parsed = json.load(user_shared_list)
+            try:
+                del user_shared_list_parsed[filename]
+            except:
+                pass
+            open('users/'+username+"/shared_files", "w").write(json.dumps(user_shared_list_parsed))
             return "<style>* { background-color: #02050f}</style><script>history.back()</script>"
         else:
             return "You aren't allowed to access this file", 403
@@ -1151,5 +1160,68 @@ def security_advisor_start():
         return render_template("security_advisor_overview.html", p_score = p_score).replace("[[ m_f_list_html ]]", m_f_list_html)
     else:
         return "You are not allowed to access this page", 403
+    
+@app.route("/share/link/<string:username>/<string:filename>/<string:code>")
+def share_link(username, filename, code):
+    username = decode_from_base64(str(username))
+    user_shared_list = open('users/'+encode_as_base64(secure_filename(username))+"/shared_files")
+    user_shared_list_parsed = json.load(user_shared_list)
+    if secure_filename(filename) in user_shared_list_parsed and user_shared_list_parsed[secure_filename(filename)] == code and not validate_access_permissions(filename):
+        return send_file(
+            "users/"+encode_as_base64(secure_filename(username))+"/"+secure_filename(filename),
+            mimetype=secure_filename(filename),
+            as_attachment=True,
+            download_name=filename
+        )
+    else:
+        return render_template("share_wrong_code.html")
+
+@app.route("/share/info/<string:filename>")
+def share_info(filename):
+    login_user_input_file = open('loggedin_users')
+    json_array = json.load(login_user_input_file)
+    if request.remote_addr in json_array:
+        username = json_array[request.remote_addr]
+        user_shared_list = open('users/'+username+"/shared_files")
+        user_shared_list_parsed = json.load(user_shared_list)
+        filename = decode_from_base64(str(filename))
+        if filename in user_shared_list_parsed:
+            return "shared"
+        else:
+            return "not_shared"
+    else:
+        return "This part of the API is locked down for you"
+    
+@app.route("/share/reglink/<string:filename>")
+def share_reglink(filename):
+    login_user_input_file = open('loggedin_users')
+    json_array = json.load(login_user_input_file)
+    if request.remote_addr in json_array:
+        filename = secure_filename(decode_from_base64(str(filename)))
+        username = json_array[request.remote_addr]
+        user_shared_list = open('users/'+username+"/shared_files")
+        user_shared_list_parsed = json.load(user_shared_list)
+        share_code = str(hashlib.sha256(str(random.randint(1,1000000)).encode("utf-8")).hexdigest())
+        user_shared_list_parsed[filename] = share_code
+        open('users/'+username+"/shared_files", "w").write(json.dumps(user_shared_list_parsed))
+        return "/share/link/"+username+"/"+filename+"/"+share_code
+    else:
+        return "This part of the API is locked down for you"
+
+@app.route("/share/unreg/<string:filename>")
+def share_unreg(filename):
+    login_user_input_file = open('loggedin_users')
+    json_array = json.load(login_user_input_file)
+    if request.remote_addr in json_array:
+        filename = secure_filename(decode_from_base64(str(filename)))
+        username = json_array[request.remote_addr]
+        user_shared_list = open('users/'+username+"/shared_files")
+        user_shared_list_parsed = json.load(user_shared_list)
+        del user_shared_list_parsed[filename]
+        open('users/'+username+"/shared_files", "w").write(json.dumps(user_shared_list_parsed))
+        return "done"
+    else:
+        return "This part of the API is locked down for you"
+    
 
 app.run(host="0.0.0.0", port=5000, debug=False, ssl_context="adhoc")

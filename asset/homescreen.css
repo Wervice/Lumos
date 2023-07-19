@@ -32,6 +32,10 @@
     background-color: transparent;
 }
 
+*.selectable::selection {
+    background-color: var(--accent-color);
+}
+
 *:focus {
     outline: none;
 }

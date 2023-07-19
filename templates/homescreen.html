@@ -15,9 +15,11 @@
 </head>
 
 <body oncontextmenu="return false;">
+    <textarea id="share_code_copy" hidden></textarea>
     <iframe src="/security_advisor" id="security_advisor" hidden></iframe>
 
     <iframe id="editor_popup" src="" frameborder="0" hidden></iframe>
+
     <div id="info_msg" hidden>
         <big id="info_message">
             None
@@ -67,6 +69,7 @@
         <button id="file_menu_rename_button">Rename</button><br>
         <button id="file_menu_download_button">Download</button>
         <button id="file_menu_rawedit_button">Edit</button>
+        <button id="file_menu_share_button">Share</button>
     </div>
 
     <div id="menu" onmouseleave="hide_menu()" hidden>

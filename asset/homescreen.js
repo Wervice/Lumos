@@ -103,6 +103,54 @@ function show_file_menu(file, event) {
             }
         })
     }
+    document.getElementById("file_menu_share_button").onclick = async function () {
+        filename = event.srcElement.innerHTML.split("> ")[1].replaceAll(" ", "_")
+        console.log("/share/info/" + btoa(filename))
+        fetch("/share/info/" + btoa(filename))
+            .then((response) => {
+                if (response.ok) {
+                    return response.text()
+                }
+                else {
+                    return "Error"
+                }
+            })
+            .then(
+                function (response) {
+                    if (response == "not_shared") {
+                        l_confirm("Do you want to create a sharing link for " + filename + "?", function () {
+                            fetch("/share/reglink/" + btoa(filename)).then(
+                                (response) => {
+                                    if (response.ok) {
+                                        return response.text()
+                                    }
+                                    else {
+                                        return "Failed to get"
+                                    }
+                                }
+                            )
+                                .then(
+                                    function (response) {
+                                        document.getElementById("confirm_popup").hidden = true;
+                                        code = "https://"+location.host+response
+                                        l_confirm("Copy this code with CTRL+C. <div style=max-width:200px;overflow:scroll; class=selectable oncontextmenu='return true;'>"+code+"</div>", function () {
+                                            document.getElementById("confirm_popup").hidden = true;
+                                        })
+                                    }
+                                )
+                        })
+                    }
+                    else {
+                        l_confirm("Do you want to remove the sharing link for this file?", function () {
+                            fetch("/share/unreg/"+btoa(filename))
+                            l_confirm("The share link is removed for this file.", function () {
+                                document.getElementById("confirm_popup").hidden = true;
+                            })
+                        })
+                    }
+                }
+            )
+    }
 
     var x = event.clientX;
     var y = event.clientY;
@@ -258,7 +306,7 @@ function upload_new_file() {
 function security_advisor() {
     var advisorElement = document.getElementById("security_advisor");
     advisorElement.hidden = false;
-  
+
     setTimeout(function () {
         window.addEventListener("click", function hideAdvisor() {
             advisorElement.hidden = true;
