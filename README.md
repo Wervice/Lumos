@@ -22,6 +22,7 @@ It also gives you the opportunity to protect your files using robust symmetric e
 - 👾 Virus Scanner
 - 💬 Chat
 - 🖥 Web Interface
+- 📎 Liml sharing for files
 - 🤓 Easy
 
 ### Screenshots
