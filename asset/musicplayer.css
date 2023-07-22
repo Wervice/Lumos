@@ -1,0 +1,137 @@
+::placeholder {
+    color: var(--foreground-color);
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+@font-face {
+    font-family: "Instrument Sans";
+    src: url("InstrumentSans-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Instrument Sans Bold";
+    src: url("InstrumentSans-Bold.ttf");
+}
+
+@font-face {
+    font-family: "Instrument Sans Italic";
+    src: url("InstrumentSans-Italic.ttf");
+}
+
+@keyframes fall-down {
+    0% {
+        opacity: 0%;
+        height: 0px;
+    }
+}
+
+::selection {
+    background-color: transparent;
+}
+
+*.selectable::selection {
+    background-color: var(--accent-color);
+}
+
+*:focus {
+    outline: none;
+}
+
+* {
+    cursor: default;
+}
+
+/*
+-- Login Box --
+Width: 33vw
+Padding: 40px;
+Height: 100vh - 80
+Margin-Top: 40px;
+*/
+
+html {
+    height: 100%;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--foreground-color);
+    font-family: "Instrument Sans", sans-serif;
+    margin: 0px;
+    height: 100%;
+}
+
+#lumos_title {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    opacity: 0.3;
+}
+
+#player_box {
+    --width: 320px;
+    --height: 400px;
+    --pading: 20px;
+    width: var(--width);
+    height: var(--height);
+    padding: var(--pading);
+    position: fixed;
+    top: calc(50vh - (var(--height) + var(--pading)) / 2);
+    left: calc(50vw - (var(--width) + var(--pading)) / 2);
+    background-color: var(--grey-1);
+    border-radius: 15px;
+    box-shadow: 0px 1px 0px 0px #A0A0A0 inset, 0px 5px 15px 0px rgba(0, 0, 0, 0.50);
+}
+
+#player_box img {
+    filter: 0px 5px 15px 0px rgba(0, 0, 0, 0.50);
+}
+
+#song_title {
+    font-size: large;
+    max-width: 200px;
+    margin: 10px;
+}
+
+#play_button {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 16px;
+    margin-top: calc(25% - 10px);
+}
+
+#play_button img {
+    width: 20px;
+    padding-top: 2.5px;
+}
+
+@keyframes pulse {
+    0% {}
+    50% {filter: brightness(1.4);}
+    100% {}
+}
+
+.pulse {
+    animation-name: pulse;
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+}
+
+#scale_bg {
+    border-radius: 2px;
+    background-color: #efefef;
+    width: 200px;
+    height: 10px;
+    box-shadow: 0px 1px 0px 0px #A0A0A0 inset, 0px 5px 15px 0px rgba(0, 0, 0, 0.50);
+}
+
+#scale_fg {
+    border-radius: 2px;
+    background-color: var(--accent-color);
+    height: 10px;
+    width: 0px;
+}

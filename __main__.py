@@ -511,14 +511,19 @@ def load_file(filename):
         username = json_array[request.remote_addr]
         if not validate_access_permissions(filename=filename):
             if not filename in enced_file_array:
-                return send_file(
-                    io.BytesIO(open("users/"+username+"/" +
-                            secure_filename(filename), 'rb').read()),
-                    mimetype=str(mime.guess_type(
-                        "users/"+username+"/"+secure_filename(filename))),
-                        as_attachment=True,
-                        download_name=filename
-                )
+                music_extensions = ["mp3", "wav", "m4a"]
+                if not filename.split(".")[1] in music_extensions:
+                    return send_file(
+                        io.BytesIO(open("users/"+username+"/" +
+                                secure_filename(filename), 'rb').read()),
+                        mimetype=str(mime.guess_type(
+                            "users/"+username+"/"+secure_filename(filename))),
+                            as_attachment=True,
+                            download_name=filename
+                    )
+                else:
+                    b64_data = "data:audio/"+filename.split(".")[1]+";base64,"+str(base64.b64encode(open("users/"+json_array[request.remote_addr]+"/"+filename, "rb").read())).replace("b'", "").replace("'","")
+                    return render_template("music_player.html", filename = filename, song_in_b64 = b64_data)
             else:
                 return "", 901
         else:

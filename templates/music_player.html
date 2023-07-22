@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumos</title>
+    <link rel="stylesheet" href="/asset/musicplayer.css">
+    <meta http-equiv="cache-control" content="no-cache">
+    <link rel="stylesheet" href="/asset/themeoverride.css">
+    <link rel="stylesheet" href="/asset/lui.css">
+    <script>
+        play_toggle = true;
+        window.onload = function () {
+            song_duration = document.getElementById("player").duration
+            document.getElementById("play_button").onclick = function () {
+                if (play_toggle) {
+                    document.getElementById("player").play()
+                    document.getElementById("play_button").innerHTML = "<img src=/asset/pause_button.svg>"
+                    document.getElementById("play_button").classList.add("pulse")
+                    upd = setInterval(() => {
+                        song_duration_percent = Math.floor((document.getElementById("player").currentTime / song_duration)*100) / 100
+                        document.getElementById("scale_fg").style.width = ((song_duration_percent*200))+"px"
+                        if (song_duration_percent <= 0 && document.getElementById("player").currentTime > 3) {
+                            document.getElementById("player").pause()
+                            document.getElementById("play_button").innerHTML = "<img src=/asset/play_button.svg>"
+                            document.getElementById("play_button").classList.remove("pulse")
+                            clearInterval(upd)
+                            document.getElementById("player").currentTime = 0
+                        }
+                    }, 100);
+                }
+                else {
+                    document.getElementById("player").pause()
+                    document.getElementById("play_button").innerHTML = "<img src=/asset/play_button.svg>"
+                    document.getElementById("play_button").classList.remove("pulse")
+                    clearInterval(upd)
+                }
+                play_toggle = !play_toggle
+
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <span id="lumos_title">Lumos</span>
+    <div id="player_box">
+        <div align="center">
+            <h2>Music</h2><br>
+            <img src="/asset/mime_video.svg" alt="Music" width="100">
+            <br><br>
+            <span id="song_title"> {{ filename }} </span><br>
+            <button id="play_button"><img src=/asset/play_button.svg></button>
+            <audio src="{{ song_in_b64 }}" id="player" hidden></audio>
+            <br><br>
+            <div id="scale_bg" align="left">
+                <div id="scale_fg"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
