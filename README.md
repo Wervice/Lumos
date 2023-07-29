@@ -41,7 +41,7 @@ Lumos uses Python to work. On Linux, it is installed by default. If you want to 
 
 After you downloaded the code from the repository, run the following command or install the following packages using pip on your computer.
 
-`pip3 install pyAesCrypt flask Pillow psutil` *This installs pyAesCrypt for encryption, Flask as the web server with werkzeug and Pillow for image manipulation, and PSutil for system information like CPU and RAM usage.*
+`pip3 install pyAesCrypt flask Pillow psutil gevent` *This installs pyAesCrypt for encryption, Flask as the web server with werkzeug and Pillow for image manipulation, and PSutil for system information like CPU and RAM usage.*
 
 When everything is done run the python file `__main__.py` by running `python3 ./__main__.py` in the Lumos folder.
 
