@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="512mm"
+   height="512mm"
+   viewBox="0 0 512 512"
+   version="1.1"
+   id="svg1"
+   inkscape:export-filename="smile.svg"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm" />
+  <defs
+     id="defs1">
+    <inkscape:path-effect
+       effect="fillet_chamfer"
+       id="path-effect4"
+       is_visible="true"
+       lpeversion="1"
+       nodesatellites_param="F,0,0,1,0,0,0,1 @ F,0,0,1,0,3.96875,0,1 @ F,0,0,1,0,3.96875,0,1 @ F,0,0,1,0,3.96875,0,1 @ F,0,0,1,0,3.96875,0,1 @ F,0,0,1,0,3.96875,0,1"
+       radius="16"
+       unit="px"
+       method="auto"
+       mode="F"
+       chamfer_steps="1"
+       flexible="false"
+       use_knot_distance="true"
+       apply_no_radius="true"
+       apply_with_radius="true"
+       only_selected="false"
+       hide_knots="false" />
+  </defs>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <circle
+       style="fill:#ffcb2f;stroke-width:9.99999"
+       id="path1"
+       cx="256"
+       cy="256"
+       r="256" />
+    <g
+       id="g4"
+       transform="matrix(1.0582281,0,0,1.0582281,-14.906394,-24.514958)"
+       style="stroke-width:0.944976">
+      <g
+         id="g2"
+         transform="translate(19.817604,-56.138952)"
+         style="stroke-width:0.944976">
+        <circle
+           style="fill:#5c4503;stroke-width:9.44973"
+           id="path2"
+           cx="132.59319"
+           cy="237.72612"
+           r="36.646622" />
+        <circle
+           style="fill:#5c4503;stroke-width:9.44973"
+           id="path2-3"
+           cx="339.77161"
+           cy="237.72612"
+           r="36.646622" />
+      </g>
+      <path
+         id="path3"
+         d="m 355.51904,364.9032 c 0,32.18117 -15.53945,62.14976 -41.32019,80.72906 -1.77811,1.28142 -4.75009,3.2328 -6.63106,4.35775 -1.19055,0.71202 -2.45304,1.44092 -3.66493,2.11593 -1.9144,1.06631 -5.09007,2.66429 -7.08887,3.56347 -25.9425,11.67044 -55.68549,11.67044 -81.62799,0 -1.9988,-0.89918 -5.17474,-2.49729 -7.08945,-3.56379 -1.2119,-0.67503 -2.47439,-1.40394 -3.66491,-2.11595 -1.88065,-1.12477 -4.85238,-3.07599 -6.63049,-4.35741 -25.78074,-18.57931 -41.32019,-48.54789 -41.32019,-80.72906"
+         style="fill:#5c4503;stroke-width:9.44976"
+         inkscape:path-effect="#path-effect4"
+         inkscape:original-d="m 355.51904,364.9032 c 0,33.51787 -16.85717,64.63553 -44.58536,82.98462 -2.80234,1.85444 -7.52657,4.58198 -10.53373,6.08165 -27.9467,13.93703 -60.85321,13.93703 -88.79991,0 -3.00716,-1.49967 -7.73138,-4.22721 -10.53372,-6.08165 -27.72819,-18.3491 -44.58536,-49.46675 -44.58536,-82.98462"
+         transform="matrix(1,0,0,-1,6.4941407e-8,770.12437)" />
+    </g>
+  </g>
+</svg>

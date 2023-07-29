@@ -442,3 +442,30 @@ div#confirm_popup b {
 #search_input::placeholder {
     color: white;
 }
+
+@keyframes slider {
+    50% {
+        width: 0px;
+        rotate: 2turn;
+        filter: hue-rotate(1turn);
+    }
+}
+
+#upload_loading_indicator #slider {
+    height: 7.5px;
+    background-color: var(--accent-color);
+    border-radius: 5px;
+    width: 100px;
+    animation-name: slider;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    display: inline-block;
+    box-shadow: 0px 1px 0px 0px #A0A0A0 inset, 0px 5px 20px 0px rgba(0, 0, 0, 0.50);
+}
+
+#upload_loading_indicator {
+    position: absolute;
+    top: calc(50vh - 3.75px);
+    left: calc(50vw - 50px);
+    width: 100px;
+}

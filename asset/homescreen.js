@@ -273,6 +273,7 @@ function upload_new_file() {
             method: "POST",
             body: upload_form_data,
         };
+        document.getElementById("upload_loading_indicator").hidden = false;
         fetch(location.protocol + "//" + location.hostname + ":" + location.port + "/upload/web", requestOptions).then(
             function (response) {
                 if (response.status == 903) {
@@ -280,18 +281,21 @@ function upload_new_file() {
                     document.getElementById("info_message").innerHTML = "The file type is blocked";
                     sessionStorage.removeItem("last_screen_info")
                     setTimeout(hide_info, 2000)
+                    document.getElementById("upload_loading_indicator").hidden = true;
                 }
                 else if (response.status == 904) {
                     document.getElementById("info_msg").hidden = false;
                     document.getElementById("info_message").innerHTML = "This file already exists";
                     sessionStorage.removeItem("last_screen_info")
                     setTimeout(hide_info, 6500)
+                    document.getElementById("upload_loading_indicator").hidden = true;
                 }
                 else if (response.status == 905) {
                     document.getElementById("info_msg").hidden = false;
                     document.getElementById("info_message").innerHTML = "This file is malicious";
                     sessionStorage.removeItem("last_screen_info")
                     setTimeout(hide_info, 6500)
+                    document.getElementById("upload_loading_indicator").hidden = true;
                 }
                 else {
                     location.reload()
