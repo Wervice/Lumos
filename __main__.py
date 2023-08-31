@@ -28,6 +28,7 @@ import math
 import datetime as dt
 import random
 mime = MimeTypes()
+from gevent.pywsgi import WSGIServer
 
 open("asset/themeoverride.css", "w").write(open("asset/themes/"+open("theme.cfg", "r").read()+".css").read())
 
@@ -1229,4 +1230,19 @@ def share_unreg(filename):
         return "This part of the API is locked down for you"
     
 
-app.run(host="0.0.0.0", port=5000, debug=False, ssl_context="adhoc")
+if open("server.cfg").read() == "base":
+    app.run(host="0.0.0.0", port=5000, debug=False, ssl_context="adhoc")
+elif open("server.cfg").read() == "gevent":
+    if input("Use SSL? Requires certificates private_key.pem and certificate.pem [Y/n]: ") == "Y":
+        http_server = WSGIServer(('localhost', 5000), app, keyfile='private_key.pem', certfile='certificate.pem')
+        http_server.serve_forever()
+    else:
+        http_server = WSGIServer(('localhost', 5000), app)
+        http_server.serve_forever()
+else:
+    server = input("Choose server to use\n============================\nBase  | Uses Flask WSGI | Insecure | No Certificates for SSL required\nGevent| Uses Gevent | Secure | Requires certificates for SSL\n\n> ")
+    if server == "base" or server == "Base":
+        open("server.cfg", "w").write("base")
+    elif server == "gevent" or server == "Gevent":
+        open("server.cfg", "w").write("gevent")
+    print("Done, please restart __main__.py")
