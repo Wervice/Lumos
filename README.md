@@ -64,3 +64,9 @@ Lumos is released under the Apache 2.0 license. Please be honest and don't viola
 but feel free to fork it or edit it for your purposes.
 
 More information at [legal.md](legal.md)I
+
+### Technologies used
+- Flask & Python
+- HTML
+- CSS
+- JavaScript

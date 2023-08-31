@@ -104,7 +104,7 @@ if (open("admin_set.cfg").read() == "0"):
         print("Setup done. Please close the app by pressing CTRL+C util the app closed.")
         open("admin_set.cfg", "w").write("1")
         exit()
-    setup_app.run(host="0.0.0.0", port=4999, debug=False, ssl_context="adhoc")
+    setup_app.run(host="0.0.0.0", port=4999, debug=True, ssl_context="adhoc")
 else:
     pass
 
