@@ -1,3 +1,6 @@
+# ⚠️ Lumos is unmaintained
+## The code may contain severe vulnerabilities, bugs and mistakes. Use with caution.
+
 # ![](asset/ReadmeHeader.png)
 # Self host your own cloud
 
